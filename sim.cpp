@@ -9,7 +9,7 @@
 #include "sim.h"
 
 SimDataT simdata;
-
+CamDataT cam;
 FishDataT fish[LENGTH];
 
 extern int time;
@@ -34,6 +34,15 @@ void InitScene( void )
 	simdata.sky_color[3] = 0.5; // sky color factor
 	//////
 
+  cam.pos.x = 0.0;
+  cam.pos.y = 0.0;
+  cam.pos.z = 0.0;
+  cam.rot.x = 0.0;
+  cam.rot.y = 0.0;
+  cam.rot.z = 0.0;
+  cam.up = false;  
+
+
 	for (int i = 0; i < LENGTH; i++)
 	{
 		fish[i].pos.x = Random(AQUARIUM_MIN, AQUARIUM_MAX);
@@ -47,6 +56,10 @@ void InitScene( void )
 		fish[i].move.x = Random(-2,2);
 		fish[i].move.y = Random(-2,2);
 		fish[i].move.z = Random(2,5);
+
+    fish[i].forward.x = 0.0;
+    fish[i].forward.y = 0.0;
+    fish[i].forward.z = 0.0;
 	}
 
     return;
@@ -253,6 +266,25 @@ void Cruising (int i)
 	fish[i].pos.x += fish[i].move.x;
 	fish[i].pos.y += fish[i].move.y;
 	fish[i].pos.z += fish[i].move.z;
+
+
+  //----- 正面ベクトルの取得 -----
+  fish[i].forward.x = fish[i].mat[9];
+  fish[i].forward.y = fish[i].mat[10];
+  fish[i].forward.z = fish[i].mat[11];
+  
+
+  //----- 移動方向を向く ------
+  //----- roll ------
+  fish[i].rot.z = GetVector2Angle(fish[i].move.x, fish[i].move.y, fish[i].forward.x, fish[i].forward.y);
+
+  //----- pitch -----
+  fish[i].rot.x = GetVector2Angle(fish[i].move.y, fish[i].move.z, fish[i].forward.y, fish[i].forward.z);
+
+  //----- yaw -----
+  fish[i].rot.y = GetVector2Angle(fish[i].move.x, fish[i].move.z, fish[i].forward.x, fish[i].forward.z);
+
+
 
   //----- 水槽の端まで行ったら反転 ------
   if (fish[i].pos.x > AQUARIUM_MAX || fish[i].pos.x < AQUARIUM_MIN )

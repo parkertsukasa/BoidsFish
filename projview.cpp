@@ -8,6 +8,7 @@
 #include "sim.h"
 
 extern SimDataT simdata;
+extern CamDataT cam;
 extern WindowDataT window;
 
 /*---------------------------------------------------------------- Viewing
@@ -15,7 +16,26 @@ extern WindowDataT window;
  *--------*/
 void Viewing( void )
 {
-    gluLookAt( 0.0, 0.0, 175.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0 );
+  if(cam.up)
+  {
+      cam.pos.x = 0.0;
+      cam.pos.y = 175.0;
+      cam.pos.z = 50.0;
+      cam.rot.x = 0.0;
+      cam.rot.y = 0.0;
+      cam.rot.z = 0.0;
+  }
+  else
+  {      
+      cam.pos.x = 0.0;
+      cam.pos.y = 0.0;
+      cam.pos.z = 175.0;
+      cam.rot.x = 0.0;
+      cam.rot.y = 0.0;
+      cam.rot.z = 0.0;
+  }
+
+    gluLookAt( cam.pos.x,  cam.pos.y,  cam.pos.z, cam.rot.x, cam.rot.y, cam.rot.z, 0.0, 1.0, 0.0 );
 }
 /*---------------------------------------------------------------- Projection
  * Projection:

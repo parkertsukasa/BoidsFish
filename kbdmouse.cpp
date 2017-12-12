@@ -11,6 +11,7 @@
 #include "sim.h"
 
 extern SimDataT simdata;
+extern CamDataT cam;
 extern WindowDataT window;
 
 //-------- modifier key status
@@ -43,6 +44,10 @@ void charKeyDown( unsigned char key, int x, int y )
         break;
       case 'q': // quit
         exit(0);
+        break;
+
+      case 'c': // camera position change
+        cam.up = !cam.up;
         break;
 
       default:
