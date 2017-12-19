@@ -14,6 +14,7 @@ FishDataT fish[LENGTH];
 
 extern int time;
 
+bool set;
 
 
 /*---------------------------------------------------------------- InitScene
@@ -51,16 +52,18 @@ void InitScene( void )
 
 		fish[i].rot.x = Random (0.0, 360.0);
 		fish[i].rot.y = Random (0.0, 360.0);
-		fish[i].rot.z = Random (0.0, 360.0);
+		fish[i].rot.z = 0.0;
 
 		fish[i].move.x = Random(-2,2);
 		fish[i].move.y = Random(-2,2);
-		fish[i].move.z = Random(2,5);
+		fish[i].move.z = Random(5,5);
 
     fish[i].forward.x = 0.0;
     fish[i].forward.y = 0.0;
     fish[i].forward.z = 0.0;
 	}
+
+  set = false;
 
     return;
 }
@@ -73,11 +76,23 @@ void UpdateScene( void )
 
 	for(int i = 0; i < LENGTH; i++)
 	{
-		Cruising (i);
+    if(set)
+      SetPosition(i);
+    else
+		  Cruising (i);
 	}
 
 	////////
     return;
+}
+
+/*-------------------------------------------------------------- RadtoDeg
+ * ラジアンから度数へ変換する関数
+ */
+float RadtoDeg (float f)
+{
+    float deg = f * 180.0 / 3.1415;
+    return deg;
 }
 
 /*-------------------------------------------------------------- GetVectorLength
@@ -233,6 +248,38 @@ Vector3 Alignment (int i)
 }
 
 
+/* ------------------------------------------------------------- SetPosition
+ * SetPosition 一列に整列させる。
+ */
+void SetPosition (int i)
+{
+  Vector3 set;//整列の目標地点
+  set.x = -50 + i;
+  set.y = 0;
+  set.z = 0;
+
+	float speed_factor = 30;
+
+	Vector3 move;
+	move.x = (set.x - fish[i].pos.x)/speed_factor;
+	move.y = (set.y - fish[i].pos.y)/speed_factor;
+	move.z = (set.z - fish[i].pos.z)/speed_factor;
+
+  //----- 移動量を位置に与える -----
+	fish[i].pos.x += move.x;
+	fish[i].pos.y += move.y;
+	fish[i].pos.z += move.z;
+  
+  //----- 移動方向を向く ------
+  //----- pitch -----
+  fish[i].rot.x = RadtoDeg( atan2f(move.y, GetVector2Length(move.x, move.z) ) );
+  
+  //----- yaw -----
+  fish[i].rot.y = RadtoDeg ( atan2f(-move.x, -move.z) );
+
+  return;
+}
+
 /*-------------------------------------------------------------- Cruising
  * Cruising : 巡航 3種類の移動量を合成する
  *--------*/
@@ -275,15 +322,11 @@ void Cruising (int i)
   
 
   //----- 移動方向を向く ------
-  //----- roll ------
-  fish[i].rot.z = GetVector2Angle(fish[i].move.x, fish[i].move.y, fish[i].forward.x, fish[i].forward.y);
-
   //----- pitch -----
-  fish[i].rot.x = GetVector2Angle(fish[i].move.y, fish[i].move.z, fish[i].forward.y, fish[i].forward.z);
+  fish[i].rot.x = RadtoDeg( atan2f (fish[i].move.y, GetVector2Length (fish[i].move.x, fish[i].move.z)));
 
   //----- yaw -----
-  fish[i].rot.y = GetVector2Angle(fish[i].move.x, fish[i].move.z, fish[i].forward.x, fish[i].forward.z);
-
+  fish[i].rot.y = RadtoDeg ( atan2f (fish[i].move.x, fish[i].move.z));
 
 
   //----- 水槽の端まで行ったら反転 ------

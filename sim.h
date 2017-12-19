@@ -59,6 +59,7 @@ typedef struct {
 
 }FishDataT;
 
+float RadtoDeg (float f);
 float GetVector2Length ( float x, float y );
 float GetInnerProduct (float x1, float y1, float x2, float y2);
 float GetVector2Angle (float x1, float y1, float x2, float y2);
@@ -67,5 +68,5 @@ Vector3 Cohesion(int i);
 Vector3 Separation(int i);
 Vector3 Alignment(int i);
 
-
+void SetPosition (int i);
 

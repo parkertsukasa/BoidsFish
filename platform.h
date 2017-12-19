@@ -7,6 +7,6 @@
 #else
 //MacOS
 
-#include <GL/glut.h>
+#include <GLUT/glut.h>
 
 #endif

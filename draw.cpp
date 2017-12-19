@@ -46,7 +46,7 @@ void drawSolidCube( void )
 	{
 		glTranslatef( 0.0, 0.0, 0.0 );   //オブジェクト基準位置調整
 		glRotatef( 0.0, 0.0, 1.0, 0.0 ); //オブジェクト基準姿勢調整：ヨー角
-		glRotatef( 0.0, 1.0, 0.0, 0.0 ); //オブジェクト基準姿勢調整：ピッチ角
+		glRotatef( 90.0, 1.0, 0.0, 0.0 ); //オブジェクト基準姿勢調整：ピッチ角
 		glRotatef( 0.0, 0.0, 0.0, 1.0 ); //オブジェクト基準姿勢調整：ロール角
 		glutSolidCube( 1 );
 	}
@@ -76,9 +76,9 @@ void drawSolidCone()
 	{
 		glTranslatef( 0.0, 0.0, 0.0 );    //オブジェクト基準位置調整
 		glRotatef( 0.0, 0.0, 1.0, 0.0 );  //オブジェクト基準姿勢調整：ヨー角
-		glRotatef( 0.0, 1.0, 0.0, 0.0 ); //オブジェクト基準姿勢調整：ピッチ角
+		glRotatef( 90.0, 1.0, 0.0, 0.0 ); //オブジェクト基準姿勢調整：ピッチ角
 		glRotatef( 0.0, 0.0, 0.0, 1.0 );  //オブジェクト基準姿勢調整：ロール角
-		glutSolidCone( 1.0, 2.0, 10.0, 5.0 );   //半径，高さ, 円の分割, 高さの分割
+		glutSolidCone( 1.0, 5.0, 10.0, 5.0 );   //半径，高さ, 円の分割, 高さの分割
 	}
 	glPopMatrix();
     return;
@@ -123,7 +123,6 @@ void DrawScene( void )
 	glPushMatrix();
 		
 		drawAquarium ();
-    drawSolidCone ();
 
 		for (int i = 0; i < LENGTH; i++)
 		{

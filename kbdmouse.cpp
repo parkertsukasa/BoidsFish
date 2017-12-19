@@ -14,6 +14,8 @@ extern SimDataT simdata;
 extern CamDataT cam;
 extern WindowDataT window;
 
+extern bool set;
+
 //-------- modifier key status
 bool isShiftKeyDown( void );
 bool isCtrlKeyDown( void );
@@ -48,6 +50,10 @@ void charKeyDown( unsigned char key, int x, int y )
 
       case 'c': // camera position change
         cam.up = !cam.up;
+        break;
+
+      case 's': // Fish position Alignment
+        set = !set;
         break;
 
       default:
