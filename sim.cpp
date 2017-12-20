@@ -8,6 +8,8 @@
 
 #include "sim.h"
 
+//#include "mymodel.h"
+
 SimDataT simdata;
 CamDataT cam;
 FishDataT fish[LENGTH];
@@ -22,6 +24,9 @@ bool set;
  *--------*/
 void InitScene( void )
 {
+
+//  CreateMyModels ();
+
 	////// シーンデータの初期化
 	simdata.clip_far = 300.0;
 	simdata.clip_near = 0.1;
@@ -254,7 +259,8 @@ Vector3 Alignment (int i)
 void SetPosition (int i)
 {
   Vector3 set;//整列の目標地点
-  set.x = -50 + i;
+  float width = abs(AQUARIUM_MIN) + abs(AQUARIUM_MAX);
+  set.x = (width / LENGTH) * i + AQUARIUM_MIN;
   set.y = 0;
   set.z = 0;
 

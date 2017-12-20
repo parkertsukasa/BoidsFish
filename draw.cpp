@@ -8,6 +8,7 @@
 
 #include "sim.h"
 #include "util.h"
+//#include "mymodel.h"
 
 extern WindowDataT window;
 extern SimDataT simdata;
@@ -70,6 +71,9 @@ void drawSolidSphere( void )
     return;
 }
 
+/*--------------------------------------------------------- drawSolidCone
+ * drawSolidCone:
+ *--------*/
 void drawSolidCone()
 {
 		glPushMatrix();
@@ -80,6 +84,23 @@ void drawSolidCone()
 		glRotatef( 0.0, 0.0, 0.0, 1.0 );  //オブジェクト基準姿勢調整：ロール角
 		glutSolidCone( 1.0, 5.0, 10.0, 5.0 );   //半径，高さ, 円の分割, 高さの分割
 	}
+	glPopMatrix();
+    return;
+}
+
+/*--------------------------------------------------------- drawFishModel
+ * drawFishModel:
+ *--------*/
+void drawFishModel()
+{
+		glPushMatrix();
+	{
+		glTranslatef( 0.0, 0.0, 0.0 );    //オブジェクト基準位置調整
+		glRotatef( 0.0, 0.0, 1.0, 0.0 );  //オブジェクト基準姿勢調整：ヨー角
+		glRotatef( 0.0, 1.0, 0.0, 0.0 ); //オブジェクト基準姿勢調整：ピッチ角
+		glRotatef( 0.0, 0.0, 0.0, 1.0 );  //オブジェクト基準姿勢調整：ロール角
+		//DrawMyFishModel ();   
+  }
 	glPopMatrix();
     return;
 }
@@ -109,6 +130,7 @@ void drawFish (int i)
 		glRotatef( fish[i].rot.z, 0.0, 0.0, 1.0 );  //オブジェクト基準姿勢調整：ロール角
     glGetFloatv( GL_MODELVIEW_MATRIX, fish[i].mat);//変換マトリクスの取得
 		drawSolidCone();
+    //drawFishModel();
 	}
 	glPopMatrix();
 }
