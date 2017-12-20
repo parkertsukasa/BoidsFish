@@ -50,9 +50,9 @@ void InitScene( void )
 		fish[i].pos.y = 0.0;//Random(AQUARIUM_MIN, AQUARIUM_MAX);
 		fish[i].pos.z = Random(AQUARIUM_MIN, AQUARIUM_MAX);
 
-		fish[i].rot.x = Random (0.0, 360.0);
-		fish[i].rot.y = Random (0.0, 360.0);
-		fish[i].rot.z = Random (0.0, 360.0);
+		fish[i].rot.x = 0.0;
+		fish[i].rot.y = 0.0;
+		fish[i].rot.z = 0.0;
 
 		fish[i].move.x = Random(-2,2);
 		fish[i].move.y = Random(-2,2);
@@ -272,7 +272,7 @@ void SetPosition (int i)
   
   //----- 移動方向を向く ------
   //----- pitch -----
-  fish[i].rot.x = RadtoDeg( atan2f(move.y, GetVector2Length(move.x, move.z) ) );
+//  fish[i].rot.x = RadtoDeg( atan2f(move.y, GetVector2Length(move.x, move.z) ) );
   
   //----- yaw -----
   fish[i].rot.y = RadtoDeg ( atan2f(-move.x, -move.z) );

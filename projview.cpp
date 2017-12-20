@@ -19,8 +19,8 @@ void Viewing( void )
   if(cam.up)
   {
       cam.pos.x = 0.0;
-      cam.pos.y = 175.0;
-      cam.pos.z = 50.0;
+      cam.pos.y = 10.0;
+      cam.pos.z = 175.0;
       cam.rot.x = 0.0;
       cam.rot.y = 0.0;
       cam.rot.z = 0.0;
