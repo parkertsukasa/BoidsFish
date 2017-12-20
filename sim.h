@@ -50,6 +50,11 @@ typedef struct {
 } CamDataT;
 
 typedef struct {
+  Vector3 pos;
+  Vector3 rot;
+} FeedDataT;
+
+typedef struct {
 
 	Vector3 pos;
 	Vector3 rot;
