@@ -155,8 +155,8 @@ Vector3 Cohesion(int i)
 		if(i != j)
 		{
 			ave.x += fish[j].pos.x;
-			ave.y += fish[j].pos.z;
-			ave.y += fish[j].pos.z;
+			ave.y += fish[j].pos.y;
+			ave.z += fish[j].pos.z;
 		}
 	}
 	ave.x /= LENGTH-1;
