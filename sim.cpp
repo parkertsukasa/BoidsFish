@@ -326,7 +326,7 @@ void Cruising (int i)
   fish[i].rot.x = RadtoDeg( atan2f (fish[i].move.y, GetVector2Length (fish[i].move.x, fish[i].move.z)));
 
   //----- yaw -----
-  fish[i].rot.y = RadtoDeg ( atan2f (fish[i].move.x, fish[i].move.z));
+  fish[i].rot.y = RadtoDeg ( atan2f (-fish[i].move.x, -fish[i].move.z));
 
 
   //----- 水槽の端まで行ったら反転 ------
