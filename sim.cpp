@@ -47,12 +47,12 @@ void InitScene( void )
 	for (int i = 0; i < LENGTH; i++)
 	{
 		fish[i].pos.x = Random(AQUARIUM_MIN, AQUARIUM_MAX);
-		fish[i].pos.y = Random(AQUARIUM_MIN, AQUARIUM_MAX);
+		fish[i].pos.y = 0.0;//Random(AQUARIUM_MIN, AQUARIUM_MAX);
 		fish[i].pos.z = Random(AQUARIUM_MIN, AQUARIUM_MAX);
 
 		fish[i].rot.x = Random (0.0, 360.0);
 		fish[i].rot.y = Random (0.0, 360.0);
-		fish[i].rot.z = 0.0;
+		fish[i].rot.z = Random (0.0, 360.0);
 
 		fish[i].move.x = Random(-2,2);
 		fish[i].move.y = Random(-2,2);
@@ -168,7 +168,7 @@ Vector3 Cohesion(int i)
 
 	Vector3 move;
 	move.x = (ave.x - fish[i].pos.x)/speed_factor;
-	move.y = (ave.y - fish[i].pos.y)/speed_factor;
+	move.y = 0.0; //(ave.y - fish[i].pos.y)/speed_factor;
 	move.z = (ave.z - fish[i].pos.z)/speed_factor;
 
 	return move;
@@ -203,7 +203,7 @@ Vector3 Separation(int i)
 				//----- 反対方向へ移動量を与える ------
 				float speed_factor = 20;
 				move.x -= (fish[j].pos.x - fish[i].pos.x) / speed_factor;
-				move.y -= (fish[j].pos.y - fish[i].pos.y) / speed_factor;
+				move.y -= 0.0; //(fish[j].pos.y - fish[i].pos.y) / speed_factor;
 				move.z -= (fish[j].pos.z - fish[i].pos.z) / speed_factor;
 			}
 		}
@@ -241,7 +241,7 @@ Vector3 Alignment (int i)
 	float speed_factor = 1.0;
 	Vector3 move;
 	move.x = (fish[i].move.x - ave.x)/speed_factor;
-	move.y = (fish[i].move.y - ave.y)/speed_factor;
+	move.y = 0.0; //(fish[i].move.y - ave.y)/speed_factor;
 	move.z = (fish[i].move.z - ave.z)/speed_factor;
 
 	return move;
@@ -296,7 +296,7 @@ void Cruising (int i)
 	Vector3 move_alig = Alignment (i);
 
 	fish[i].move.x = move_cohe.x * factor_cohe + move_sepa.x * factor_sepa + move_alig.x * factor_alig; 
-	fish[i].move.y = move_cohe.y * factor_cohe + move_sepa.y * factor_sepa + move_alig.y * factor_alig; 
+	fish[i].move.y = 0.0;//move_cohe.y * factor_cohe + move_sepa.y * factor_sepa + move_alig.y * factor_alig; 
 	fish[i].move.z = move_cohe.z * factor_cohe + move_sepa.z * factor_sepa + move_alig.z * factor_alig; 
 
   //----- 速度が早すぎた場合、正規化を行う -----
@@ -311,7 +311,7 @@ void Cruising (int i)
 
   //----- 移動量を位置に与える -----
 	fish[i].pos.x += fish[i].move.x;
-	fish[i].pos.y += fish[i].move.y;
+//	fish[i].pos.y += fish[i].move.y;
 	fish[i].pos.z += fish[i].move.z;
 
 
@@ -323,7 +323,7 @@ void Cruising (int i)
 
   //----- 移動方向を向く ------
   //----- pitch -----
-  fish[i].rot.x = RadtoDeg( atan2f (fish[i].move.y, GetVector2Length (fish[i].move.x, fish[i].move.z)));
+//  fish[i].rot.x = RadtoDeg( atan2f (fish[i].move.y, GetVector2Length (fish[i].move.x, fish[i].move.z)));
 
   //----- yaw -----
   fish[i].rot.y = RadtoDeg ( atan2f (-fish[i].move.x, -fish[i].move.z));
