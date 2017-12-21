@@ -50,12 +50,14 @@ void InitScene( void )
   cam.up = false;  
 
    
-	feed.pos.x = Random(AQUARIUM_MIN, AQUARIUM_MAX);
-	feed.pos.y = Random(AQUARIUM_MIN, AQUARIUM_MAX);
-	feed.pos.z = Random(AQUARIUM_MIN, AQUARIUM_MAX);
+	feed.pos.x = Random(-40, 40);
+	feed.pos.y = 40;
+	feed.pos.z = Random(-40, 40);
   feed.rot.x = 0.0;
   feed.rot.y = 0.0;
   feed.rot.z = 0.0;
+  feed.amount = 50;
+  feed.alive = true;
 
 
 	for (int i = 0; i < LENGTH; i++)
@@ -88,6 +90,8 @@ void UpdateScene( void )
 {
 	//////// データ更新 ////////
 
+  FeedControl ();
+
 	for(int i = 0; i < LENGTH; i++)
 	{
     if(set)
@@ -99,6 +103,13 @@ void UpdateScene( void )
 	////////
     return;
 }
+
+
+/*--------------------------------------------------------------------------------------------
+ * 数学的便利関数群
+ */
+
+
 
 /*-------------------------------------------------------------- RadtoDeg
  * ラジアンから度数へ変換する関数
@@ -150,6 +161,35 @@ float GetVector2Angle (float x1, float y1, float x2, float y2)
 
     return angle;
 }
+
+
+/*--------------------------------------------------------------------------------------------
+ * 餌を管理する関数群
+ */
+
+
+/*-------------------------------------------------------------- FeedControl
+ * FeedControl : 餌の管理　自由落下や餌の残量
+ *--------*/
+void FeedControl ()
+{
+    if(feed.pos.y >= AQUARIUM_MIN)
+    {
+      feed.pos.y -= 0.1;
+    }
+    else
+    {
+      feed.pos.x = Random(-40,40);
+      feed.pos.y = 40;
+      feed.pos.z = Random(-40,40);
+      //feed.alive = false;
+    }
+}
+
+
+/*--------------------------------------------------------------------------------------------
+ * 魚の挙動をコントロールする関数群
+ */
 
 
 /*-------------------------------------------------------------- Coheision
@@ -301,15 +341,22 @@ void SetPosition (int i)
  *--------*/
 Vector3 EatFeed (int i)
 {
-    
 	//----- 餌の方向へ移動する -----
 	float speed_factor = 300;
 
 	Vector3 move;
-	move.x = (feed.pos.x - fish[i].pos.x)/speed_factor;
-	move.y = (feed.pos.y - fish[i].pos.y)/speed_factor;
-	move.z = (feed.pos.z - fish[i].pos.z)/speed_factor;
-
+  if (feed.alive)
+  {
+	  move.x = (feed.pos.x - fish[i].pos.x)/speed_factor;
+	  move.y = (feed.pos.y - fish[i].pos.y)/speed_factor;
+	  move.z = (feed.pos.z - fish[i].pos.z)/speed_factor;
+  }
+  else
+  {
+    move.x = 0.0;    
+    move.y = 0.0;    
+    move.z = 0.0;    
+  }
   return move;
 }
 
@@ -323,7 +370,7 @@ void Cruising (int i)
 	float factor_cohe = 0.6;
 	float factor_sepa = 0.7;
 	float factor_alig = 0.95;
-  float factor_eat_ = 1.0;
+  float factor_eat_ = 1.2;
 
 	//----- それぞれの速度を求める ------
 	Vector3 move_cohe = Cohesion (i);

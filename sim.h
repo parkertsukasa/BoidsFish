@@ -52,6 +52,8 @@ typedef struct {
 typedef struct {
   Vector3 pos;
   Vector3 rot;
+  float amount;
+  bool alive;
 } FeedDataT;
 
 typedef struct {
@@ -68,10 +70,12 @@ float RadtoDeg (float f);
 float GetVector2Length ( float x, float y );
 float GetInnerProduct (float x1, float y1, float x2, float y2);
 float GetVector2Angle (float x1, float y1, float x2, float y2);
+void FeedControl();
 void Cruising(int i);
 Vector3 Cohesion(int i);
 Vector3 Separation(int i);
 Vector3 Alignment(int i);
+Vector3 EatFeed(int i);
 
 void SetPosition (int i);
 
