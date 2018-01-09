@@ -8,7 +8,7 @@
 
 #include "sim.h"
 #include "util.h"
-//#include "mymodel.h"
+#include "mymodel.h"
 
 extern WindowDataT window;
 extern SimDataT simdata;

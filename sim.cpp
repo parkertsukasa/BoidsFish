@@ -370,7 +370,7 @@ void Cruising (int i)
 	float factor_cohe = 0.6;
 	float factor_sepa = 0.7;
 	float factor_alig = 0.95;
-  float factor_eat_ = 1.2;
+  float factor_eat_ = 1.8;
 
 	//----- それぞれの速度を求める ------
 	Vector3 move_cohe = Cohesion (i);
