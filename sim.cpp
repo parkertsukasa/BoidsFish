@@ -77,7 +77,10 @@ void InitScene( void )
     fish[i].forward.x = 0.0;
     fish[i].forward.y = 0.0;
     fish[i].forward.z = 0.0;
-	}
+
+    fish[i].hungry = false;
+
+  }
 
   set = false;
 
@@ -120,12 +123,21 @@ float RadtoDeg (float f)
     return deg;
 }
 
-/*-------------------------------------------------------------- GetVectorLength
- * GetVectorLength : ベクトルの長さを取得する
+/*-------------------------------------------------------------- GetVector2Length
+ * GetVector2Length : ベクトルの長さを取得する(2軸)
  */
 float GetVector2Length ( float x, float y )
 {
   float length = sqrtf ( x * x + y * y );
+  return length;
+}
+
+/*-------------------------------------------------------------- GetVector3Length
+ * GetVector3Length : ベクトルの長さを取得する(3軸)
+ */
+float GetVector3Length ( float x, float y, float z )
+{
+  float length = sqrtf ( (x * x) + (y * y) + (z * z));
   return length;
 }
 
@@ -180,7 +192,7 @@ void FeedControl ()
     else
     {
       feed.pos.x = Random(-40,40);
-      feed.pos.y = 40;
+      feed.pos.y = 35;
       feed.pos.z = Random(-40,40);
       //feed.alive = false;
     }
@@ -217,6 +229,27 @@ Vector3 Cohesion(int i)
 	ave.y /= LENGTH-1;
 	ave.z /= LENGTH-1;
 
+
+  //----- 自分と餌との距離を求める -----
+  Vector3 dist_to_feed;
+  dist_to_feed.x = feed.pos.x - fish[i].pos.x;
+  dist_to_feed.y = feed.pos.y - fish[i].pos.y;
+  dist_to_feed.z = feed.pos.z - fish[i].pos.z;
+  float length_to_feed = GetVector3Length(dist_to_feed.x, dist_to_feed.y, dist_to_feed.z);
+
+
+  //----- 群の中心と餌との距離を求める -----
+  Vector3 dist_ave_to_feed;
+  dist_ave_to_feed.x = feed.pos.x - ave.x;
+  dist_ave_to_feed.y = feed.pos.y - ave.y;
+  dist_ave_to_feed.z = feed.pos.z - ave.z;
+  float length_ave_to_feed = GetVector3Length(dist_ave_to_feed.x, dist_ave_to_feed.y, dist_ave_to_feed.z);
+
+  if(length_ave_to_feed > length_to_feed)
+    fish[i].hungry = true;
+  else
+    fish[i].hungry = false;
+
 	//平均と自分の位置の差を移動量とする
 	float speed_factor = 300;
 
@@ -224,6 +257,7 @@ Vector3 Cohesion(int i)
 	move.x = (ave.x - fish[i].pos.x)/speed_factor;
 	move.y = (ave.y - fish[i].pos.y)/speed_factor;
 	move.z = (ave.z - fish[i].pos.z)/speed_factor;
+
 
 	return move;
 
@@ -367,10 +401,26 @@ Vector3 EatFeed (int i)
 void Cruising (int i)
 {
 	//----- それぞれの速度の重み ------
-	float factor_cohe = 0.6;
-	float factor_sepa = 0.7;
-	float factor_alig = 0.95;
-  float factor_eat_ = 1.8;
+  float factor_cohe;
+	float factor_sepa;
+	float factor_alig;
+  float factor_eat_;
+
+	//--- 餌に近い場合は餌に向かう ---
+  if(fish[i].hungry)
+  {
+    factor_cohe = 0.2;
+    factor_sepa = 0.5;
+    factor_alig = 0.6;
+    factor_eat_ = 3.0;
+  }
+  else
+  {
+    factor_cohe = 0.6;
+    factor_sepa = 0.7;
+    factor_alig = 0.95;
+    factor_eat_ = 3.0;
+  }
 
 	//----- それぞれの速度を求める ------
 	Vector3 move_cohe = Cohesion (i);

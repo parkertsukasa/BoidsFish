@@ -63,6 +63,7 @@ typedef struct {
 	Vector3 move;
   Vector3 forward;
   GLfloat mat[16];
+  bool hungry;
 
 }FishDataT;
 
