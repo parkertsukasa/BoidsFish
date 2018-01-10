@@ -29,7 +29,7 @@ void Viewing( void )
   {      
       cam.pos.x = 0.0;
       cam.pos.y = 175.0;
-      cam.pos.z = 100.0;
+      cam.pos.z = 30.0;
       cam.rot.x = 0.0;
       cam.rot.y = 0.0;
       cam.rot.z = 0.0;
