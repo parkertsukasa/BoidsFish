@@ -68,6 +68,10 @@ typedef struct {
   int feednum;
   bool out;
 
+  float head;
+  float body;
+  float tail;
+
 }FishDataT;
 
 float RadtoDeg (float f);

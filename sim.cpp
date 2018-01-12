@@ -34,7 +34,7 @@ void InitScene( void )
 	simdata.air_color[0] = 0.4;
 	simdata.air_color[1] = 0.4;
 	simdata.air_color[2] = 1.0;
-	simdata.air_color[3] = 0.7; // fog density factor
+	simdata.air_color[3] = 0.5; // fog density factor
 	simdata.sky_color[0] = 0.3;
 	simdata.sky_color[1] = 0.4;
 	simdata.sky_color[2] = 0.8;
@@ -527,7 +527,7 @@ void Cruising (int i)
 	fish[i].move.z = move_cohe.z * factor_cohe + move_sepa.z * factor_sepa + move_alig.z * factor_alig + factor_eat_ * move_eat_.z; 
 
   //----- 速度が早すぎた場合、正規化を行う -----
-  float velocity_max = 10.0;
+  float velocity_max = 5.0;
   float velocity = sqrtf((fish[i].move.x * fish[i].move.x) + (fish[i].move.y * fish[i].move.y) + (fish[i].move.z * fish[i].move.z));
   if (velocity > velocity_max)
   {
@@ -553,7 +553,7 @@ void Cruising (int i)
   fish[i].rot.x = RadtoDeg( atan2f (fish[i].move.y, GetVector2Length (fish[i].move.x, fish[i].move.z)));
 
   //----- yaw -----
-  fish[i].rot.y = RadtoDeg ( atan2f (fish[i].move.x, fish[i].move.z));
+  fish[i].rot.y = RadtoDeg ( atan2f (-fish[i].move.x, -fish[i].move.z));
 
 
   //----- 水槽の端まで行ったら反転 ------
@@ -584,7 +584,7 @@ void ReturnAquarium (int i)
 	move.z = (center.z - fish[i].pos.z)/speed_factor;
 
   //----- 速度が早すぎた場合、正規化を行う -----
-  float velocity_max = 10.0;
+  float velocity_max = 5.0;
   float velocity = sqrtf((move.x * move.x) + (move.y * move.y) + (move.z * move.z));
   if (velocity > velocity_max)
   {
@@ -602,7 +602,7 @@ void ReturnAquarium (int i)
   fish[i].rot.x = RadtoDeg( atan2f (move.y, GetVector2Length (move.x, move.z)));
 
   //----- yaw -----
-  fish[i].rot.y = RadtoDeg ( atan2f (move.x, move.z));
+  fish[i].rot.y = RadtoDeg ( atan2f (-move.x, -move.z));
 
   //----- 水槽に戻ったら終了 ------
   if (fish[i].pos.x < AQUARIUM_MAX && fish[i].pos.x > AQUARIUM_MIN &&
@@ -613,4 +613,12 @@ void ReturnAquarium (int i)
   }
 }
 
+
+/*-------------------------------------------------------------- FishAnimation
+ * FishAnimation : 魚のジタバタする動き
+ *--------*/
+void FishAnimation (int i)
+{
+
+}
 //end of file

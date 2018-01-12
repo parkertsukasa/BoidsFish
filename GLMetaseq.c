@@ -1,4 +1,4 @@
-/* ---------------------------------------------------------------------- Macã‚½ã‚½
+/* ---------------------------------------------------------------------- Macƒ\ƒ\
  * 
  */
 
@@ -10,7 +10,7 @@
 #endif
 
 /*
-	2014/11/5 ã‚»ã‚­ãƒ¥ãƒªãƒ†ã‚£å¯¾ç­–ç‰ˆï¼ˆVisual Studio 2013å¯¾å¿œï¼‰
+	2014/11/5 ƒZƒLƒ…ƒŠƒeƒB‘Îô”ÅiVisual Studio 2013‘Î‰j
 */
 
 #define __GLMETASEQ_C__
@@ -42,39 +42,39 @@ THE SOFTWARE.
 
 
 GLMetaseq
-MITãƒ©ã‚¤ã‚»ãƒ³ã‚¹
+MITƒ‰ƒCƒZƒ“ƒX
 Copyright (c) 2009 Sunao Hashimoto and Keisuke Konishi
 
-ä»¥ä¸‹ã«å®šã‚ã‚‹æ¡ä»¶ã«å¾“ã„ã€æœ¬ã‚½ãƒ•ãƒˆã‚¦ã‚§ã‚¢ãŠã‚ˆã³é–¢é€£æ–‡æ›¸ã®ãƒ•ã‚¡ã‚¤ãƒ«ï¼ˆä»¥ä¸‹ã€Œã‚½ãƒ•ãƒˆ
-ã‚¦ã‚§ã‚¢ã€ï¼‰ã®è¤‡è£½ã‚’å–å¾—ã™ã‚‹ã™ã¹ã¦ã®äººã«å¯¾ã—ã€ã‚½ãƒ•ãƒˆã‚¦ã‚§ã‚¢ã‚’ç„¡åˆ¶é™ã«æ‰±ã†ã“ã¨ã‚’
-ç„¡å„Ÿã§è¨±å¯ã—ã¾ã™ã€‚ã“ã‚Œã«ã¯ã€ã‚½ãƒ•ãƒˆã‚¦ã‚§ã‚¢ã®è¤‡è£½ã‚’ä½¿ç”¨ã€è¤‡å†™ã€å¤‰æ›´ã€çµåˆã€æ²è¼‰ã€
-é ’å¸ƒã€ã‚µãƒ–ãƒ©ã‚¤ã‚»ãƒ³ã‚¹ã€ãŠã‚ˆã³/ã¾ãŸã¯è²©å£²ã™ã‚‹æ¨©åˆ©ã€ãŠã‚ˆã³ã‚½ãƒ•ãƒˆã‚¦ã‚§ã‚¢ã‚’æä¾›ã™ã‚‹
-ç›¸æ‰‹ã«åŒã˜ã“ã¨ã‚’è¨±å¯ã™ã‚‹æ¨©åˆ©ã‚‚ç„¡åˆ¶é™ã«å«ã¾ã‚Œã¾ã™ã€‚
+ˆÈ‰º‚É’è‚ß‚éğŒ‚É]‚¢A–{ƒ\ƒtƒgƒEƒFƒA‚¨‚æ‚ÑŠÖ˜A•¶‘‚Ìƒtƒ@ƒCƒ‹iˆÈ‰ºuƒ\ƒtƒg
+ƒEƒFƒAvj‚Ì•¡»‚ğæ“¾‚·‚é‚·‚×‚Ä‚Ìl‚É‘Î‚µAƒ\ƒtƒgƒEƒFƒA‚ğ–³§ŒÀ‚Éˆµ‚¤‚±‚Æ‚ğ
+–³‚Å‹–‰Â‚µ‚Ü‚·B‚±‚ê‚É‚ÍAƒ\ƒtƒgƒEƒFƒA‚Ì•¡»‚ğg—pA•¡ÊA•ÏXAŒ‹‡AŒfÚA
+”Ğ•zAƒTƒuƒ‰ƒCƒZƒ“ƒXA‚¨‚æ‚Ñ/‚Ü‚½‚Í”Ì”„‚·‚éŒ —˜A‚¨‚æ‚Ñƒ\ƒtƒgƒEƒFƒA‚ğ’ñ‹Ÿ‚·‚é
+‘Šè‚É“¯‚¶‚±‚Æ‚ğ‹–‰Â‚·‚éŒ —˜‚à–³§ŒÀ‚ÉŠÜ‚Ü‚ê‚Ü‚·B
 
-ä¸Šè¨˜ã®è‘—ä½œæ¨©è¡¨ç¤ºãŠã‚ˆã³æœ¬è¨±è«¾è¡¨ç¤ºã‚’ã€ã‚½ãƒ•ãƒˆã‚¦ã‚§ã‚¢ã®ã™ã¹ã¦ã®è¤‡è£½ã¾ãŸã¯é‡è¦ãªéƒ¨åˆ†
-ã«è¨˜è¼‰ã™ã‚‹ã‚‚ã®ã¨ã—ã¾ã™ã€‚
+ã‹L‚Ì’˜ìŒ •\¦‚¨‚æ‚Ñ–{‹–‘ø•\¦‚ğAƒ\ƒtƒgƒEƒFƒA‚Ì‚·‚×‚Ä‚Ì•¡»‚Ü‚½‚Íd—v‚È•”•ª
+‚É‹LÚ‚·‚é‚à‚Ì‚Æ‚µ‚Ü‚·B
 
-ã‚½ãƒ•ãƒˆã‚¦ã‚§ã‚¢ã¯ã€Œç¾çŠ¶ã®ã¾ã¾ã€ã§ã€æ˜ç¤ºã§ã‚ã‚‹ã‹æš—é»™ã§ã‚ã‚‹ã‹ã‚’å•ã‚ãšã€ä½•ã‚‰ã®ä¿è¨¼
-ã‚‚ãªãæä¾›ã•ã‚Œã¾ã™ã€‚ã“ã“ã§ã„ã†ä¿è¨¼ã¨ã¯ã€å•†å“æ€§ã€ç‰¹å®šã®ç›®çš„ã¸ã®é©åˆæ€§ã€ãŠã‚ˆã³
-æ¨©åˆ©éä¾µå®³ã«ã¤ã„ã¦ã®ä¿è¨¼ã‚‚å«ã¿ã¾ã™ãŒã€ãã‚Œã«é™å®šã•ã‚Œã‚‹ã‚‚ã®ã§ã¯ã‚ã‚Šã¾ã›ã‚“ã€‚
-ä½œè€…ã¾ãŸã¯è‘—ä½œæ¨©è€…ã¯ã€å¥‘ç´„è¡Œç‚ºã€ä¸æ³•è¡Œç‚ºã€ã¾ãŸã¯ãã‚Œä»¥å¤–ã§ã‚ã‚ã†ã¨ã€ã‚½ãƒ•ãƒˆ
-ã‚¦ã‚§ã‚¢ã«èµ·å› ã¾ãŸã¯é–¢é€£ã—ã€ã‚ã‚‹ã„ã¯ã‚½ãƒ•ãƒˆã‚¦ã‚§ã‚¢ã®ä½¿ç”¨ã¾ãŸã¯ãã®ä»–ã®æ‰±ã„ã«
-ã‚ˆã£ã¦ç”Ÿã˜ã‚‹ä¸€åˆ‡ã®è«‹æ±‚ã€æå®³ã€ãã®ä»–ã®ç¾©å‹™ã«ã¤ã„ã¦ä½•ã‚‰ã®è²¬ä»»ã‚‚è² ã‚ãªã„ã‚‚ã®
-ã¨ã—ã¾ã™ã€‚
+ƒ\ƒtƒgƒEƒFƒA‚ÍuŒ»ó‚Ì‚Ü‚Üv‚ÅA–¾¦‚Å‚ ‚é‚©ˆÃ–Ù‚Å‚ ‚é‚©‚ğ–â‚í‚¸A‰½‚ç‚Ì•ÛØ
+‚à‚È‚­’ñ‹Ÿ‚³‚ê‚Ü‚·B‚±‚±‚Å‚¢‚¤•ÛØ‚Æ‚ÍA¤•i«A“Á’è‚Ì–Ú“I‚Ö‚Ì“K‡«A‚¨‚æ‚Ñ
+Œ —˜”ñNŠQ‚É‚Â‚¢‚Ä‚Ì•ÛØ‚àŠÜ‚İ‚Ü‚·‚ªA‚»‚ê‚ÉŒÀ’è‚³‚ê‚é‚à‚Ì‚Å‚Í‚ ‚è‚Ü‚¹‚ñB
+ìÒ‚Ü‚½‚Í’˜ìŒ Ò‚ÍAŒ_–ñsˆ×A•s–@sˆ×A‚Ü‚½‚Í‚»‚êˆÈŠO‚Å‚ ‚ë‚¤‚ÆAƒ\ƒtƒg
+ƒEƒFƒA‚É‹Nˆö‚Ü‚½‚ÍŠÖ˜A‚µA‚ ‚é‚¢‚Íƒ\ƒtƒgƒEƒFƒA‚Ìg—p‚Ü‚½‚Í‚»‚Ì‘¼‚Ìˆµ‚¢‚É
+‚æ‚Á‚Ä¶‚¶‚éˆêØ‚Ì¿‹A‘¹ŠQA‚»‚Ì‘¼‚Ì‹`–±‚É‚Â‚¢‚Ä‰½‚ç‚ÌÓ”C‚à•‰‚í‚È‚¢‚à‚Ì
+‚Æ‚µ‚Ü‚·B
 
 */
 
 /*=========================================================================
-ã€ã“ã®ã‚½ãƒ¼ã‚¹å†…ã§ã®ã¿æœ‰åŠ¹ãªã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°ã€‘
+y‚±‚Ìƒ\[ƒX“à‚Å‚Ì‚İ—LŒø‚ÈƒOƒ[ƒoƒ‹•Ï”z
 =========================================================================*/
 
-static TEXTURE_POOL l_texPool[MAX_TEXTURE];		// ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ—ãƒ¼ãƒ«
-static int			l_texPoolnum;				// ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®æ•°
-static int			l_GLMetaseqInitialized = 0;	// åˆæœŸåŒ–ãƒ•ãƒ©ã‚°
+static TEXTURE_POOL l_texPool[MAX_TEXTURE];		// ƒeƒNƒXƒ`ƒƒƒv[ƒ‹
+static int			l_texPoolnum;				// ƒeƒNƒXƒ`ƒƒ‚Ì”
+static int			l_GLMetaseqInitialized = 0;	// ‰Šú‰»ƒtƒ‰ƒO
 
 
 /*=========================================================================
-ã€é–¢æ•°å®£è¨€ã€‘
+yŠÖ”éŒ¾z
 =========================================================================*/
 
 #ifdef __cplusplus
@@ -119,7 +119,7 @@ extern "C" {
 #endif
 
 /*=========================================================================
-ã€ã‚»ã‚­ãƒ¥ãƒªãƒ†ã‚£å¯¾ç­–ç”¨ãƒã‚¯ãƒ­ã€‘ Visual C++ 2005ä»¥é™
+yƒZƒLƒ…ƒŠƒeƒB‘Îô—pƒ}ƒNƒz Visual C++ 2005ˆÈ~
 =========================================================================*/
 #if _MSC_VER >=1400
 #define strcpy(dst, src) strncpy_s(dst, SIZE_STR, src, SIZE_STR)
@@ -129,13 +129,13 @@ extern "C" {
 #endif
 
 /*=========================================================================
-ã€é–¢æ•°ã€‘endianConverter
-ã€ç”¨é€”ã€‘ã‚¨ãƒ³ãƒ‡ã‚£ã‚¢ãƒ³å¤‰æ›
-ã€å¼•æ•°ã€‘
-addr	ã‚¢ãƒ‰ãƒ¬ã‚¹
-size	ã‚µã‚¤ã‚º
+yŠÖ”zendianConverter
+y—p“rzƒGƒ“ƒfƒBƒAƒ“•ÏŠ·
+yˆø”z
+addr	ƒAƒhƒŒƒX
+size	ƒTƒCƒY
 
-ã€æˆ»å€¤ã€‘ãªã—
+y–ß’lz‚È‚µ
 =========================================================================*/
 
 void endianConverter(void *addr, unsigned int size)
@@ -152,12 +152,12 @@ void endianConverter(void *addr, unsigned int size)
 
 
 /*=========================================================================
-ã€é–¢æ•°ã€‘TGAHeaderEndianConverter
-ã€ç”¨é€”ã€‘TGAã®ãƒ˜ãƒƒãƒ€ã®ã‚¨ãƒ³ãƒ‡ã‚£ã‚¢ãƒ³å¤‰æ›
-ã€å¼•æ•°ã€‘
-tgah	TGAã®ãƒ˜ãƒƒãƒ€
+yŠÖ”zTGAHeaderEndianConverter
+y—p“rzTGA‚Ìƒwƒbƒ_‚ÌƒGƒ“ƒfƒBƒAƒ“•ÏŠ·
+yˆø”z
+tgah	TGA‚Ìƒwƒbƒ_
 
-ã€æˆ»å€¤ã€‘ãªã—
+y–ß’lz‚È‚µ
 =========================================================================*/
 
 void TGAHeaderEndianConverter(STR_TGA_HEAD *tgah)
@@ -171,12 +171,12 @@ void TGAHeaderEndianConverter(STR_TGA_HEAD *tgah)
 
 
 /*=========================================================================
-ã€é–¢æ•°ã€‘IsExtensionSupported
-ã€ç”¨é€”ã€‘OpenGLã®æ‹¡å¼µæ©Ÿèƒ½ãŒã‚µãƒãƒ¼ãƒˆã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹èª¿ã¹ã‚‹
-ã€å¼•æ•°ã€‘
-szTargetExtension	æ‹¡å¼µæ©Ÿèƒ½ã®åå‰
+yŠÖ”zIsExtensionSupported
+y—p“rzOpenGL‚ÌŠg’£‹@”\‚ªƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©’²‚×‚é
+yˆø”z
+szTargetExtension	Šg’£‹@”\‚Ì–¼‘O
 
-ã€æˆ»å€¤ã€‘1ï¼šã‚µãƒãƒ¼ãƒˆã•ã‚Œã¦ã„ã‚‹ï¼Œ0ï¼šã•ã‚Œã¦ã„ãªã„
+y–ß’lz1FƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éC0F‚³‚ê‚Ä‚¢‚È‚¢
 =========================================================================*/
 
 int IsExtensionSupported(char* szTargetExtension)
@@ -185,15 +185,15 @@ int IsExtensionSupported(char* szTargetExtension)
 	const unsigned char *pszStart;
 	unsigned char *pszWhere, *pszTerminator;
 
-	// Extension ã®åå‰ãŒæ­£ã—ã„ã‹èª¿ã¹ã‚‹(NULLã‚„ç©ºç™½ã¯NGï¼‰
+	// Extension ‚Ì–¼‘O‚ª³‚µ‚¢‚©’²‚×‚é(NULL‚â‹ó”’‚ÍNGj
 	pszWhere = (unsigned char *)strchr(szTargetExtension, ' ');
 	if (pszWhere || *szTargetExtension == (char)NULL)
 		return 0;
 
-	// Extension ã®æ–‡å­—åˆ—ã‚’æ‰€å¾—ã™ã‚‹
+	// Extension ‚Ì•¶š—ñ‚ğŠ“¾‚·‚é
 	pszExtensions = glGetString(GL_EXTENSIONS);
 
-	// æ–‡å­—åˆ—ã®ä¸­ã«å¿…è¦ãª extension ãŒã‚ã‚‹ã‹èª¿ã¹ã‚‹
+	// •¶š—ñ‚Ì’†‚É•K—v‚È extension ‚ª‚ ‚é‚©’²‚×‚é
 	pszStart = pszExtensions;
 	for (;;)
 	{
@@ -211,19 +211,19 @@ int IsExtensionSupported(char* szTargetExtension)
 
 
 /*=========================================================================
-ã€é–¢æ•°ã€‘mqoInit
-ã€ç”¨é€”ã€‘ãƒ¡ã‚¿ã‚»ã‚³ã‚¤ã‚¢ãƒ­ãƒ¼ãƒ€ã®åˆæœŸåŒ–
-ã€å¼•æ•°ã€‘ãªã—
-ã€æˆ»å€¤ã€‘ãªã—
+yŠÖ”zmqoInit
+y—p“rzƒƒ^ƒZƒRƒCƒAƒ[ƒ_‚Ì‰Šú‰»
+yˆø”z‚È‚µ
+y–ß’lz‚È‚µ
 =========================================================================*/
 
 void mqoInit(void)
 {
-	// ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ—ãƒ¼ãƒ«åˆæœŸåŒ–
+	// ƒeƒNƒXƒ`ƒƒƒv[ƒ‹‰Šú‰»
 	memset(l_texPool, 0, sizeof(l_texPool));
 	l_texPoolnum = 0;
 
-	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®ã‚µãƒãƒ¼ãƒˆã®ãƒã‚§ãƒƒã‚¯
+	// ’¸“_ƒoƒbƒtƒ@‚ÌƒTƒ|[ƒg‚Ìƒ`ƒFƒbƒN
 	g_isVBOSupported = IsExtensionSupported("GL_ARB_vertex_buffer_object");
 	//	g_isVBOSupported = 0;
 
@@ -234,8 +234,8 @@ void mqoInit(void)
 	glDeleteBuffersARB = NULL;
 
 	if (g_isVBOSupported) {
-		// printf("OpenGL : é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã‚’ã‚µãƒãƒ¼ãƒˆã—ã¦ã„ã‚‹ã®ã§ä½¿ç”¨ã—ã¾ã™\n");
-		// GL é–¢æ•°ã®ãƒã‚¤ãƒ³ã‚¿ã‚’æ‰€å¾—ã™ã‚‹
+		// printf("OpenGL : ’¸“_ƒoƒbƒtƒ@‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚Ì‚Åg—p‚µ‚Ü‚·\n");
+		// GL ŠÖ”‚Ìƒ|ƒCƒ“ƒ^‚ğŠ“¾‚·‚é
 		glGenBuffersARB = (PFNGLGENBUFFERSARBPROC)wglGetProcAddress("glGenBuffersARB");
 		glBindBufferARB = (PFNGLBINDBUFFERARBPROC)wglGetProcAddress("glBindBufferARB");
 		glBufferDataARB = (PFNGLBUFFERDATAARBPROC)wglGetProcAddress("glBufferDataARB");
@@ -243,35 +243,35 @@ void mqoInit(void)
 	}
 #endif
 
-	// åˆæœŸåŒ–ãƒ•ãƒ©ã‚°
+	// ‰Šú‰»ƒtƒ‰ƒO
 	l_GLMetaseqInitialized = 1;
 }
 
 
 /*=========================================================================
-ã€é–¢æ•°ã€‘mqoCleanup
-ã€ç”¨é€”ã€‘ãƒ¡ã‚¿ã‚»ã‚³ã‚¤ã‚¢ãƒ­ãƒ¼ãƒ€ã®çµ‚äº†å‡¦ç†
-ã€å¼•æ•°ã€‘ãªã—
-ã€æˆ»å€¤ã€‘ãªã—
+yŠÖ”zmqoCleanup
+y—p“rzƒƒ^ƒZƒRƒCƒAƒ[ƒ_‚ÌI—¹ˆ—
+yˆø”z‚È‚µ
+y–ß’lz‚È‚µ
 =========================================================================*/
 
 void mqoCleanup(void)
 {
-	mqoClearTexturePool();	// ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ—ãƒ¼ãƒ«ã®ã‚¯ãƒªã‚¢
+	mqoClearTexturePool();	// ƒeƒNƒXƒ`ƒƒƒv[ƒ‹‚ÌƒNƒŠƒA
 }
 
 
 /*=========================================================================
-ã€é–¢æ•°ã€‘mqoSetTexturePool
-ã€ç”¨é€”ã€‘ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ—ãƒ¼ãƒ«ã«ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’èª­ã¿è¾¼ã‚€
-ã€å¼•æ•°ã€‘
-texfile		ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ•ã‚¡ã‚¤ãƒ«å
-alpfile		ã‚¢ãƒ«ãƒ•ã‚¡ãƒ•ã‚¡ã‚¤ãƒ«å
-alpha		ã‚¢ãƒ«ãƒ•ã‚¡
+yŠÖ”zmqoSetTexturePool
+y—p“rzƒeƒNƒXƒ`ƒƒƒv[ƒ‹‚ÉƒeƒNƒXƒ`ƒƒ‚ğ“Ç‚İ‚Ş
+yˆø”z
+texfile		ƒeƒNƒXƒ`ƒƒƒtƒ@ƒCƒ‹–¼
+alpfile		ƒAƒ‹ƒtƒ@ƒtƒ@ƒCƒ‹–¼
+alpha		ƒAƒ‹ƒtƒ@
 
-ã€æˆ»å€¤ã€‘ãƒ†ã‚¯ã‚¹ãƒãƒ£ID
-ã€ä»•æ§˜ã€‘ãƒ†ã‚¯ã‚¹ãƒãƒ£ãŒã¾ã èª­ã¿è¾¼ã¾ã‚Œã¦ã„ãªã‘ã‚Œã°èª­ã¿è¾¼ã¿ï¼Œãƒ†ã‚¯ã‚¹ãƒãƒ£ç™»éŒ²
-ã™ã§ã«èª­ã¿è¾¼ã¾ã‚Œã¦ã„ã‚Œã°ç™»éŒ²ã—ãŸã‚‚ã®ã‚’è¿”ã™.
+y–ß’lzƒeƒNƒXƒ`ƒƒID
+yd—lzƒeƒNƒXƒ`ƒƒ‚ª‚Ü‚¾“Ç‚İ‚Ü‚ê‚Ä‚¢‚È‚¯‚ê‚Î“Ç‚İ‚İCƒeƒNƒXƒ`ƒƒ“o˜^
+‚·‚Å‚É“Ç‚İ‚Ü‚ê‚Ä‚¢‚ê‚Î“o˜^‚µ‚½‚à‚Ì‚ğ•Ô‚·.
 =========================================================================*/
 
 GLuint mqoSetTexturePool(char *texfile, char *alpfile, unsigned char alpha)
@@ -295,11 +295,11 @@ GLuint mqoSetTexturePool(char *texfile, char *alpfile, unsigned char alpha)
 		}
 		break;
 	}
-	if (pos < l_texPoolnum) { //ã™ã§ã«èª­ã¿è¾¼ã¿æ¸ˆã¿
+	if (pos < l_texPoolnum) { //‚·‚Å‚É“Ç‚İ‚İÏ‚İ
 		return  l_texPool[pos].texture_id;
 	}
 	if (MAX_TEXTURE <= pos) {
-		printf("%s:mqoSetTexturePool ãƒ†ã‚¯ã‚¹ãƒãƒ£èª­ã¿è¾¼ã¿é ˜åŸŸä¸è¶³\n", __FILE__);
+		printf("%s:mqoSetTexturePool ƒeƒNƒXƒ`ƒƒ“Ç‚İ‚İ—Ìˆæ•s‘«\n", __FILE__);
 		return -1;
 	}
 	image = mqoLoadTextureEx(texfile, alpfile, &l_texPool[pos].texsize, alpha);
@@ -313,8 +313,8 @@ GLuint mqoSetTexturePool(char *texfile, char *alpfile, unsigned char alpha)
 
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
 	glPixelStorei(GL_PACK_ALIGNMENT, 4);
-	glGenTextures(1, &l_texPool[pos].texture_id);			// ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ç”Ÿæˆ
-	glBindTexture(GL_TEXTURE_2D, l_texPool[pos].texture_id);	// ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®å‰²ã‚Šå½“ã¦
+	glGenTextures(1, &l_texPool[pos].texture_id);			// ƒeƒNƒXƒ`ƒƒ‚ğ¶¬
+	glBindTexture(GL_TEXTURE_2D, l_texPool[pos].texture_id);	// ƒeƒNƒXƒ`ƒƒ‚ÌŠ„‚è“–‚Ä
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -322,26 +322,26 @@ GLuint mqoSetTexturePool(char *texfile, char *alpfile, unsigned char alpha)
 		0, GL_RGBA, GL_UNSIGNED_BYTE, image);
 	l_texPoolnum = pos + 1;
 
-	//ç™»éŒ²ã™ã‚Œã°ã€èª­ã¿è¾¼ã‚“ã ãƒãƒƒãƒ•ã‚¡ã¯ä¸è¦
+	//“o˜^‚·‚ê‚ÎA“Ç‚İ‚ñ‚¾ƒoƒbƒtƒ@‚Í•s—v
 	free(image);
-	glBindTexture(GL_TEXTURE_2D, 0);	// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãƒ†ã‚¯ã‚¹ãƒãƒ£ã®å‰²ã‚Šå½“ã¦
+	glBindTexture(GL_TEXTURE_2D, 0);	// ƒfƒtƒHƒ‹ƒgƒeƒNƒXƒ`ƒƒ‚ÌŠ„‚è“–‚Ä
 
 	return l_texPool[pos].texture_id;
 }
 
 
 /*=========================================================================
-ã€é–¢æ•°ã€‘mqoClearTexturePool()
-ã€ç”¨é€”ã€‘ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ—ãƒ¼ãƒ«ã®é–‹æ”¾
-ã€å¼•æ•°ã€‘ãªã—
-ã€æˆ»å€¤ã€‘ãªã—
+yŠÖ”zmqoClearTexturePool()
+y—p“rzƒeƒNƒXƒ`ƒƒƒv[ƒ‹‚ÌŠJ•ú
+yˆø”z‚È‚µ
+y–ß’lz‚È‚µ
 =========================================================================*/
 
 void mqoClearTexturePool()
 {
 	int pos;
 	for (pos = 0; pos < l_texPoolnum; pos++) {
-		glDeleteTextures(1, &l_texPool[pos].texture_id);	// ãƒ†ã‚¯ã‚¹ãƒãƒ£æƒ…å ±ã‚’å‰Šé™¤
+		glDeleteTextures(1, &l_texPool[pos].texture_id);	// ƒeƒNƒXƒ`ƒƒî•ñ‚ğíœ
 	}
 
 	memset(l_texPool, 0, sizeof(l_texPool));
@@ -350,17 +350,17 @@ void mqoClearTexturePool()
 
 
 /*=========================================================================
-ã€é–¢æ•°ã€‘mqoLoadTextureEx
-ã€ç”¨é€”ã€‘ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ãƒ†ã‚¯ã‚¹ãƒãƒ£ç”»åƒã‚’ä½œæˆã™ã‚‹
-ã€å¼•æ•°ã€‘
-texfile		ãƒ•ã‚¡ã‚¤ãƒ«å
-alpfile		ã‚¢ãƒ«ãƒ•ã‚¡ãƒ•ã‚¡ã‚¤ãƒ«å
-tex_size	ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ã‚µã‚¤ã‚ºï¼ˆä¸€è¾ºã®é•·ã•ï¼‰ã‚’è¿”ã™
+yŠÖ”zmqoLoadTextureEx
+y—p“rzƒtƒ@ƒCƒ‹‚©‚çƒeƒNƒXƒ`ƒƒ‰æ‘œ‚ğì¬‚·‚é
+yˆø”z
+texfile		ƒtƒ@ƒCƒ‹–¼
+alpfile		ƒAƒ‹ƒtƒ@ƒtƒ@ƒCƒ‹–¼
+tex_size	ƒeƒNƒXƒ`ƒƒ‚ÌƒTƒCƒYiˆê•Ó‚Ì’·‚³j‚ğ•Ô‚·
 
-ã€æˆ»å€¤ã€‘ãƒ†ã‚¯ã‚¹ãƒãƒ£ç”»åƒã¸ã®ãƒã‚¤ãƒ³ã‚¿ï¼ˆå¤±æ•—æ™‚ã¯NULLï¼‰
-ã€ä»•æ§˜ã€‘24bitãƒ“ãƒƒãƒˆãƒãƒƒãƒ—ï¼ŒãŠã‚ˆã³8,24,32bitï¼´ï¼§ï¼¡
-ã‚µã‚¤ã‚ºã¯ã€Œä¸€è¾ºãŒ2ã®nä¹—ã®æ­£æ–¹å½¢ã€ã«é™å®š
-libjpeg,libpngï¼ˆå¤–éƒ¨ãƒ©ã‚¤ãƒ–ãƒ©ãƒªï¼‰ãŒæœ‰ã‚Œã°JPEG,PNGã®èª­ã¿è¾¼ã¿å¯èƒ½
+y–ß’lzƒeƒNƒXƒ`ƒƒ‰æ‘œ‚Ö‚Ìƒ|ƒCƒ“ƒ^i¸”s‚ÍNULLj
+yd—lz24bitƒrƒbƒgƒ}ƒbƒvC‚¨‚æ‚Ñ8,24,32bit‚s‚f‚`
+ƒTƒCƒY‚Íuˆê•Ó‚ª2‚Ìnæ‚Ì³•ûŒ`v‚ÉŒÀ’è
+libjpeg,libpngiŠO•”ƒ‰ƒCƒuƒ‰ƒŠj‚ª—L‚ê‚ÎJPEG,PNG‚Ì“Ç‚İ‚İ‰Â”\
 =========================================================================*/
 
 GLubyte* mqoLoadTextureEx(char *texfile, char *alpfile, int *tex_size, unsigned char alpha)
@@ -408,7 +408,7 @@ GLubyte* mqoLoadTextureEx(char *texfile, char *alpfile, int *tex_size, unsigned 
 	pngimage = NULL;
 #endif
 	size = -1;
-	for (fl = 0; fl < 2; fl++) {//ãƒ†ã‚¯ã‚¹ãƒãƒ£ï¼fl=0    ã‚¢ãƒ«ãƒ•ã‚¡ï¼fl=1
+	for (fl = 0; fl < 2; fl++) {//ƒeƒNƒXƒ`ƒƒfl=0    ƒAƒ‹ƒtƒ@fl=1
 		if (filename[fl] == NULL) continue;
 		namelen = strlen(filename[fl]);
 		ext[0] = tolower(filename[fl][namelen - 3]);
@@ -425,9 +425,9 @@ GLubyte* mqoLoadTextureEx(char *texfile, char *alpfile, int *tex_size, unsigned 
 			filename[fl][namelen - 1] = 'p';
 		}
 		/* */
-		if (fl == 1) { //ã‚¢ãƒ«ãƒ•ã‚¡ã®èª­ã¿è¾¼ã¿ã¯ï¼´ï¼§ï¼¡orï¼°ï¼®ï¼§
+		if (fl == 1) { //ƒAƒ‹ƒtƒ@‚Ì“Ç‚İ‚İ‚Í‚s‚f‚`or‚o‚m‚f
 			if (!(isTGA || isPNG)) {
-				printf("ã‚¢ãƒ«ãƒ•ã‚¡ã®ãƒ•ã‚¡ã‚¤ãƒ«ã«å¯¾å¿œã§ããªã„â†’%s\n", filename[fl]);
+				printf("ƒAƒ‹ƒtƒ@‚Ìƒtƒ@ƒCƒ‹‚É‘Î‰‚Å‚«‚È‚¢¨%s\n", filename[fl]);
 				break;
 			}
 		}
@@ -438,10 +438,10 @@ GLubyte* mqoLoadTextureEx(char *texfile, char *alpfile, int *tex_size, unsigned 
 #else
 		if ((fp = fopen(filename[fl], "rb")) == NULL) {
 #endif
-			printf("%s:ãƒ†ã‚¯ã‚¹ãƒãƒ£èª­ã¿è¾¼ã¿ã‚¨ãƒ©ãƒ¼[%s]\n", __FILE__, filename[fl]);
+			printf("%s:ƒeƒNƒXƒ`ƒƒ“Ç‚İ‚İƒGƒ‰[[%s]\n", __FILE__, filename[fl]);
 			continue;
 		}
-		// ãƒ˜ãƒƒãƒ€ã®ãƒ­ãƒ¼ãƒ‰
+		// ƒwƒbƒ_‚Ìƒ[ƒh
 		if (isTGA) {
 			fread(&tgah, sizeof(STR_TGA_HEAD), 1, fp);
 #if DEF_IS_LITTLE_ENDIAN
@@ -454,22 +454,22 @@ GLubyte* mqoLoadTextureEx(char *texfile, char *alpfile, int *tex_size, unsigned 
 #if DEF_USE_LIBJPEG
 			unsigned int i;
 			cinfo.err = jpeg_std_error(&jerr);
-			jpeg_create_decompress(&cinfo);	//è§£å‡ç”¨æƒ…å ±ä½œæˆ
-			jpeg_stdio_src(&cinfo, fp);		//èª­ã¿è¾¼ã¿ãƒ•ã‚¡ã‚¤ãƒ«æŒ‡å®š
-			jpeg_read_header(&cinfo, TRUE);	//jpegãƒ˜ãƒƒãƒ€èª­ã¿è¾¼ã¿
-			jpeg_start_decompress(&cinfo);	//è§£å‡é–‹å§‹
+			jpeg_create_decompress(&cinfo);	//‰ğ“€—pî•ñì¬
+			jpeg_stdio_src(&cinfo, fp);		//“Ç‚İ‚İƒtƒ@ƒCƒ‹w’è
+			jpeg_read_header(&cinfo, TRUE);	//jpegƒwƒbƒ_“Ç‚İ‚İ
+			jpeg_start_decompress(&cinfo);	//‰ğ“€ŠJn
 
 			if (cinfo.out_color_components == 3 && cinfo.out_color_space == JCS_RGB) {
 				if (jpegimage != NULL) {
-					for (i = 0; i < cinfo.output_height; i++) free(jpegimage[i]);            // ä»¥ä¸‹ï¼’è¡Œã¯ï¼’æ¬¡å…ƒé…åˆ—ã‚’è§£æ”¾ã—ã¾ã™
+					for (i = 0; i < cinfo.output_height; i++) free(jpegimage[i]);            // ˆÈ‰º‚Qs‚Í‚QŸŒ³”z—ñ‚ğ‰ğ•ú‚µ‚Ü‚·
 					free(jpegimage);
 				}
-				//èª­ã¿è¾¼ã¿ãƒ‡ãƒ¼ã‚¿é…åˆ—ã®ä½œæˆ
+				//“Ç‚İ‚İƒf[ƒ^”z—ñ‚Ìì¬
 				jpegimage = (JSAMPARRAY)malloc(sizeof(JSAMPROW) * cinfo.output_height);
 				for (i = 0; i < cinfo.output_height; i++) {
 					jpegimage[i] = (JSAMPROW)malloc(sizeof(JSAMPLE) * cinfo.out_color_components * cinfo.output_width);
 				}
-				//è§£å‡ãƒ‡ãƒ¼ã‚¿èª­ã¿è¾¼ã¿
+				//‰ğ“€ƒf[ƒ^“Ç‚İ‚İ
 				while (cinfo.output_scanline < cinfo.output_height) {
 					jpeg_read_scanlines(&cinfo,
 						jpegimage + cinfo.output_scanline,
@@ -479,13 +479,13 @@ GLubyte* mqoLoadTextureEx(char *texfile, char *alpfile, int *tex_size, unsigned 
 				size = width[fl] = cinfo.output_width;
 			}
 
-			jpeg_finish_decompress(&cinfo);	//è§£å‡çµ‚äº†
-			jpeg_destroy_decompress(&cinfo);	//è§£å‡ç”¨æƒ…å ±è§£æ”¾
+			jpeg_finish_decompress(&cinfo);	//‰ğ“€I—¹
+			jpeg_destroy_decompress(&cinfo);	//‰ğ“€—pî•ñ‰ğ•ú
 			if (!(cinfo.out_color_components == 3 && cinfo.out_color_space == JCS_RGB)) {
-				printf("JPEG å¯¾å¿œã§ããªã„ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆâ†’%s\n", filename[fl]);
+				printf("JPEG ‘Î‰‚Å‚«‚È‚¢ƒtƒH[ƒ}ƒbƒg¨%s\n", filename[fl]);
 			}
 #else
-			printf("ã“ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã¯å¯¾å¿œã§ããªã„ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆâ†’%s\n", filename[fl]);
+			printf("‚±‚ÌƒeƒNƒXƒ`ƒƒ‚Í‘Î‰‚Å‚«‚È‚¢ƒtƒH[ƒ}ƒbƒg¨%s\n", filename[fl]);
 			continue;
 #endif
 		}
@@ -496,37 +496,37 @@ GLubyte* mqoLoadTextureEx(char *texfile, char *alpfile, int *tex_size, unsigned 
 			int             bit_depth, interlace_type;
 			unsigned int             i;
 			int j, k;
-			png_ptr = png_create_read_struct(                       // png_ptræ§‹é€ ä½“ã‚’ç¢ºä¿ãƒ»åˆæœŸåŒ–ã—ã¾ã™
+			png_ptr = png_create_read_struct(                       // png_ptr\‘¢‘Ì‚ğŠm•ÛE‰Šú‰»‚µ‚Ü‚·
 				PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
-			info_ptr = png_create_info_struct(png_ptr);             // info_ptræ§‹é€ ä½“ã‚’ç¢ºä¿ãƒ»åˆæœŸåŒ–ã—ã¾ã™
-			png_init_io(png_ptr, fp);                               // libpngã«fpã‚’çŸ¥ã‚‰ã›ã¾ã™
-			png_read_info(png_ptr, info_ptr);                       // PNGãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ˜ãƒƒãƒ€ã‚’èª­ã¿è¾¼ã¿ã¾ã™
-			png_get_IHDR(png_ptr, info_ptr, &pngwidth, &pngheight,        // IHDRãƒãƒ£ãƒ³ã‚¯æƒ…å ±ã‚’å–å¾—ã—ã¾ã™
+			info_ptr = png_create_info_struct(png_ptr);             // info_ptr\‘¢‘Ì‚ğŠm•ÛE‰Šú‰»‚µ‚Ü‚·
+			png_init_io(png_ptr, fp);                               // libpng‚Éfp‚ğ’m‚ç‚¹‚Ü‚·
+			png_read_info(png_ptr, info_ptr);                       // PNGƒtƒ@ƒCƒ‹‚Ìƒwƒbƒ_‚ğ“Ç‚İ‚İ‚Ü‚·
+			png_get_IHDR(png_ptr, info_ptr, &pngwidth, &pngheight,        // IHDRƒ`ƒƒƒ“ƒNî•ñ‚ğæ“¾‚µ‚Ü‚·
 				&bit_depth, &color_type, &interlace_type,
 				&j, &k);
 			if (pngimage != NULL) {
-				for (i = 0; i < pngheight; i++) free(pngimage[i]);            // ä»¥ä¸‹ï¼’è¡Œã¯ï¼’æ¬¡å…ƒé…åˆ—ã‚’è§£æ”¾ã—ã¾ã™
+				for (i = 0; i < pngheight; i++) free(pngimage[i]);            // ˆÈ‰º‚Qs‚Í‚QŸŒ³”z—ñ‚ğ‰ğ•ú‚µ‚Ü‚·
 				free(pngimage);
 			}
-			pngimage = (png_bytepp)malloc(pngheight * sizeof(png_bytep)); // ä»¥ä¸‹ï¼“è¡Œã¯ï¼’æ¬¡å…ƒé…åˆ—ã‚’ç¢ºä¿ã—ã¾ã™
+			pngimage = (png_bytepp)malloc(pngheight * sizeof(png_bytep)); // ˆÈ‰º‚Rs‚Í‚QŸŒ³”z—ñ‚ğŠm•Û‚µ‚Ü‚·
 			i = png_get_rowbytes(png_ptr, info_ptr);
 			pngdepth = i / pngwidth;
 			for (i = 0; i < pngheight; i++)
 				pngimage[i] = (png_bytep)malloc(png_get_rowbytes(png_ptr, info_ptr));
-			png_read_image(png_ptr, pngimage);                         // ç”»åƒãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã¿ã¾ã™
+			png_read_image(png_ptr, pngimage);                         // ‰æ‘œƒf[ƒ^‚ğ“Ç‚İ‚İ‚Ü‚·
 
-			png_destroy_read_struct(                                // ï¼’ã¤ã®æ§‹é€ ä½“ã®ãƒ¡ãƒ¢ãƒªã‚’è§£æ”¾ã—ã¾ã™
+			png_destroy_read_struct(                                // ‚Q‚Â‚Ì\‘¢‘Ì‚Ìƒƒ‚ƒŠ‚ğ‰ğ•ú‚µ‚Ü‚·
 				&png_ptr, &info_ptr, (png_infopp)NULL);
 			size = width[fl] = pngwidth;
 #else
-			printf("ã“ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã¯å¯¾å¿œã§ããªã„ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆâ†’%s\n", filename[fl]);
+			printf("‚±‚ÌƒeƒNƒXƒ`ƒƒ‚Í‘Î‰‚Å‚«‚È‚¢ƒtƒH[ƒ}ƒbƒg¨%s\n", filename[fl]);
 			continue;
 #endif
 		}
-		if (width[fl] == -1) {//ã‚³ã‚³ã¾ã§ãã¦ã‚µã‚¤ã‚ºãŒæŒ‡å®šã•ã‚Œã¦ã„ãªã„ã€€ï¼ã€€ãƒ“ãƒƒãƒˆãƒãƒƒãƒ—
-			fseek(fp, 14 + 4, SEEK_SET);		// ç”»åƒå¹…ãŒæ ¼ç´ã•ã‚Œã¦ã„ã‚‹ä½ç½®ã¾ã§ã‚·ãƒ¼ã‚¯
-			fread(&size, sizeof(int), 1, fp);	// BiWidthã®æƒ…å ±ã ã‘å–å¾—
-			fseek(fp, 14 + 40, SEEK_SET);		// ç”»ç´ ãƒ‡ãƒ¼ã‚¿ãŒæ ¼ç´ã•ã‚Œã¦ã„ã‚‹ä½ç½®ã¾ã§ã‚·ãƒ¼ã‚¯
+		if (width[fl] == -1) {//ƒRƒR‚Ü‚Å‚«‚ÄƒTƒCƒY‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢@@ƒrƒbƒgƒ}ƒbƒv
+			fseek(fp, 14 + 4, SEEK_SET);		// ‰æ‘œ•‚ªŠi”[‚³‚ê‚Ä‚¢‚éˆÊ’u‚Ü‚ÅƒV[ƒN
+			fread(&size, sizeof(int), 1, fp);	// BiWidth‚Ìî•ñ‚¾‚¯æ“¾
+			fseek(fp, 14 + 40, SEEK_SET);		// ‰æ‘fƒf[ƒ^‚ªŠi”[‚³‚ê‚Ä‚¢‚éˆÊ’u‚Ü‚ÅƒV[ƒN
 #if DEF_IS_LITTLE_ENDIAN
 #else
 			endianConverter(&size, sizeof(int));
@@ -540,7 +540,7 @@ GLubyte* mqoLoadTextureEx(char *texfile, char *alpfile, int *tex_size, unsigned 
 				break;
 			}
 		}
-		if (fl == 1 && isTGA) { //ã‚¢ãƒ«ãƒ•ã‚¡ã®èª­ã¿è¾¼ã¿ã¯ï¼´ï¼§ï¼¡ã®ï¼˜ãƒ“ãƒƒãƒˆãƒ¢ãƒã‚¯ãƒ­ï½ï½’ï¼“ï¼’ãƒ“ãƒƒãƒˆãƒ•ãƒ«
+		if (fl == 1 && isTGA) { //ƒAƒ‹ƒtƒ@‚Ì“Ç‚İ‚İ‚Í‚s‚f‚`‚Ì‚Wƒrƒbƒgƒ‚ƒmƒNƒ‚‚’‚R‚Qƒrƒbƒgƒtƒ‹
 			if (!(
 				(tgah.depth == 8 && tgah.type == DEF_TGA_TYPE_MONO) ||
 				(tgah.depth == 32 && tgah.type == DEF_TGA_TYPE_FULL)
@@ -548,7 +548,7 @@ GLubyte* mqoLoadTextureEx(char *texfile, char *alpfile, int *tex_size, unsigned 
 				break;
 			}
 		}
-		if (fl == 1 && isPNG) { //ã‚¢ãƒ«ãƒ•ã‚¡ã®èª­ã¿è¾¼ã¿ã¯ï¼°ï¼®ï¼§ã®ãƒˆã‚¥ãƒ«ãƒ¼ã‚«ãƒ©ãƒ¼ï¼‹ã‚¢ãƒ«ãƒ•ã‚¡ï½ï½’ã‚°ãƒ¬ãƒ¼ã‚¹ã‚±ãƒ¼ãƒ«ï¼‹ã‚¢ãƒ«ãƒ•ã‚¡
+		if (fl == 1 && isPNG) { //ƒAƒ‹ƒtƒ@‚Ì“Ç‚İ‚İ‚Í‚o‚m‚f‚ÌƒgƒDƒ‹[ƒJƒ‰[{ƒAƒ‹ƒtƒ@‚‚’ƒOƒŒ[ƒXƒP[ƒ‹{ƒAƒ‹ƒtƒ@
 #if DEF_USE_LIBPNG
 			if (!(
 				(color_type == 6) ||
@@ -559,7 +559,7 @@ GLubyte* mqoLoadTextureEx(char *texfile, char *alpfile, int *tex_size, unsigned 
 #endif
 		}
 
-		// ãƒ¡ãƒ¢ãƒªã®ç¢ºä¿
+		// ƒƒ‚ƒŠ‚ÌŠm•Û
 		if (pImage == NULL) {
 			pImage = (GLubyte*)malloc(sizeof(unsigned char)*size*size * 4);
 		}
@@ -606,17 +606,17 @@ GLubyte* mqoLoadTextureEx(char *texfile, char *alpfile, int *tex_size, unsigned 
 				else {
 					if (isPNG) {
 #if DEF_USE_LIBPNG
-						if (color_type == 6) { //ãƒˆã‚¥ãƒ«ãƒ¼ã‚«ãƒ©ãƒ¼ï¼‹ã‚¢ãƒ«ãƒ•ã‚¡
+						if (color_type == 6) { //ƒgƒDƒ‹[ƒJƒ‰[{ƒAƒ‹ƒtƒ@
 							pRead[3] = pngimage[size - 1 - y][x*pngdepth + 3];
 						}
-						if (color_type == 4) { //ã‚°ãƒ¬ãƒ¼ã‚¹ã‚±ãƒ¼ãƒ«ï¼‹ã‚¢ãƒ«ãƒ•ã‚¡
+						if (color_type == 4) { //ƒOƒŒ[ƒXƒP[ƒ‹{ƒAƒ‹ƒtƒ@
 							pRead[3] = pngimage[size - 1 - y][x*pngdepth + 1];
 						}
 						if (alpha < pRead[3]) pRead[3] = alpha;
 #endif
 					}
 					if (isTGA) {
-						if (tgah.depth == 32) { //ã„ã‚‰ãªã„ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿é£›ã°ã™
+						if (tgah.depth == 32) { //‚¢‚ç‚È‚¢ƒf[ƒ^‚ğ“Ç‚İ”ò‚Î‚·
 							fread(wbuf, 3, 1, fp);	// BGR
 						}
 						fread(&pRead[3], 1, 1, fp);	// A
@@ -636,14 +636,14 @@ GLubyte* mqoLoadTextureEx(char *texfile, char *alpfile, int *tex_size, unsigned 
 #if DEF_USE_LIBPNG
 	if (pngimage != NULL) {
 		unsigned int uy;
-		for (uy = 0; uy < pngheight; uy++) free(pngimage[uy]);            // ä»¥ä¸‹ï¼’è¡Œã¯ï¼’æ¬¡å…ƒé…åˆ—ã‚’è§£æ”¾ã—ã¾ã™
+		for (uy = 0; uy < pngheight; uy++) free(pngimage[uy]);            // ˆÈ‰º‚Qs‚Í‚QŸŒ³”z—ñ‚ğ‰ğ•ú‚µ‚Ü‚·
 		free(pngimage);
 	}
 #endif
 #if DEF_USE_LIBJPEG
 	if (jpegimage != NULL) {
 		unsigned int uy;
-		for (uy = 0; uy < cinfo.output_height; uy++) free(jpegimage[uy]);            // ä»¥ä¸‹ï¼’è¡Œã¯ï¼’æ¬¡å…ƒé…åˆ—ã‚’è§£æ”¾ã—ã¾ã™
+		for (uy = 0; uy < cinfo.output_height; uy++) free(jpegimage[uy]);            // ˆÈ‰º‚Qs‚Í‚QŸŒ³”z—ñ‚ğ‰ğ•ú‚µ‚Ü‚·
 		free(jpegimage);
 	}
 #endif
@@ -658,15 +658,15 @@ GLubyte* mqoLoadTextureEx(char *texfile, char *alpfile, int *tex_size, unsigned 
 
 
 /*=========================================================================
-ã€é–¢æ•°ã€‘mqoLoadFile
-ã€ç”¨é€”ã€‘ãƒ¡ã‚¿ã‚»ã‚³ã‚¤ã‚¢ãƒ•ã‚¡ã‚¤ãƒ«(*.mqo)ã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã‚€
-ã€å¼•æ•°ã€‘
-mqoobj		MQOã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-filename	ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹
-scale		æ‹¡å¤§ç‡
-alpha		ã‚¢ãƒ«ãƒ•ã‚¡
+yŠÖ”zmqoLoadFile
+y—p“rzƒƒ^ƒZƒRƒCƒAƒtƒ@ƒCƒ‹(*.mqo)‚©‚çƒf[ƒ^‚ğ“Ç‚İ‚Ş
+yˆø”z
+mqoobj		MQOƒIƒuƒWƒFƒNƒg
+filename	ƒtƒ@ƒCƒ‹‚ÌƒpƒX
+scale		Šg‘å—¦
+alpha		ƒAƒ‹ƒtƒ@
 
-ã€æˆ»å€¤ã€‘æˆåŠŸï¼š1 ï¼ å¤±æ•—ï¼š0
+y–ß’lz¬Œ÷F1 ^ ¸”sF0
 =========================================================================*/
 
 int mqoLoadFile(MQO_OBJECT *mqoobj, char *filename, double scale, unsigned char alpha)
@@ -675,16 +675,16 @@ int mqoLoadFile(MQO_OBJECT *mqoobj, char *filename, double scale, unsigned char 
 	MQO_OBJDATA		obj[MAX_OBJECT];
 	MQO_MATDATA		*M = NULL;
 
-	char	buf[SIZE_STR];		// æ–‡å­—åˆ—èª­ã¿è¾¼ã¿ãƒãƒƒãƒ•ã‚¡
-	char	path_dir[SIZE_STR];	// ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®ãƒ‘ã‚¹
-	char	path_tex[SIZE_STR];	// ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹
-	char	path_alp[SIZE_STR];	// ã‚¢ãƒ«ãƒ•ã‚¡ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹
-	int		n_mat = 0;			// ãƒãƒ†ãƒªã‚¢ãƒ«æ•°
-	int		n_obj = 0;			// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ•°
+	char	buf[SIZE_STR];		// •¶š—ñ“Ç‚İ‚İƒoƒbƒtƒ@
+	char	path_dir[SIZE_STR];	// ƒfƒBƒŒƒNƒgƒŠ‚ÌƒpƒX
+	char	path_tex[SIZE_STR];	// ƒeƒNƒXƒ`ƒƒƒtƒ@ƒCƒ‹‚ÌƒpƒX
+	char	path_alp[SIZE_STR];	// ƒAƒ‹ƒtƒ@ƒeƒNƒXƒ`ƒƒƒtƒ@ƒCƒ‹‚ÌƒpƒX
+	int		n_mat = 0;			// ƒ}ƒeƒŠƒAƒ‹”
+	int		n_obj = 0;			// ƒIƒuƒWƒFƒNƒg”
 	int		i;
 	errno_t err;
 
-	// Materialã¨Objectã®èª­ã¿è¾¼ã¿
+	// Material‚ÆObject‚Ì“Ç‚İ‚İ
 #if _MSC_VER >=1400
 	err = fopen_s(&fp, filename, "rb");
 	if (err != 0) return 0;
@@ -717,26 +717,26 @@ int mqoLoadFile(MQO_OBJECT *mqoobj, char *filename, double scale, unsigned char 
 	n_obj = i;
 	fclose(fp);
 
-	// ãƒ‘ã‚¹ã®å–å¾—
+	// ƒpƒX‚Ìæ“¾
 	mqoGetDirectory(filename, path_dir);
 
-	// ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ç™»éŒ²
+	// ƒeƒNƒXƒ`ƒƒ‚Ì“o˜^
 	for (i = 0; i<n_mat; i++) {
 		if (M[i].useTex) {
 
 			if (strstr(M[i].texFile, ":")) {
-				strcpy(path_tex, M[i].texFile);	// çµ¶å¯¾ãƒ‘ã‚¹ã®å ´åˆ
+				strcpy(path_tex, M[i].texFile);	// â‘ÎƒpƒX‚Ìê‡
 			}
 			else {
-				sprintf(path_tex, "%s%s", path_dir, M[i].texFile);	// ç›¸å¯¾ãƒ‘ã‚¹ã®å ´åˆ
+				sprintf(path_tex, "%s%s", path_dir, M[i].texFile);	// ‘Š‘ÎƒpƒX‚Ìê‡
 			}
 
 			if (M[i].alpFile[0] != (char)0) {
 				if (strstr(M[i].texFile, ":")) {
-					strcpy(path_alp, M[i].alpFile);	// çµ¶å¯¾ãƒ‘ã‚¹ã®å ´åˆ
+					strcpy(path_alp, M[i].alpFile);	// â‘ÎƒpƒX‚Ìê‡
 				}
 				else {
-					sprintf(path_alp, "%s%s", path_dir, M[i].alpFile);	// ç›¸å¯¾ãƒ‘ã‚¹ã®å ´åˆ
+					sprintf(path_alp, "%s%s", path_dir, M[i].alpFile);	// ‘Š‘ÎƒpƒX‚Ìê‡
 				}
 				M[i].texName = mqoSetTexturePool(path_tex, path_alp, alpha);
 			}
@@ -748,13 +748,13 @@ int mqoLoadFile(MQO_OBJECT *mqoobj, char *filename, double scale, unsigned char 
 
 	mqoMakeObjectsEx(mqoobj, obj, n_obj, M, n_mat, scale, alpha);
 
-	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ‡ãƒ¼ã‚¿ã®é–‹æ”¾
+	// ƒIƒuƒWƒFƒNƒg‚Ìƒf[ƒ^‚ÌŠJ•ú
 	for (i = 0; i<n_obj; i++) {
 		free(obj[i].V);
 		free(obj[i].F);
 	}
 
-	// ãƒãƒ†ãƒªã‚¢ãƒ«ã®é–‹æ”¾
+	// ƒ}ƒeƒŠƒAƒ‹‚ÌŠJ•ú
 	free(M);
 
 	return 1;
@@ -762,21 +762,21 @@ int mqoLoadFile(MQO_OBJECT *mqoobj, char *filename, double scale, unsigned char 
 
 
 /*=========================================================================
-ã€é–¢æ•°ã€‘mqoCreateList
-ã€ç”¨é€”ã€‘MQOã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒ‡å®šæ•°ç¢ºä¿ã™ã‚‹
-ã€å¼•æ•°ã€‘num		MQOã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ•°
+yŠÖ”zmqoCreateList
+y—p“rzMQOƒIƒuƒWƒFƒNƒg‚ğw’è”Šm•Û‚·‚é
+yˆø”znum		MQOƒIƒuƒWƒFƒNƒg‚Ì”
 
-ã€æˆ»å€¤ã€‘MQOã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+y–ß’lzMQOƒIƒuƒWƒFƒNƒg
 =========================================================================*/
 
 MQO_OBJECT* mqoCreateList(int num)
 {
 	MQO_OBJECT *obj;
 
-	// åˆæœŸåŒ–ã•ã‚Œã¦ãªã‹ã£ãŸã‚‰åˆæœŸåŒ–
+	// ‰Šú‰»‚³‚ê‚Ä‚È‚©‚Á‚½‚ç‰Šú‰»
 	if (!l_GLMetaseqInitialized) mqoInit();
 
-	// é ˜åŸŸç¢ºä¿ã¨åˆæœŸåŒ–
+	// —ÌˆæŠm•Û‚Æ‰Šú‰»
 	obj = (MQO_OBJECT *)malloc(sizeof(MQO_OBJECT)*num);
 	memset(obj, 0, sizeof(MQO_OBJECT)*num);
 
@@ -785,16 +785,16 @@ MQO_OBJECT* mqoCreateList(int num)
 
 
 /*=========================================================================
-ã€é–¢æ•°ã€‘mqoCreateListObject
-ã€ç”¨é€”ã€‘ãƒ¡ã‚¿ã‚»ã‚³ã‚¤ã‚¢ãƒ•ã‚¡ã‚¤ãƒ«(*.mqo)ã‹ã‚‰MQOã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆé…åˆ—ã‚’ä½œæˆã™ã‚‹
+yŠÖ”zmqoCreateListObject
+y—p“rzƒƒ^ƒZƒRƒCƒAƒtƒ@ƒCƒ‹(*.mqo)‚©‚çMQOƒIƒuƒWƒFƒNƒg”z—ñ‚ğì¬‚·‚é
 
-ã€å¼•æ•°ã€‘mqoobj		MQOã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-i			èª­ã¿è¾¼ã¿å…ˆç•ªå·ï¼ˆiç•ªç›®ã«MQOãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚€ï¼‰
-filename	ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹
-scale		æ‹¡å¤§ç‡
-alpha		ã‚¢ãƒ«ãƒ•ã‚¡æŒ‡å®šï¼ˆå…¨ä½“ã®ã‚¢ãƒ«ãƒ•ã‚¡å€¤ã‚’æŒ‡å®šï¼ˆ0ã€œ255ï¼‰ï¼‰
+yˆø”zmqoobj		MQOƒIƒuƒWƒFƒNƒg
+i			“Ç‚İ‚İæ”Ô†ii”Ô–Ú‚ÉMQOƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚Şj
+filename	ƒtƒ@ƒCƒ‹‚ÌƒpƒX
+scale		Šg‘å—¦
+alpha		ƒAƒ‹ƒtƒ@w’èi‘S‘Ì‚ÌƒAƒ‹ƒtƒ@’l‚ğw’èi0`255jj
 
-ã€æˆ»å€¤ã€‘ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã€€è² ï¼šç•°å¸¸ã€€ï¼ï¼šæ­£å¸¸
+y–ß’lzƒXƒe[ƒ^ƒX@•‰FˆÙí@‚OF³í
 =========================================================================*/
 
 int mqoCreateListObject(MQO_OBJECT *mqoobj, int i, char *filename, double scale, unsigned char alpha)
@@ -808,13 +808,13 @@ int mqoCreateListObject(MQO_OBJECT *mqoobj, int i, char *filename, double scale,
 
 
 /*=========================================================================
-ã€é–¢æ•°ã€‘mqoCallListObject
-ã€ç”¨é€”ã€‘MQOã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’OpenGLã®ç”»é¢ä¸Šã«å‘¼ã³å‡ºã™
-ã€å¼•æ•°ã€‘
-mqoobj		MQOã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆé…åˆ—
-num			é…åˆ—ç•ªå· (0ã€œï¼‰
+yŠÖ”zmqoCallListObject
+y—p“rzMQOƒIƒuƒWƒFƒNƒg‚ğOpenGL‚Ì‰æ–Êã‚ÉŒÄ‚Ño‚·
+yˆø”z
+mqoobj		MQOƒIƒuƒWƒFƒNƒg”z—ñ
+num			”z—ñ”Ô† (0`j
 
-ã€æˆ»å€¤ã€‘ãªã—
+y–ß’lz‚È‚µ
 =========================================================================*/
 
 void mqoCallListObject(MQO_OBJECT mqoobj[], int num)
@@ -836,23 +836,23 @@ void mqoCallListObject(MQO_OBJECT mqoobj[], int num)
 	if (mqoobj == NULL) return;
 
 	glPushMatrix();
-	//ãƒ¡ã‚¿ã‚»ã‚³ã¯é ‚ç‚¹ã®ä¸¦ã³ãŒè¡¨é¢ã‹ã‚‰ã¿ã¦å³å›ã‚Š
+	//ƒƒ^ƒZƒR‚Í’¸“_‚Ì•À‚Ñ‚ª•\–Ê‚©‚ç‚İ‚Ä‰E‰ñ‚è
 	glGetIntegerv(GL_FRONT_FACE, &intFrontFace);
 	glFrontFace(GL_CW);
 	dalpha = (double)mqoobj[num].alpha / (double)255;
 
-	for (o = 0; o<mqoobj[num].objnum; o++) {	// å†…éƒ¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ«ãƒ¼ãƒ—
+	for (o = 0; o<mqoobj[num].objnum; o++) {	// “à•”ƒIƒuƒWƒFƒNƒgƒ‹[ƒv
 
 		obj = &mqoobj[num].obj[o];
 		if (!obj->isVisible) continue;
 		glShadeModel(((obj->isShadingFlat)) ? GL_FLAT : GL_SMOOTH);
 
-		for (m = 0; m < obj->matnum; m++) {	//ãƒãƒ†ãƒªã‚¢ãƒ«ãƒ«ãƒ¼ãƒ—
+		for (m = 0; m < obj->matnum; m++) {	//ƒ}ƒeƒŠƒAƒ‹ƒ‹[ƒv
 
 			mat = &obj->mat[m];
 			if (mat->datanum == 0) continue;
 
-			if (mat->isValidMaterialInfo) {	// ãƒãƒ†ãƒªã‚¢ãƒ«ã®æƒ…å ±è¨­å®š
+			if (mat->isValidMaterialInfo) {	// ƒ}ƒeƒŠƒAƒ‹‚Ìî•ñİ’è
 				memcpy(matenv, mat->dif, sizeof(matenv));
 				matenv[3] *= dalpha;
 				glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, matenv);
@@ -868,7 +868,7 @@ void mqoCallListObject(MQO_OBJECT mqoobj[], int num)
 				glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, mat->power);
 			}
 
-			if (mat->isUseTexture) {	// ãƒ†ã‚¯ã‚¹ãƒãƒ£ãŒã‚ã‚‹å ´åˆ
+			if (mat->isUseTexture) {	// ƒeƒNƒXƒ`ƒƒ‚ª‚ ‚éê‡
 				glEnableClientState(GL_VERTEX_ARRAY);
 				glEnableClientState(GL_NORMAL_ARRAY);
 				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -884,46 +884,46 @@ void mqoCallListObject(MQO_OBJECT mqoobj[], int num)
 
 				glBindTexture(GL_TEXTURE_2D, mat->texture_id);
 
-				if (g_isVBOSupported) {	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ä½¿ç”¨
-					base = (char *)NULL;	// ã‚¢ãƒ‰ãƒ¬ã‚¹ã¯NULLãŒå…ˆé ­
-					glBindBufferARB(GL_ARRAY_BUFFER_ARB, mat->VBO_id); // é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã‚’çµã³ã¤ã‘ã‚‹
+				if (g_isVBOSupported) {	// ’¸“_ƒoƒbƒtƒ@g—p
+					base = (char *)NULL;	// ƒAƒhƒŒƒX‚ÍNULL‚ªæ“ª
+					glBindBufferARB(GL_ARRAY_BUFFER_ARB, mat->VBO_id); // ’¸“_ƒoƒbƒtƒ@‚ğŒ‹‚Ñ‚Â‚¯‚é
 				}
 				else {
-					// é ‚ç‚¹é…åˆ—ã®æ™‚ã¯ã€ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’ãã®ã¾ã¾å…¥ã‚Œã‚‹
+					// ’¸“_”z—ñ‚Ì‚ÍAƒAƒhƒŒƒX‚ğ‚»‚Ì‚Ü‚Ü“ü‚ê‚é
 					base = (char *)mat->vertex_t[0].point;
 				}
 
-				// é ‚ç‚¹é…åˆ—ã‚’è¨­å®š
+				// ’¸“_”z—ñ‚ğİ’è
 				offset = (int)((char *)mat->vertex_t[0].point - (char *)mat->vertex_t[0].point);
 				glVertexPointer(3, GL_FLOAT, sizeof(VERTEX_TEXUSE), base + offset);
 
-				// ãƒ†ã‚¯ã‚¹ãƒãƒ£åº§æ¨™é…åˆ—ã‚’è¨­å®š
+				// ƒeƒNƒXƒ`ƒƒÀ•W”z—ñ‚ğİ’è
 				offset = (int)((char *)mat->vertex_t[0].uv - (char *)mat->vertex_t[0].point);
 				glTexCoordPointer(2, GL_FLOAT, sizeof(VERTEX_TEXUSE), base + offset);
 
-				// æ³•ç·šé…åˆ—ã‚’è¨­å®š
+				// –@ü”z—ñ‚ğİ’è
 				offset = (int)((char *)mat->vertex_t[0].normal - (char *)mat->vertex_t[0].point);
 				glNormalPointer(GL_FLOAT, sizeof(VERTEX_TEXUSE), base + offset);
 
-				// è‰²è¨­å®š
+				// Fİ’è
 				glColor4f(mat->color[0], mat->color[1], mat->color[2], mat->color[3]);
 
-				// æç”»å®Ÿè¡Œ
+				// •`‰æÀs
 				glDrawArrays(GL_TRIANGLES, 0, mat->datanum);
 
 				glBindTexture(GL_TEXTURE_2D, bindGL_TEXTURE_2D);
 				if (isGL_BLEND == GL_FALSE) glDisable(GL_BLEND);
 				if (isGL_TEXTURE_2D == GL_FALSE) glDisable(GL_TEXTURE_2D);
 
-				if (g_isVBOSupported) {						// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ä½¿ç”¨
-					glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã‚’ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã¸
+				if (g_isVBOSupported) {						// ’¸“_ƒoƒbƒtƒ@g—p
+					glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);	// ’¸“_ƒoƒbƒtƒ@‚ğƒfƒtƒHƒ‹ƒg‚Ö
 				}
 
 				glDisableClientState(GL_VERTEX_ARRAY);
 				glDisableClientState(GL_NORMAL_ARRAY);
 				glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 			}
-			else {	// ãƒ†ã‚¯ã‚¹ãƒãƒ£ãŒãªã„å ´åˆ
+			else {	// ƒeƒNƒXƒ`ƒƒ‚ª‚È‚¢ê‡
 
 				glEnableClientState(GL_VERTEX_ARRAY);
 				glEnableClientState(GL_NORMAL_ARRAY);
@@ -933,7 +933,7 @@ void mqoCallListObject(MQO_OBJECT mqoobj[], int num)
 				glEnable(GL_BLEND);
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-				if (g_isVBOSupported) {	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ä½¿ç”¨
+				if (g_isVBOSupported) {	// ’¸“_ƒoƒbƒtƒ@g—p
 					base = (char *)NULL;
 					glBindBufferARB(GL_ARRAY_BUFFER_ARB, mat->VBO_id);
 				}
@@ -941,25 +941,25 @@ void mqoCallListObject(MQO_OBJECT mqoobj[], int num)
 					base = (char *)mat->vertex_p[0].point;
 				}
 
-				// é ‚ç‚¹é…åˆ—ã‚’è¨­å®š
+				// ’¸“_”z—ñ‚ğİ’è
 				offset = (int)((char *)mat->vertex_p[0].point - (char *)mat->vertex_p[0].point);
 				glVertexPointer(3, GL_FLOAT, sizeof(VERTEX_NOTEX), base + offset);
 
-				// æ³•ç·šé…åˆ—ã‚’è¨­å®š
+				// –@ü”z—ñ‚ğİ’è
 				offset = (int)((char *)mat->vertex_p[0].normal - (char *)mat->vertex_p[0].point);
 				glNormalPointer(GL_FLOAT, sizeof(VERTEX_NOTEX), base + offset);
 
-				// è‰²è¨­å®š
+				// Fİ’è
 				glColor4f(mat->color[0], mat->color[1], mat->color[2], mat->color[3]);
 				//	offset = (int)((char *)mat->vertex_p[0].color-(char *)mat->vertex_p[0].point);
 				//	glColorPointer(4,GL_FLOAT,sizeof(VERTEX_NOTEX),base+offset);
 
-				// æç”»å®Ÿè¡Œ
+				// •`‰æÀs
 				glDrawArrays(GL_TRIANGLES, 0, mat->datanum);
 
 				if (isGL_BLEND == GL_FALSE) glDisable(GL_BLEND);
-				if (g_isVBOSupported) {						// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ä½¿ç”¨
-					glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã‚’ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã¸
+				if (g_isVBOSupported) {						// ’¸“_ƒoƒbƒtƒ@g—p
+					glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);	// ’¸“_ƒoƒbƒtƒ@‚ğƒfƒtƒHƒ‹ƒg‚Ö
 				}
 
 				//	glDisableClientState( GL_COLOR_ARRAY );
@@ -970,23 +970,23 @@ void mqoCallListObject(MQO_OBJECT mqoobj[], int num)
 		}
 	}
 
-	//ãƒ¡ã‚¿ã‚»ã‚³ã¯é ‚ç‚¹ã®ä¸¦ã³ãŒè¡¨é¢ã‹ã‚‰ã¿ã¦å³å›ã‚Šï¼ˆå…ƒã®è¨­å®šã«ã‚‚ã©ã™ï¼‰
+	//ƒƒ^ƒZƒR‚Í’¸“_‚Ì•À‚Ñ‚ª•\–Ê‚©‚ç‚İ‚Ä‰E‰ñ‚èiŒ³‚Ìİ’è‚É‚à‚Ç‚·j
 	glFrontFace(intFrontFace);
 	glPopMatrix();
 }
 
 
 /*=========================================================================
-ã€é–¢æ•°ã€‘mqoGetDirectory
-ã€ç”¨é€”ã€‘ãƒ•ã‚¡ã‚¤ãƒ«åã‚’å«ã‚€ãƒ‘ã‚¹æ–‡å­—åˆ—ã‹ã‚‰ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®ãƒ‘ã‚¹ã®ã¿ã‚’æŠ½å‡ºã™ã‚‹
-ã€å¼•æ•°ã€‘
-*path_file	ãƒ•ã‚¡ã‚¤ãƒ«åã‚’å«ã‚€ãƒ‘ã‚¹æ–‡å­—åˆ—ï¼ˆå…¥åŠ›ï¼‰
-*path_dir	ãƒ•ã‚¡ã‚¤ãƒ«åã‚’é™¤ã„ãŸãƒ‘ã‚¹æ–‡å­—åˆ—ï¼ˆå‡ºåŠ›ï¼‰
+yŠÖ”zmqoGetDirectory
+y—p“rzƒtƒ@ƒCƒ‹–¼‚ğŠÜ‚ŞƒpƒX•¶š—ñ‚©‚çƒfƒBƒŒƒNƒgƒŠ‚ÌƒpƒX‚Ì‚İ‚ğ’Šo‚·‚é
+yˆø”z
+*path_file	ƒtƒ@ƒCƒ‹–¼‚ğŠÜ‚ŞƒpƒX•¶š—ñi“ü—Íj
+*path_dir	ƒtƒ@ƒCƒ‹–¼‚ğœ‚¢‚½ƒpƒX•¶š—ñio—Íj
 
-ã€æˆ»å€¤ã€‘ãªã—
-ã€ä»•æ§˜ã€‘ä¾‹ï¼š
-"C:/data/file.bmp" â†’ "C:/data/"
-"data/file.mqo"    â†’ "data/"
+y–ß’lz‚È‚µ
+yd—lz—áF
+"C:/data/file.bmp" ¨ "C:/data/"
+"data/file.mqo"    ¨ "data/"
 =========================================================================*/
 
 #ifdef __APPLE__
@@ -1016,19 +1016,20 @@ void mqoCallListObject(MQO_OBJECT mqoobj[], int num)
 
 #endif
 
-/*=========================================================================
-ã€é–¢æ•°ã€‘mqoSnormal
-ã€ç”¨é€”ã€‘æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«ã‚’æ±‚ã‚ã‚‹
-ã€å¼•æ•°ã€‘
-A		3æ¬¡å…ƒåº§æ¨™ä¸Šã®ç‚¹A
-B		3æ¬¡å…ƒåº§æ¨™ä¸Šã®ç‚¹B
-C		3æ¬¡å…ƒåº§æ¨™ä¸Šã®ç‚¹C
-*normal	ãƒ™ã‚¯ãƒˆãƒ«BAã¨ãƒ™ã‚¯ãƒˆãƒ«BCã®æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«ï¼ˆå³ã­ã˜æ–¹å‘ï¼‰
 
-ã€æˆ»å€¤ã€‘ãªã—
-ã€ä»•æ§˜ã€‘ãƒ¡ã‚¿ã‚»ã‚³ã‚¤ã‚¢ã«ãŠã„ã¦é¢ã‚’æ§‹æˆã™ã‚‹é ‚ç‚¹ã®ç•ªå·ã¯ï¼Œè¡¨ç¤ºé¢ã‹ã‚‰è¦‹ã¦
-æ™‚è¨ˆå›ã‚Šã«è¨˜è¿°ã—ã¦ã‚ã‚‹ï¼ã¤ã¾ã‚Šï¼Œé ‚ç‚¹A,B,C ãŒã‚ã£ãŸã¨ãï¼Œ
-æ±‚ã‚ã‚‹ã¹ãæ³•ç·šã¯BAã¨BCã®å¤–ç©ã«ã‚ˆã£ã¦æ±‚ã‚ã‚‰ã‚Œã‚‹
+/*=========================================================================
+yŠÖ”zmqoSnormal
+y—p“rz–@üƒxƒNƒgƒ‹‚ğ‹‚ß‚é
+yˆø”z
+A		3ŸŒ³À•Wã‚Ì“_A
+B		3ŸŒ³À•Wã‚Ì“_B
+C		3ŸŒ³À•Wã‚Ì“_C
+*normal	ƒxƒNƒgƒ‹BA‚ÆƒxƒNƒgƒ‹BC‚Ì–@üƒxƒNƒgƒ‹i‰E‚Ë‚¶•ûŒüj
+
+y–ß’lz‚È‚µ
+yd—lzƒƒ^ƒZƒRƒCƒA‚É‚¨‚¢‚Ä–Ê‚ğ\¬‚·‚é’¸“_‚Ì”Ô†‚ÍC•\¦–Ê‚©‚çŒ©‚Ä
+Œv‰ñ‚è‚É‹Lq‚µ‚Ä‚ ‚éD‚Â‚Ü‚èC’¸“_A,B,C ‚ª‚ ‚Á‚½‚Æ‚«C
+‹‚ß‚é‚×‚«–@ü‚ÍBA‚ÆBC‚ÌŠOÏ‚É‚æ‚Á‚Ä‹‚ß‚ç‚ê‚é
 =========================================================================*/
 
 void mqoSnormal(glPOINT3f A, glPOINT3f B, glPOINT3f C, glPOINT3f *normal)
@@ -1036,22 +1037,22 @@ void mqoSnormal(glPOINT3f A, glPOINT3f B, glPOINT3f C, glPOINT3f *normal)
 	double norm;
 	glPOINT3f vec0, vec1;
 
-	// ãƒ™ã‚¯ãƒˆãƒ«BA
+	// ƒxƒNƒgƒ‹BA
 	vec0.x = A.x - B.x;
 	vec0.y = A.y - B.y;
 	vec0.z = A.z - B.z;
 
-	// ãƒ™ã‚¯ãƒˆãƒ«BC
+	// ƒxƒNƒgƒ‹BC
 	vec1.x = C.x - B.x;
 	vec1.y = C.y - B.y;
 	vec1.z = C.z - B.z;
 
-	// æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«
+	// –@üƒxƒNƒgƒ‹
 	normal->x = vec0.y * vec1.z - vec0.z * vec1.y;
 	normal->y = vec0.z * vec1.x - vec0.x * vec1.z;
 	normal->z = vec0.x * vec1.y - vec0.y * vec1.x;
 
-	// æ­£è¦åŒ–
+	// ³‹K‰»
 	norm = normal->x * normal->x + normal->y * normal->y + normal->z * normal->z;
 	norm = sqrt(norm);
 
@@ -1062,14 +1063,14 @@ void mqoSnormal(glPOINT3f A, glPOINT3f B, glPOINT3f C, glPOINT3f *normal)
 
 
 /*=========================================================================
-ã€é–¢æ•°ã€‘mqoReadMaterial
-ã€ç”¨é€”ã€‘ãƒãƒ†ãƒªã‚¢ãƒ«æƒ…å ±ã®èª­ã¿è¾¼ã¿
-ã€å¼•æ•°ã€‘
-fp		ãƒ•ã‚¡ã‚¤ãƒ«ãƒã‚¤ãƒ³ã‚¿
-M		ãƒãƒ†ãƒªã‚¢ãƒ«é…åˆ—
+yŠÖ”zmqoReadMaterial
+y—p“rzƒ}ƒeƒŠƒAƒ‹î•ñ‚Ì“Ç‚İ‚İ
+yˆø”z
+fp		ƒtƒ@ƒCƒ‹ƒ|ƒCƒ“ƒ^
+M		ƒ}ƒeƒŠƒAƒ‹”z—ñ
 
-ã€æˆ»å€¤ã€‘ãªã—
-ã€ä»•æ§˜ã€‘mqoCreateModel(), mqoCreateSequence()ã®ã‚µãƒ–é–¢æ•°ï¼
+y–ß’lz‚È‚µ
+yd—lzmqoCreateModel(), mqoCreateSequence()‚ÌƒTƒuŠÖ”D
 =========================================================================*/
 
 void mqoReadMaterial(FILE *fp, MQO_MATDATA M[])
@@ -1082,42 +1083,42 @@ void mqoReadMaterial(FILE *fp, MQO_MATDATA M[])
 	int			i = 0;
 
 	while (1) {
-		fgets(buf, SIZE_STR, fp);	// è¡Œèª­ã¿è¾¼ã¿
+		fgets(buf, SIZE_STR, fp);	// s“Ç‚İ‚İ
 		if (strstr(buf, "}")) break;
 
-		pStr = strstr(buf, "col(");	// æè³ªåèª­ã¿é£›ã°ã—
+		pStr = strstr(buf, "col(");	// Ş¿–¼“Ç‚İ”ò‚Î‚µ
 		sscanf(pStr,
 			"col(%f %f %f %f) dif (%f) amb(%f) emi(%f) spc(%f) power(%f)",
 			&c.r, &c.g, &c.b, &c.a, &dif, &amb, &emi, &spc, &M[i].power);
 
-		// é ‚ç‚¹ã‚«ãƒ©ãƒ¼
+		// ’¸“_ƒJƒ‰[
 		M[i].col = c;
 
-		// æ‹¡æ•£å…‰
+		// ŠgUŒõ
 		M[i].dif[0] = dif * c.r;
 		M[i].dif[1] = dif * c.g;
 		M[i].dif[2] = dif * c.b;
 		M[i].dif[3] = c.a;
 
-		// å‘¨å›²å…‰
+		// üˆÍŒõ
 		M[i].amb[0] = amb * c.r;
 		M[i].amb[1] = amb * c.g;
 		M[i].amb[2] = amb * c.b;
 		M[i].amb[3] = c.a;
 
-		// è‡ªå·±ç…§æ˜
+		// ©ŒÈÆ–¾
 		M[i].emi[0] = emi * c.r;
 		M[i].emi[1] = emi * c.g;
 		M[i].emi[2] = emi * c.b;
 		M[i].emi[3] = c.a;
 
-		// åå°„å…‰
+		// ”½ËŒõ
 		M[i].spc[0] = spc * c.r;
 		M[i].spc[1] = spc * c.g;
 		M[i].spc[2] = spc * c.b;
 		M[i].spc[3] = c.a;
 
-		// texï¼šæ¨¡æ§˜ãƒãƒƒãƒ”ãƒ³ã‚°å
+		// texF–Í—lƒ}ƒbƒsƒ“ƒO–¼
 		if ((pStr = strstr(buf, "tex(")) != NULL) {
 			M[i].useTex = TRUE;
 
@@ -1149,14 +1150,14 @@ void mqoReadMaterial(FILE *fp, MQO_MATDATA M[])
 
 
 /*=========================================================================
-ã€é–¢æ•°ã€‘mqoReadVertex
-ã€ç”¨é€”ã€‘é ‚ç‚¹æƒ…å ±ã®èª­ã¿è¾¼ã¿
-ã€å¼•æ•°ã€‘
-fp		ç¾åœ¨ã‚ªãƒ¼ãƒ—ãƒ³ã—ã¦ã„ã‚‹ãƒ¡ã‚¿ã‚»ã‚³ã‚¤ã‚¢ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒã‚¤ãƒ³ã‚¿
-V		é ‚ç‚¹ã‚’æ ¼ç´ã™ã‚‹é…åˆ—
+yŠÖ”zmqoReadVertex
+y—p“rz’¸“_î•ñ‚Ì“Ç‚İ‚İ
+yˆø”z
+fp		Œ»İƒI[ƒvƒ“‚µ‚Ä‚¢‚éƒƒ^ƒZƒRƒCƒAƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹ƒ|ƒCƒ“ƒ^
+V		’¸“_‚ğŠi”[‚·‚é”z—ñ
 
-ã€æˆ»å€¤ã€‘ãªã—
-ã€ä»•æ§˜ã€‘mqoReadObject()ã®ã‚µãƒ–é–¢æ•°
+y–ß’lz‚È‚µ
+yd—lzmqoReadObject()‚ÌƒTƒuŠÖ”
 =========================================================================*/
 
 void mqoReadVertex(FILE *fp, glPOINT3f V[])
@@ -1174,14 +1175,14 @@ void mqoReadVertex(FILE *fp, glPOINT3f V[])
 
 
 /*=========================================================================
-ã€é–¢æ•°ã€‘mqoReadBVertex
-ã€ç”¨é€”ã€‘ãƒã‚¤ãƒŠãƒªå½¢å¼ã®é ‚ç‚¹æƒ…å ±ã‚’èª­ã¿è¾¼ã‚€
-ã€å¼•æ•°ã€‘
-fp		ç¾åœ¨ã‚ªãƒ¼ãƒ—ãƒ³ã—ã¦ã„ã‚‹ãƒ¡ã‚¿ã‚»ã‚³ã‚¤ã‚¢ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒã‚¤ãƒ³ã‚¿
-V		é ‚ç‚¹ã‚’æ ¼ç´ã™ã‚‹é…åˆ—
+yŠÖ”zmqoReadBVertex
+y—p“rzƒoƒCƒiƒŠŒ`®‚Ì’¸“_î•ñ‚ğ“Ç‚İ‚Ş
+yˆø”z
+fp		Œ»İƒI[ƒvƒ“‚µ‚Ä‚¢‚éƒƒ^ƒZƒRƒCƒAƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹ƒ|ƒCƒ“ƒ^
+V		’¸“_‚ğŠi”[‚·‚é”z—ñ
 
-ã€æˆ»å€¤ã€‘é ‚ç‚¹æ•°
-ã€ä»•æ§˜ã€‘mqoReadObject()ã®ã‚µãƒ–é–¢æ•°
+y–ß’lz’¸“_”
+yd—lzmqoReadObject()‚ÌƒTƒuŠÖ”
 =========================================================================*/
 
 int mqoReadBVertex(FILE *fp, glPOINT3f V[])
@@ -1194,12 +1195,12 @@ int mqoReadBVertex(FILE *fp, glPOINT3f V[])
 
 	fgets(cw, sizeof(cw), fp);
 	if ((pStr = strstr(cw, "Vector")) != NULL) {
-		sscanf(pStr, "Vector %d [%d]", &n_vertex, &size);	// é ‚ç‚¹æ•°ã€ãƒ‡ãƒ¼ã‚¿ã‚µã‚¤ã‚ºã‚’èª­ã¿è¾¼ã‚€
+		sscanf(pStr, "Vector %d [%d]", &n_vertex, &size);	// ’¸“_”Aƒf[ƒ^ƒTƒCƒY‚ğ“Ç‚İ‚Ş
 	}
 	else {
 		return -1;
 	}
-	//MQOãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒã‚¤ãƒŠãƒªé ‚ç‚¹ãƒ‡ãƒ¼ã‚¿ã¯intelå½¢å¼ï¼ˆãƒªãƒˆãƒ«ã‚¨ãƒ‡ã‚£ã‚¢ãƒ³ï¼‰
+	//MQOƒtƒ@ƒCƒ‹‚ÌƒoƒCƒiƒŠ’¸“_ƒf[ƒ^‚ÍintelŒ`®iƒŠƒgƒ‹ƒGƒfƒBƒAƒ“j
 	wf = (float *)malloc(size);
 	fread(wf, size, 1, fp);
 	for (i = 0; i < n_vertex; i++) {
@@ -1215,7 +1216,7 @@ int mqoReadBVertex(FILE *fp, glPOINT3f V[])
 	}
 	free(wf);
 
-	// "}"ã¾ã§èª­ã¿é£›ã°ã—
+	// "}"‚Ü‚Å“Ç‚İ”ò‚Î‚µ
 	{
 		char buf[SIZE_STR];
 		while (1) {
@@ -1229,14 +1230,14 @@ int mqoReadBVertex(FILE *fp, glPOINT3f V[])
 
 
 /*=========================================================================
-ã€é–¢æ•°ã€‘mqoReadFace
-ã€ç”¨é€”ã€‘é¢æƒ…å ±ã®èª­ã¿è¾¼ã¿
-ã€å¼•æ•°ã€‘
-fp		ãƒ•ã‚¡ã‚¤ãƒ«ãƒã‚¤ãƒ³ã‚¿
-F		é¢é…åˆ—
+yŠÖ”zmqoReadFace
+y—p“rz–Êî•ñ‚Ì“Ç‚İ‚İ
+yˆø”z
+fp		ƒtƒ@ƒCƒ‹ƒ|ƒCƒ“ƒ^
+F		–Ê”z—ñ
 
-ã€æˆ»å€¤ã€‘ãªã—
-ã€ä»•æ§˜ã€‘mqoReadObject()ã®ã‚µãƒ–é–¢æ•°
+y–ß’lz‚È‚µ
+yd—lzmqoReadObject()‚ÌƒTƒuŠÖ”
 =========================================================================*/
 
 void mqoReadFace(FILE *fp, MQO_FACE F[])
@@ -1249,16 +1250,16 @@ void mqoReadFace(FILE *fp, MQO_FACE F[])
 		fgets(buf, SIZE_STR, fp);
 		if (strstr(buf, "}")) break;
 
-		// é¢ã‚’æ§‹æˆã™ã‚‹é ‚ç‚¹æ•°
+		// –Ê‚ğ\¬‚·‚é’¸“_”
 		sscanf(buf, "%d", &F[i].n);
 
-		// é ‚ç‚¹(V)ã®èª­ã¿è¾¼ã¿
+		// ’¸“_(V)‚Ì“Ç‚İ‚İ
 		if ((pStr = strstr(buf, "V(")) != NULL) {
 			switch (F[i].n) {
 			case 3:
-				//ãƒ¡ã‚¿ã‚»ã‚³ã¯é ‚ç‚¹ã®ä¸¦ã³ãŒè¡¨é¢ã‹ã‚‰ã¿ã¦å³å›ã‚Š
-				//èª­ã¿è¾¼ã¿æ™‚ã«ä¸¦ã¹æ›¿ãˆã‚‹æ–¹æ³•ã‚‚ã‚ã‚‹ã€‚ã‘ã©ã€è¡¨é¢ã®è¨­å®šã‚’
-				//glFrontFaceã§å¤‰ãˆã‚‹ã»ã†ãŒã‚¹ãƒãƒ¼ãƒˆï¼Ÿ
+				//ƒƒ^ƒZƒR‚Í’¸“_‚Ì•À‚Ñ‚ª•\–Ê‚©‚ç‚İ‚Ä‰E‰ñ‚è
+				//“Ç‚İ‚İ‚É•À‚×‘Ö‚¦‚é•û–@‚à‚ ‚éB‚¯‚ÇA•\–Ê‚Ìİ’è‚ğ
+				//glFrontFace‚Å•Ï‚¦‚é‚Ù‚¤‚ªƒXƒ}[ƒgH
 				sscanf(pStr, "V(%d %d %d)", &F[i].v[0], &F[i].v[1], &F[i].v[2]);
 				//					sscanf(pStr,"V(%d %d %d)",&F[i].v[2],&F[i].v[1],&F[i].v[0]);
 				break;
@@ -1271,19 +1272,19 @@ void mqoReadFace(FILE *fp, MQO_FACE F[])
 			}
 		}
 
-		// ãƒãƒ†ãƒªã‚¢ãƒ«(M)ã®èª­ã¿è¾¼ã¿
+		// ƒ}ƒeƒŠƒAƒ‹(M)‚Ì“Ç‚İ‚İ
 		F[i].m = 0;
 		if ((pStr = strstr(buf, "M(")) != NULL) {
 			sscanf(pStr, "M(%d)", &F[i].m);
 		}
-		else { // ãƒãƒ†ãƒªã‚¢ãƒ«ãŒè¨­å®šã•ã‚Œã¦ã„ãªã„é¢
+		else { // ƒ}ƒeƒŠƒAƒ‹‚ªİ’è‚³‚ê‚Ä‚¢‚È‚¢–Ê
 			F[i].m = -1;
 		}
 
-		// UVãƒãƒƒãƒ—(UV)ã®èª­ã¿è¾¼ã¿
+		// UVƒ}ƒbƒv(UV)‚Ì“Ç‚İ‚İ
 		if ((pStr = strstr(buf, "UV(")) != NULL) {
 			switch (F[i].n) {
-			case 3:	// é ‚ç‚¹æ•°3
+			case 3:	// ’¸“_”3
 				sscanf(pStr, "UV(%f %f %f %f %f %f)",
 					&F[i].uv[0].x, &F[i].uv[0].y,
 					&F[i].uv[1].x, &F[i].uv[1].y,
@@ -1291,7 +1292,7 @@ void mqoReadFace(FILE *fp, MQO_FACE F[])
 					);
 				break;
 
-			case 4:	// é ‚ç‚¹æ•°4
+			case 4:	// ’¸“_”4
 				sscanf(pStr, "UV(%f %f %f %f %f %f %f %f)",
 					&F[i].uv[0].x, &F[i].uv[0].y,
 					&F[i].uv[1].x, &F[i].uv[1].y,
@@ -1311,14 +1312,14 @@ void mqoReadFace(FILE *fp, MQO_FACE F[])
 
 
 /*=========================================================================
-ã€é–¢æ•°ã€‘mqoReadObject
-ã€ç”¨é€”ã€‘ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæƒ…å ±ã®èª­ã¿è¾¼ã¿
-ã€å¼•æ•°ã€‘
-fp		ãƒ•ã‚¡ã‚¤ãƒ«ãƒã‚¤ãƒ³ã‚¿
-obj		ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæƒ…å ±
+yŠÖ”zmqoReadObject
+y—p“rzƒIƒuƒWƒFƒNƒgî•ñ‚Ì“Ç‚İ‚İ
+yˆø”z
+fp		ƒtƒ@ƒCƒ‹ƒ|ƒCƒ“ƒ^
+obj		ƒIƒuƒWƒFƒNƒgî•ñ
 
-ã€æˆ»å€¤ã€‘ãªã—
-ã€ä»•æ§˜ã€‘ã“ã®é–¢æ•°ã§ï¼‘å€‹ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæƒ…å ±ãŒèª­ã¿è¾¼ã¾ã‚Œã‚‹ï¼
+y–ß’lz‚È‚µ
+yd—lz‚±‚ÌŠÖ”‚Å‚PŒÂ‚ÌƒIƒuƒWƒFƒNƒgî•ñ‚ª“Ç‚İ‚Ü‚ê‚éD
 =========================================================================*/
 
 void mqoReadObject(FILE *fp, MQO_OBJDATA *obj)
@@ -1370,24 +1371,24 @@ void mqoReadObject(FILE *fp, MQO_OBJDATA *obj)
 
 
 /*=========================================================================
-ã€é–¢æ•°ã€‘mqoMakeArray
-ã€ç”¨é€”ã€‘é ‚ç‚¹é…åˆ—ã®ä½œæˆ
-ã€å¼•æ•°ã€‘
-mat		ãƒãƒ†ãƒªã‚¢ãƒ«ï¼ˆã“ã®ä¸­ã«é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿ã‚’å«ã‚€ï¼‰
-matpos	æè³ªç•ªå·
-F		é¢
-fnum	é¢æ•°
-V		é ‚ç‚¹
-N		æ³•ç·š
-facet	ã‚¹ãƒ ãƒ¼ã‚¸ãƒ³ã‚°è§’
-mcol	è‰²
-scale	ã‚¹ã‚±ãƒ¼ãƒ«
-alpha	ã‚¢ãƒ«ãƒ•ã‚¡
+yŠÖ”zmqoMakeArray
+y—p“rz’¸“_”z—ñ‚Ìì¬
+yˆø”z
+mat		ƒ}ƒeƒŠƒAƒ‹i‚±‚Ì’†‚É’¸“_ƒf[ƒ^‚ğŠÜ‚Şj
+matpos	Ş¿”Ô†
+F		–Ê
+fnum	–Ê”
+V		’¸“_
+N		–@ü
+facet	ƒXƒ€[ƒWƒ“ƒOŠp
+mcol	F
+scale	ƒXƒP[ƒ‹
+alpha	ƒAƒ‹ƒtƒ@
 
-ã€æˆ»å€¤ã€‘ãªã—
-ã€ä»•æ§˜ã€‘é ‚ç‚¹é…åˆ—ã¯ã™ã¹ã¦ä¸‰è§’ã«ã™ã‚‹ã®ã§ã€å››è§’ã¯ä¸‰è§’ï½˜ï¼’ã«åˆ†å‰²
+y–ß’lz‚È‚µ
+yd—lz’¸“_”z—ñ‚Í‚·‚×‚ÄOŠp‚É‚·‚é‚Ì‚ÅAlŠp‚ÍOŠp‚˜‚Q‚É•ªŠ„
 0  3      0    0  3
-â–¡   â†’ã€€â–³ã€€ã€€â–½
+    ¨@¢@@¤
 1  2     1  2   2
 =========================================================================*/
 
@@ -1398,7 +1399,7 @@ void mqoMakeArray(MQO_MATERIAL *mat, int matpos, MQO_FACE F[], int fnum, glPOINT
 	int i;
 	int dpos;
 	double s;
-	glPOINT3f normal;	// æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«
+	glPOINT3f normal;	// –@üƒxƒNƒgƒ‹
 
 	dpos = 0;
 	mat->color[0] = mcol->r;
@@ -1409,7 +1410,7 @@ void mqoMakeArray(MQO_MATERIAL *mat, int matpos, MQO_FACE F[], int fnum, glPOINT
 		for (f = 0; f < fnum; f++){
 			if (F[f].m != matpos) continue;
 			if (F[f].n == 3) {
-				mqoSnormal(V[F[f].v[0]], V[F[f].v[1]], V[F[f].v[2]], &normal);	// æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«ã‚’è¨ˆç®—
+				mqoSnormal(V[F[f].v[0]], V[F[f].v[1]], V[F[f].v[2]], &normal);	// –@üƒxƒNƒgƒ‹‚ğŒvZ
 				for (i = 0; i < 3; i++) {
 					mat->vertex_t[dpos].point[0] = V[F[f].v[i]].x*scale;
 					mat->vertex_t[dpos].point[1] = V[F[f].v[i]].y*scale;
@@ -1418,7 +1419,7 @@ void mqoMakeArray(MQO_MATERIAL *mat, int matpos, MQO_FACE F[], int fnum, glPOINT
 					mat->vertex_t[dpos].uv[1] = F[f].uv[i].y;
 					s = acos(normal.x*N[F[f].v[i]].x + normal.y*N[F[f].v[i]].y + normal.z*N[F[f].v[i]].z);
 					if (facet < s) {
-						// ã‚¹ãƒ ãƒ¼ã‚¸ãƒ³ã‚°è§’ã€€ï¼œï¼ˆé ‚ç‚¹æ³•ç·šã¨é¢æ³•ç·šã®è§’åº¦ï¼‰ã®ã¨ãã¯é¢æ³•ç·šã‚’é ‚ç‚¹æ³•ç·šã¨ã™ã‚‹
+						// ƒXƒ€[ƒWƒ“ƒOŠp@ƒi’¸“_–@ü‚Æ–Ê–@ü‚ÌŠp“xj‚Ì‚Æ‚«‚Í–Ê–@ü‚ğ’¸“_–@ü‚Æ‚·‚é
 						mat->vertex_t[dpos].normal[0] = normal.x;
 						mat->vertex_t[dpos].normal[1] = normal.y;
 						mat->vertex_t[dpos].normal[2] = normal.z;
@@ -1431,9 +1432,9 @@ void mqoMakeArray(MQO_MATERIAL *mat, int matpos, MQO_FACE F[], int fnum, glPOINT
 					dpos++;
 				}
 			}
-			//ï¼”é ‚ç‚¹ï¼ˆå››è§’ï¼‰ã¯ï¼“é ‚ç‚¹ï¼ˆä¸‰è§’ï¼‰ï½˜ï¼’ã«åˆ†å‰²
+			//‚S’¸“_ilŠpj‚Í‚R’¸“_iOŠpj‚˜‚Q‚É•ªŠ„
 			if (F[f].n == 4) {
-				mqoSnormal(V[F[f].v[0]], V[F[f].v[1]], V[F[f].v[2]], &normal);	// æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«ã‚’è¨ˆç®—
+				mqoSnormal(V[F[f].v[0]], V[F[f].v[1]], V[F[f].v[2]], &normal);	// –@üƒxƒNƒgƒ‹‚ğŒvZ
 				for (i = 0; i < 4; i++) {
 					if (i == 3) continue;
 					mat->vertex_t[dpos].point[0] = V[F[f].v[i]].x*scale;
@@ -1454,7 +1455,7 @@ void mqoMakeArray(MQO_MATERIAL *mat, int matpos, MQO_FACE F[], int fnum, glPOINT
 					}
 					dpos++;
 				}
-				mqoSnormal(V[F[f].v[0]], V[F[f].v[2]], V[F[f].v[3]], &normal);	// æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«ã‚’è¨ˆç®—
+				mqoSnormal(V[F[f].v[0]], V[F[f].v[2]], V[F[f].v[3]], &normal);	// –@üƒxƒNƒgƒ‹‚ğŒvZ
 				for (i = 0; i < 4; i++) {
 					if (i == 1) continue;
 					mat->vertex_t[dpos].point[0] = V[F[f].v[i]].x*scale;
@@ -1485,7 +1486,7 @@ void mqoMakeArray(MQO_MATERIAL *mat, int matpos, MQO_FACE F[], int fnum, glPOINT
 		for (f = 0; f < fnum; f++){
 			if (F[f].m != matpos) continue;
 			if (F[f].n == 3) {
-				mqoSnormal(V[F[f].v[0]], V[F[f].v[1]], V[F[f].v[2]], &normal);		// æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«ã‚’è¨ˆç®—
+				mqoSnormal(V[F[f].v[0]], V[F[f].v[1]], V[F[f].v[2]], &normal);		// –@üƒxƒNƒgƒ‹‚ğŒvZ
 				for (i = 0; i < 3; i++) {
 					mat->vertex_p[dpos].point[0] = V[F[f].v[i]].x*scale;
 					mat->vertex_p[dpos].point[1] = V[F[f].v[i]].y*scale;
@@ -1507,9 +1508,9 @@ void mqoMakeArray(MQO_MATERIAL *mat, int matpos, MQO_FACE F[], int fnum, glPOINT
 					dpos++;
 				}
 			}
-			//ï¼”é ‚ç‚¹ï¼ˆå››è§’ï¼‰ã¯ï¼“é ‚ç‚¹ï¼ˆä¸‰è§’ï¼‰ï½˜ï¼’ã«åˆ†å‰²
+			//‚S’¸“_ilŠpj‚Í‚R’¸“_iOŠpj‚˜‚Q‚É•ªŠ„
 			if (F[f].n == 4) {
-				mqoSnormal(V[F[f].v[0]], V[F[f].v[1]], V[F[f].v[2]], &normal);		// æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«ã‚’è¨ˆç®—
+				mqoSnormal(V[F[f].v[0]], V[F[f].v[1]], V[F[f].v[2]], &normal);		// –@üƒxƒNƒgƒ‹‚ğŒvZ
 				for (i = 0; i < 4; i++) {
 					if (i == 3) continue;
 					mat->vertex_p[dpos].point[0] = V[F[f].v[i]].x*scale;
@@ -1531,7 +1532,7 @@ void mqoMakeArray(MQO_MATERIAL *mat, int matpos, MQO_FACE F[], int fnum, glPOINT
 					}
 					dpos++;
 				}
-				mqoSnormal(V[F[f].v[0]], V[F[f].v[2]], V[F[f].v[3]], &normal);		// æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«ã‚’è¨ˆç®—
+				mqoSnormal(V[F[f].v[0]], V[F[f].v[2]], V[F[f].v[3]], &normal);		// –@üƒxƒNƒgƒ‹‚ğŒvZ
 				for (i = 0; i < 4; i++) {
 					if (i == 1) continue;
 					mat->vertex_p[dpos].point[0] = V[F[f].v[i]].x*scale;
@@ -1560,14 +1561,14 @@ void mqoMakeArray(MQO_MATERIAL *mat, int matpos, MQO_FACE F[], int fnum, glPOINT
 
 
 /*=========================================================================
-ã€é–¢æ•°ã€‘mqoVertexNormal
-ã€ç”¨é€”ã€‘é ‚ç‚¹æ³•ç·šã®è¨ˆç®—
-ã€å¼•æ•°ã€‘
-obj			ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæƒ…å ±
+yŠÖ”zmqoVertexNormal
+y—p“rz’¸“_–@ü‚ÌŒvZ
+yˆø”z
+obj			ƒIƒuƒWƒFƒNƒgî•ñ
 
-ã€æˆ»å€¤ã€‘æ³•ç·šé…åˆ—
-ã€ä»•æ§˜ã€‘ï¼”é ‚ç‚¹ã®é¢ã¯ä¸‰è§’å½¢ã«åˆ†å‰²ã—ã¦è¨ˆç®—
-æˆ»ã‚Šå€¤ã¯å¿…ãšå‘¼ã³å‡ºã—å…ƒã§è§£æ”¾ï¼ˆfreeï¼‰ã™ã‚‹ã“ã¨ï¼
+y–ß’lz–@ü”z—ñ
+yd—lz‚S’¸“_‚Ì–Ê‚ÍOŠpŒ`‚É•ªŠ„‚µ‚ÄŒvZ
+–ß‚è’l‚Í•K‚¸ŒÄ‚Ño‚µŒ³‚Å‰ğ•úifreej‚·‚é‚±‚ÆI
 =========================================================================*/
 
 glPOINT3f * mqoVertexNormal(MQO_OBJDATA *obj)
@@ -1576,14 +1577,14 @@ glPOINT3f * mqoVertexNormal(MQO_OBJDATA *obj)
 	int v;
 	int i;
 	double len;
-	glPOINT3f fnormal;	// é¢æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«
+	glPOINT3f fnormal;	// –Ê–@üƒxƒNƒgƒ‹
 	MQO_FACE *F;
 	glPOINT3f *V;
 	glPOINT3f *ret;
 	F = obj->F;
 	V = obj->V;
 	ret = (glPOINT3f *)calloc(obj->n_vertex, sizeof(glPOINT3f));
-	//é¢ã®æ³•ç·šã‚’é ‚ç‚¹ã«è¶³ã—è¾¼ã¿
+	//–Ê‚Ì–@ü‚ğ’¸“_‚É‘«‚µ‚İ
 	for (f = 0; f < obj->n_face; f++) {
 		if (obj->F[f].n == 3) {
 			mqoSnormal(V[F[f].v[0]], V[F[f].v[1]], V[F[f].v[2]], &fnormal);
@@ -1610,10 +1611,10 @@ glPOINT3f * mqoVertexNormal(MQO_OBJDATA *obj)
 			}
 		}
 	}
-	//æ­£è¦åŒ–
+	//³‹K‰»
 	for (v = 0; v < obj->n_vertex; v++) {
 		if (ret[v].x == 0 && ret[v].y == 0 && ret[v].z == 0) {
-			//é¢ã«ä½¿ã‚ã‚Œã¦ãªã„ç‚¹
+			//–Ê‚Ég‚í‚ê‚Ä‚È‚¢“_
 			continue;
 		}
 		len = sqrt(ret[v].x*ret[v].x + ret[v].y*ret[v].y + ret[v].z*ret[v].z);
@@ -1628,18 +1629,18 @@ glPOINT3f * mqoVertexNormal(MQO_OBJDATA *obj)
 }
 
 /*=========================================================================
-ã€é–¢æ•°ã€‘mqoMakePolygon
-ã€ç”¨é€”ã€‘ãƒãƒªã‚´ãƒ³ã®ç”Ÿæˆ
-ã€å¼•æ•°ã€‘
-readObj		èª­ã¿è¾¼ã‚“ã ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæƒ…å ±
-mqoobj		MQOã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-N[]			æ³•ç·šé…åˆ—
-M[]			ãƒãƒ†ãƒªã‚¢ãƒ«é…åˆ—
-n_mat		ãƒãƒ†ãƒªã‚¢ãƒ«æ•°
-scale		ã‚¹ã‚±ãƒ¼ãƒ«
-alpha		ã‚¢ãƒ«ãƒ•ã‚¡
+yŠÖ”zmqoMakePolygon
+y—p“rzƒ|ƒŠƒSƒ“‚Ì¶¬
+yˆø”z
+readObj		“Ç‚İ‚ñ‚¾ƒIƒuƒWƒFƒNƒgî•ñ
+mqoobj		MQOƒIƒuƒWƒFƒNƒg
+N[]			–@ü”z—ñ
+M[]			ƒ}ƒeƒŠƒAƒ‹”z—ñ
+n_mat		ƒ}ƒeƒŠƒAƒ‹”
+scale		ƒXƒP[ƒ‹
+alpha		ƒAƒ‹ƒtƒ@
 
-ã€æˆ»å€¤ã€‘ãªã—
+y–ß’lz‚È‚µ
 =========================================================================*/
 
 void mqoMakePolygon(MQO_OBJDATA *readObj, MQO_OBJECT *mqoobj,
@@ -1666,31 +1667,31 @@ void mqoMakePolygon(MQO_OBJDATA *readObj, MQO_OBJECT *mqoobj,
 	V = readObj->V;
 	facet = readObj->facet;
 
-	// faceã®ä¸­ã§ã®ãƒãƒ†ãƒªã‚¢ãƒ«æ¯ã®é ‚ç‚¹ã®æ•°
-	// M=NULLã®ã¨ãã€F[].m = 0 ãŒå…¥ã£ã¦ãã‚‹
+	// face‚Ì’†‚Å‚Ìƒ}ƒeƒŠƒAƒ‹–ˆ‚Ì’¸“_‚Ì”
+	// M=NULL‚Ì‚Æ‚«AF[].m = 0 ‚ª“ü‚Á‚Ä‚­‚é
 	if (M == NULL) n_mat = 1;
 
 	mat_vnum = (int *)malloc(sizeof(int)*n_mat);
 	memset(mat_vnum, 0, sizeof(int)*n_mat);
 
 	for (f = 0; f < fnum; f++){
-		if (F[f].m < 0) continue; // ãƒãƒ†ãƒªã‚¢ãƒ«ãŒè¨­å®šã•ã‚Œã¦ã„ãªã„é¢
+		if (F[f].m < 0) continue; // ƒ}ƒeƒŠƒAƒ‹‚ªİ’è‚³‚ê‚Ä‚¢‚È‚¢–Ê
 		if (F[f].n == 3) {
 			mat_vnum[F[f].m] += 3;
 		}
 		if (F[f].n == 4) {
-			//ï¼”é ‚ç‚¹ï¼ˆå››è§’ï¼‰ã¯ï¼“é ‚ç‚¹ï¼ˆä¸‰è§’ï¼‰ï½˜ï¼’ã«åˆ†å‰²
+			//‚S’¸“_ilŠpj‚Í‚R’¸“_iOŠpj‚˜‚Q‚É•ªŠ„
 			//  0  3      0    0  3
-			//   â–¡   â†’ã€€â–³ã€€ã€€â–½
+			//       ¨@¢@@¤
 			//  1  2     1  2   2
-			// ï¼”é ‚ç‚¹ã®å¹³é¢ãƒ‡ãƒ¼ã‚¿ã¯
-			// ï¼“é ‚ç‚¹ã®å¹³é¢ãƒ‡ãƒ¼ã‚¿ï½˜ï¼’å€‹
+			// ‚S’¸“_‚Ì•½–Êƒf[ƒ^‚Í
+			// ‚R’¸“_‚Ì•½–Êƒf[ƒ^‚˜‚QŒÂ
 			mat_vnum[F[f].m] += 3 * 2;
 		}
 		if (setObj->matnum < F[f].m + 1) setObj->matnum = F[f].m + 1;
 	}
 
-	// ãƒãƒ†ãƒªã‚¢ãƒ«åˆ¥ã«é ‚ç‚¹é…åˆ—ã‚’ä½œæˆã™ã‚‹
+	// ƒ}ƒeƒŠƒAƒ‹•Ê‚É’¸“_”z—ñ‚ğì¬‚·‚é
 	setObj->mat = (MQO_MATERIAL *)malloc(sizeof(MQO_MATERIAL)*setObj->matnum);
 	memset(setObj->mat, 0, sizeof(MQO_MATERIAL)*setObj->matnum);
 
@@ -1740,7 +1741,7 @@ void mqoMakePolygon(MQO_OBJDATA *readObj, MQO_OBJECT *mqoobj,
 	}
 	mqoobj->objnum++;
 	if (MAX_OBJECT <= mqoobj->objnum) {
-		printf("MQOãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿è¾¼ã¿ï¼šã€€æœ€å¤§ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ•°ã‚’è¶…ãˆã¾ã—ãŸ[%d]\n", mqoobj->objnum);
+		printf("MQOƒtƒ@ƒCƒ‹“Ç‚İ‚İF@Å‘åƒIƒuƒWƒFƒNƒg”‚ğ’´‚¦‚Ü‚µ‚½[%d]\n", mqoobj->objnum);
 		mqoobj->objnum = MAX_OBJECT - 1;
 	}
 
@@ -1750,18 +1751,18 @@ void mqoMakePolygon(MQO_OBJDATA *readObj, MQO_OBJECT *mqoobj,
 
 
 /*=========================================================================
-ã€é–¢æ•°ã€‘mqoMakeObjectsEx
-ã€ç”¨é€”ã€‘ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ‡ãƒ¼ã‚¿ã‹ã‚‰ãƒãƒªã‚´ãƒ³ãƒ¢ãƒ‡ãƒ«ã‚’ä½œæˆã™ã‚‹
-ã€å¼•æ•°ã€‘
-mqoobj	MQOã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-obj		ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆé…åˆ—
-n_obj	ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å€‹æ•°
-M		ãƒãƒ†ãƒªã‚¢ãƒ«é…åˆ—
-n_mat	ãƒãƒ†ãƒªã‚¢ãƒ«ã®å€‹æ•°
-scale	æ‹¡å¤§ç‡
-alpha	ã‚¢ãƒ«ãƒ•ã‚¡
+yŠÖ”zmqoMakeObjectsEx
+y—p“rzƒIƒuƒWƒFƒNƒg‚Ìƒf[ƒ^‚©‚çƒ|ƒŠƒSƒ“ƒ‚ƒfƒ‹‚ğì¬‚·‚é
+yˆø”z
+mqoobj	MQOƒIƒuƒWƒFƒNƒg
+obj		ƒIƒuƒWƒFƒNƒg”z—ñ
+n_obj	ƒIƒuƒWƒFƒNƒg‚ÌŒÂ”
+M		ƒ}ƒeƒŠƒAƒ‹”z—ñ
+n_mat	ƒ}ƒeƒŠƒAƒ‹‚ÌŒÂ”
+scale	Šg‘å—¦
+alpha	ƒAƒ‹ƒtƒ@
 
-ã€æˆ»å€¤ã€‘ãªã—
+y–ß’lz‚È‚µ
 =========================================================================*/
 
 void mqoMakeObjectsEx(MQO_OBJECT *mqoobj, MQO_OBJDATA obj[], int n_obj, MQO_MATDATA M[], int n_mat,
@@ -1784,13 +1785,13 @@ void mqoMakeObjectsEx(MQO_OBJECT *mqoobj, MQO_OBJDATA obj[], int n_obj, MQO_MATD
 
 
 /*=========================================================================
-ã€é–¢æ•°ã€‘mqoCreateModel
-ã€ç”¨é€”ã€‘MQOãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰MQOãƒ¢ãƒ‡ãƒ«ã‚’ä½œæˆã™ã‚‹
-ã€å¼•æ•°ã€‘
-filename	MQOãƒ•ã‚¡ã‚¤ãƒ«
-scale		æ‹¡å¤§ç‡ï¼ˆ1.0ã§ãã®ã¾ã¾ï¼‰
+yŠÖ”zmqoCreateModel
+y—p“rzMQOƒtƒ@ƒCƒ‹‚©‚çMQOƒ‚ƒfƒ‹‚ğì¬‚·‚é
+yˆø”z
+filename	MQOƒtƒ@ƒCƒ‹
+scale		Šg‘å—¦i1.0‚Å‚»‚Ì‚Ü‚Üj
 
-ã€æˆ»å€¤ã€‘MQO_MODELï¼ˆMQOãƒ¢ãƒ‡ãƒ«ï¼‰
+y–ß’lzMQO_MODELiMQOƒ‚ƒfƒ‹j
 =========================================================================*/
 
 MQO_MODEL mqoCreateModel(char *filename, double scale)
@@ -1806,18 +1807,18 @@ MQO_MODEL mqoCreateModel(char *filename, double scale)
 
 
 /*=========================================================================
-ã€é–¢æ•°ã€‘mqoCreateSequenceEx
-ã€ç”¨é€”ã€‘é€£ç•ªã®MQOãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰MQOã‚·ãƒ¼ã‚±ãƒ³ã‚¹ã‚’ä½œæˆã™ã‚‹
-ã€å¼•æ•°ã€‘
-format		ãƒ•ã‚¡ã‚¤ãƒ«åã®æ›¸å¼
-n_file		ãƒ•ã‚¡ã‚¤ãƒ«æ•°
-scale		æ‹¡å¤§ç‡ï¼ˆ1.0ã§ãã®ã¾ã¾ï¼‰
-fade_inout	0:ãã®ã¾ã¾ã€€æ­£ï¼šãƒ•ã‚§ãƒ¼ãƒ‰ã‚¤ãƒ³ã€€è² ï¼šãƒ•ã‚§ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆ
-çµ¶å¯¾å€¤ã¯åŠ¹æœã‚’ã‹ã‘ã‚‹ãƒ•ãƒ¬ãƒ¼ãƒ æ•°
-alpha		ã‚¢ãƒ«ãƒ•ã‚¡
+yŠÖ”zmqoCreateSequenceEx
+y—p“rz˜A”Ô‚ÌMQOƒtƒ@ƒCƒ‹‚©‚çMQOƒV[ƒPƒ“ƒX‚ğì¬‚·‚é
+yˆø”z
+format		ƒtƒ@ƒCƒ‹–¼‚Ì‘®
+n_file		ƒtƒ@ƒCƒ‹”
+scale		Šg‘å—¦i1.0‚Å‚»‚Ì‚Ü‚Üj
+fade_inout	0:‚»‚Ì‚Ü‚Ü@³FƒtƒF[ƒhƒCƒ“@•‰FƒtƒF[ƒhƒAƒEƒg
+â‘Î’l‚ÍŒø‰Ê‚ğ‚©‚¯‚éƒtƒŒ[ƒ€”
+alpha		ƒAƒ‹ƒtƒ@
 
-ã€æˆ»å€¤ã€‘MQO_SEQUENCEï¼ˆMQOã‚·ãƒ¼ã‚±ãƒ³ã‚¹ï¼‰
-ã€å‚™è€ƒã€‘é€£ç•ªã¯0ã‹ã‚‰é–‹å§‹
+y–ß’lzMQO_SEQUENCEiMQOƒV[ƒPƒ“ƒXj
+y”õlz˜A”Ô‚Í0‚©‚çŠJn
 =========================================================================*/
 
 MQO_SEQUENCE mqoCreateSequenceEx(const char *format, int n_file, double scale,
@@ -1873,15 +1874,15 @@ MQO_SEQUENCE mqoCreateSequenceEx(const char *format, int n_file, double scale,
 
 
 /*=========================================================================
-ã€é–¢æ•°ã€‘mqoCreateSequence
-ã€ç”¨é€”ã€‘é€£ç•ªã®MQOãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰MQOã‚·ãƒ¼ã‚±ãƒ³ã‚¹ã‚’ä½œæˆã™ã‚‹
-ã€å¼•æ•°ã€‘
-format		ãƒ•ã‚¡ã‚¤ãƒ«åã®ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ
-n_file		ãƒ•ã‚¡ã‚¤ãƒ«æ•°
-scale		æ‹¡å¤§ç‡ï¼ˆ1.0ã§ãã®ã¾ã¾ï¼‰
+yŠÖ”zmqoCreateSequence
+y—p“rz˜A”Ô‚ÌMQOƒtƒ@ƒCƒ‹‚©‚çMQOƒV[ƒPƒ“ƒX‚ğì¬‚·‚é
+yˆø”z
+format		ƒtƒ@ƒCƒ‹–¼‚ÌƒtƒH[ƒ}ƒbƒg
+n_file		ƒtƒ@ƒCƒ‹”
+scale		Šg‘å—¦i1.0‚Å‚»‚Ì‚Ü‚Üj
 
-ã€æˆ»å€¤ã€‘MQO_SEQUENCEï¼ˆMQOã‚·ãƒ¼ã‚±ãƒ³ã‚¹ï¼‰
-ã€å‚™è€ƒã€‘é€£ç•ªã¯0ã‹ã‚‰é–‹å§‹
+y–ß’lzMQO_SEQUENCEiMQOƒV[ƒPƒ“ƒXj
+y”õlz˜A”Ô‚Í0‚©‚çŠJn
 =========================================================================*/
 
 MQO_SEQUENCE mqoCreateSequence(const char *format, int n_file, double scale)
@@ -1891,12 +1892,12 @@ MQO_SEQUENCE mqoCreateSequence(const char *format, int n_file, double scale)
 
 
 /*=========================================================================
-ã€é–¢æ•°ã€‘mqoCallModel
-ã€ç”¨é€”ã€‘MQOãƒ¢ãƒ‡ãƒ«ã‚’OpenGLã®ç”»é¢ä¸Šã«å‘¼ã³å‡ºã™
-ã€å¼•æ•°ã€‘
-model		MQOãƒ¢ãƒ‡ãƒ«
+yŠÖ”zmqoCallModel
+y—p“rzMQOƒ‚ƒfƒ‹‚ğOpenGL‚Ì‰æ–Êã‚ÉŒÄ‚Ño‚·
+yˆø”z
+model		MQOƒ‚ƒfƒ‹
 
-ã€æˆ»å€¤ã€‘ãªã—
+y–ß’lz‚È‚µ
 =========================================================================*/
 
 void mqoCallModel(MQO_MODEL model)
@@ -1906,14 +1907,14 @@ void mqoCallModel(MQO_MODEL model)
 
 
 /*=========================================================================
-ã€é–¢æ•°ã€‘mqoCallSequence
-ã€ç”¨é€”ã€‘MQOã‚·ãƒ¼ã‚±ãƒ³ã‚¹ã‚’OpenGLã®ç”»é¢ã«å‘¼ã³å‡ºã™
-ã€å¼•æ•°ã€‘
-seq		MQOã‚·ãƒ¼ã‚±ãƒ³ã‚¹
-i		ãƒ•ãƒ¬ãƒ¼ãƒ ç•ªå·
+yŠÖ”zmqoCallSequence
+y—p“rzMQOƒV[ƒPƒ“ƒX‚ğOpenGL‚Ì‰æ–Ê‚ÉŒÄ‚Ño‚·
+yˆø”z
+seq		MQOƒV[ƒPƒ“ƒX
+i		ƒtƒŒ[ƒ€”Ô†
 
-ã€æˆ»å€¤ã€‘ãªã—
-ã€ä»•æ§˜ã€‘MQOã‚·ãƒ¼ã‚±ãƒ³ã‚¹ã®ä¸­ã‹ã‚‰æŒ‡å®šã—ãŸãƒ•ãƒ¬ãƒ¼ãƒ ç•ªå·ã®ãƒ¢ãƒ‡ãƒ«ã‚’å‘¼ã³å‡ºã™
+y–ß’lz‚È‚µ
+yd—lzMQOƒV[ƒPƒ“ƒX‚Ì’†‚©‚çw’è‚µ‚½ƒtƒŒ[ƒ€”Ô†‚Ìƒ‚ƒfƒ‹‚ğŒÄ‚Ño‚·
 =========================================================================*/
 
 void mqoCallSequence(MQO_SEQUENCE seq, int i)
@@ -1925,14 +1926,14 @@ void mqoCallSequence(MQO_SEQUENCE seq, int i)
 
 
 /*=========================================================================
-ã€é–¢æ•°ã€‘mqoClearObject
-ã€ç”¨é€”ã€‘MQOã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¯ãƒªã‚¢
-ã€å¼•æ•°ã€‘
-object	MQOã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆé…åˆ—
-from	å‰Šé™¤é–‹å§‹ç•ªå·ï¼ˆ0ã€œï¼‰
-num		å‰Šé™¤ã™ã‚‹å€‹æ•°
+yŠÖ”zmqoClearObject
+y—p“rzMQOƒIƒuƒWƒFƒNƒg‚ÌƒNƒŠƒA
+yˆø”z
+object	MQOƒIƒuƒWƒFƒNƒg”z—ñ
+from	íœŠJn”Ô†i0`j
+num		íœ‚·‚éŒÂ”
 
-ã€æˆ»å€¤ã€‘ãªã—
+y–ß’lz‚È‚µ
 =========================================================================*/
 
 void mqoClearObject(MQO_OBJECT object[], int from, int num)
@@ -1951,11 +1952,11 @@ void mqoClearObject(MQO_OBJECT object[], int from, int num)
 				mat = &obj->mat[m];
 				if (mat->datanum <= 0) continue;
 				if (g_isVBOSupported) {
-					// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®å‰Šé™¤
+					// ’¸“_ƒoƒbƒtƒ@‚Ìíœ
 					glDeleteBuffersARB(1, &mat->VBO_id);
 				}
 
-				// é ‚ç‚¹é…åˆ—ã®å‰Šé™¤
+				// ’¸“_”z—ñ‚Ìíœ
 				if (mat->isUseTexture) {
 					if (mat->vertex_t != NULL) {
 						free(mat->vertex_t);
@@ -1981,13 +1982,13 @@ void mqoClearObject(MQO_OBJECT object[], int from, int num)
 
 
 /*=========================================================================
-ã€é–¢æ•°ã€‘mqoDeleteObject
-ã€ç”¨é€”ã€‘MQOã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‰Šé™¤ã™ã‚‹
-ã€å¼•æ•°ã€‘
-object	MQOã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆé…åˆ—
-num		å‰Šé™¤ã™ã‚‹å€‹æ•°
+yŠÖ”zmqoDeleteObject
+y—p“rzMQOƒIƒuƒWƒFƒNƒg‚ğíœ‚·‚é
+yˆø”z
+object	MQOƒIƒuƒWƒFƒNƒg”z—ñ
+num		íœ‚·‚éŒÂ”
 
-ã€æˆ»å€¤ã€‘ãªã—
+y–ß’lz‚È‚µ
 =========================================================================*/
 
 void mqoDeleteObject(MQO_OBJECT object[], int num)
@@ -1998,14 +1999,14 @@ void mqoDeleteObject(MQO_OBJECT object[], int num)
 
 
 /*=========================================================================
-ã€é–¢æ•°ã€‘mqoDeleteModel
-ã€ç”¨é€”ã€‘MQOãƒ¢ãƒ‡ãƒ«ã‚’å‰Šé™¤ã™ã‚‹
-ã€å¼•æ•°ã€‘
-model	MQOãƒ¢ãƒ‡ãƒ«
+yŠÖ”zmqoDeleteModel
+y—p“rzMQOƒ‚ƒfƒ‹‚ğíœ‚·‚é
+yˆø”z
+model	MQOƒ‚ƒfƒ‹
 
-ã€æˆ»å€¤ã€‘ãªã—
-ã€å‚™è€ƒã€‘å‰Šé™¤å‡¦ç†ã‚’è¡Œã£ãŸå¤‰æ•°ã‚’å†åˆ©ç”¨ã™ã‚‹å¯èƒ½æ€§ãŒã‚ã‚‹å ´åˆã¯
-ã“ã®é–¢æ•°ã®å®Ÿè¡Œå¾Œã«NULLã‚’ä»£å…¥ã—ã¦ãŠãã“ã¨
+y–ß’lz‚È‚µ
+y”õlzíœˆ—‚ğs‚Á‚½•Ï”‚ğÄ—˜—p‚·‚é‰Â”\«‚ª‚ ‚éê‡‚Í
+‚±‚ÌŠÖ”‚ÌÀsŒã‚ÉNULL‚ğ‘ã“ü‚µ‚Ä‚¨‚­‚±‚Æ
 =========================================================================*/
 
 void mqoDeleteModel(MQO_MODEL model)
@@ -2015,13 +2016,13 @@ void mqoDeleteModel(MQO_MODEL model)
 
 
 /*=========================================================================
-ã€é–¢æ•°ã€‘mqoDeleteSequence
-ã€ç”¨é€”ã€‘MQOã‚·ãƒ¼ã‚±ãƒ³ã‚¹ã‚’å‰Šé™¤ã™ã‚‹
-ã€å¼•æ•°ã€‘
-seq		MQOã‚·ãƒ¼ã‚±ãƒ³ã‚¹
+yŠÖ”zmqoDeleteSequence
+y—p“rzMQOƒV[ƒPƒ“ƒX‚ğíœ‚·‚é
+yˆø”z
+seq		MQOƒV[ƒPƒ“ƒX
 
-ã€å‚™è€ƒã€‘å‰Šé™¤å‡¦ç†ã‚’è¡Œã£ãŸå¤‰æ•°ã‚’å†åˆ©ç”¨ã™ã‚‹å¯èƒ½æ€§ãŒã‚ã‚‹å ´åˆã¯
-ã“ã®é–¢æ•°ã®å®Ÿè¡Œå¾Œã«NULLã‚’ä»£å…¥ã—ã¦ãŠãã“ã¨
+y”õlzíœˆ—‚ğs‚Á‚½•Ï”‚ğÄ—˜—p‚·‚é‰Â”\«‚ª‚ ‚éê‡‚Í
+‚±‚ÌŠÖ”‚ÌÀsŒã‚ÉNULL‚ğ‘ã“ü‚µ‚Ä‚¨‚­‚±‚Æ
 =========================================================================*/
 
 void mqoDeleteSequence(MQO_SEQUENCE seq)
