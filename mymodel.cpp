@@ -15,7 +15,7 @@ static MQO_MODEL fishmodel;
  */
 void CreateMyModels()
 {
-    fishmodel = mqoCreateModel( "/Users/tsukasa/Desktop/Lab/iCG/BoidsFish/FishModel/fish.mqo", 1.0 );
+    fishmodel = mqoCreateModel( "FishModel/fish.mqo", 2.0 );
 }
 
 /*----------------------------------------------------- DeleteMyModels

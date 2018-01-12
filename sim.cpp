@@ -8,7 +8,7 @@
 
 #include "sim.h"
 
-//#include "mymodel.h"
+#include "mymodel.h"
 
 SimDataT simdata;
 CamDataT cam;
@@ -26,7 +26,7 @@ int nowfeed;
 void InitScene( void )
 {
 
-//  CreateMyModels ();
+  CreateMyModels ();
 
 	////// シーンデータの初期化
 	simdata.clip_far = 300.0;
@@ -553,7 +553,7 @@ void Cruising (int i)
   fish[i].rot.x = RadtoDeg( atan2f (fish[i].move.y, GetVector2Length (fish[i].move.x, fish[i].move.z)));
 
   //----- yaw -----
-  fish[i].rot.y = RadtoDeg ( atan2f (-fish[i].move.x, -fish[i].move.z));
+  fish[i].rot.y = RadtoDeg ( atan2f (fish[i].move.x, fish[i].move.z));
 
 
   //----- 水槽の端まで行ったら反転 ------
@@ -602,7 +602,7 @@ void ReturnAquarium (int i)
   fish[i].rot.x = RadtoDeg( atan2f (move.y, GetVector2Length (move.x, move.z)));
 
   //----- yaw -----
-  fish[i].rot.y = RadtoDeg ( atan2f (-move.x, -move.z));
+  fish[i].rot.y = RadtoDeg ( atan2f (move.x, move.z));
 
   //----- 水槽に戻ったら終了 ------
   if (fish[i].pos.x < AQUARIUM_MAX && fish[i].pos.x > AQUARIUM_MIN &&

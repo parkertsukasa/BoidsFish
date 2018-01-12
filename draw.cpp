@@ -100,7 +100,7 @@ void drawFishModel()
 		glRotatef( 0.0, 0.0, 1.0, 0.0 );  //オブジェクト基準姿勢調整：ヨー角
 		glRotatef( 0.0, 1.0, 0.0, 0.0 ); //オブジェクト基準姿勢調整：ピッチ角
 		glRotatef( 0.0, 0.0, 0.0, 1.0 );  //オブジェクト基準姿勢調整：ロール角
-		//DrawMyFishModel ();   
+		DrawMyFishModel ();   
   }
 	glPopMatrix();
     return;
@@ -146,8 +146,8 @@ void drawFish (int i)
 		glRotatef( fish[i].rot.x, 1.0, 0.0, 0.0 ); //オブジェクト基準姿勢調整：ピッチ角
 		glRotatef( fish[i].rot.z, 0.0, 0.0, 1.0 );  //オブジェクト基準姿勢調整：ロール角
     glGetFloatv( GL_MODELVIEW_MATRIX, fish[i].mat);//変換マトリクスの取得
-		drawSolidCone();
-    //drawFishModel();
+		//drawSolidCone();
+    drawFishModel();
 	}
 	glPopMatrix();
 }
@@ -178,3 +178,5 @@ void DrawScene( void )
 
     return;
 }
+
+
