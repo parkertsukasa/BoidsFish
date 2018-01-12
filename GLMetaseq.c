@@ -1,4 +1,4 @@
-/* ---------------------------------------------------------------------- Mac対応
+/* ---------------------------------------------------------------------- Macソソ
  * 
  */
 
@@ -8,7 +8,6 @@
   #include <ctype.h>
 
 #endif
-
 
 /*
 	2014/11/5 セキュリティ対策版（Visual Studio 2013対応）
@@ -235,7 +234,7 @@ void mqoInit(void)
 	glDeleteBuffersARB = NULL;
 
 	if (g_isVBOSupported) {
-		// printf("OpenGL : 頂点バッファをサポートしているので使用します¥n");
+		// printf("OpenGL : 頂点バッファをサポートしているので使用します\n");
 		// GL 関数のポインタを所得する
 		glGenBuffersARB = (PFNGLGENBUFFERSARBPROC)wglGetProcAddress("glGenBuffersARB");
 		glBindBufferARB = (PFNGLBINDBUFFERARBPROC)wglGetProcAddress("glBindBufferARB");
@@ -300,7 +299,7 @@ GLuint mqoSetTexturePool(char *texfile, char *alpfile, unsigned char alpha)
 		return  l_texPool[pos].texture_id;
 	}
 	if (MAX_TEXTURE <= pos) {
-		printf("%s:mqoSetTexturePool テクスチャ読み込み領域不足¥n", __FILE__);
+		printf("%s:mqoSetTexturePool テクスチャ読み込み領域不足\n", __FILE__);
 		return -1;
 	}
 	image = mqoLoadTextureEx(texfile, alpfile, &l_texPool[pos].texsize, alpha);
@@ -428,7 +427,7 @@ GLubyte* mqoLoadTextureEx(char *texfile, char *alpfile, int *tex_size, unsigned 
 		/* */
 		if (fl == 1) { //アルファの読み込みはＴＧＡorＰＮＧ
 			if (!(isTGA || isPNG)) {
-				printf("アルファのファイルに対応できない→%s¥n", filename[fl]);
+				printf("アルファのファイルに対応できない→%s\n", filename[fl]);
 				break;
 			}
 		}
@@ -439,7 +438,7 @@ GLubyte* mqoLoadTextureEx(char *texfile, char *alpfile, int *tex_size, unsigned 
 #else
 		if ((fp = fopen(filename[fl], "rb")) == NULL) {
 #endif
-			printf("%s:テクスチャ読み込みエラー[%s]¥n", __FILE__, filename[fl]);
+			printf("%s:テクスチャ読み込みエラー[%s]\n", __FILE__, filename[fl]);
 			continue;
 		}
 		// ヘッダのロード
@@ -483,10 +482,10 @@ GLubyte* mqoLoadTextureEx(char *texfile, char *alpfile, int *tex_size, unsigned 
 			jpeg_finish_decompress(&cinfo);	//解凍終了
 			jpeg_destroy_decompress(&cinfo);	//解凍用情報解放
 			if (!(cinfo.out_color_components == 3 && cinfo.out_color_space == JCS_RGB)) {
-				printf("JPEG 対応できないフォーマット→%s¥n", filename[fl]);
+				printf("JPEG 対応できないフォーマット→%s\n", filename[fl]);
 			}
 #else
-			printf("このテクスチャは対応できないフォーマット→%s¥n", filename[fl]);
+			printf("このテクスチャは対応できないフォーマット→%s\n", filename[fl]);
 			continue;
 #endif
 		}
@@ -520,7 +519,7 @@ GLubyte* mqoLoadTextureEx(char *texfile, char *alpfile, int *tex_size, unsigned 
 				&png_ptr, &info_ptr, (png_infopp)NULL);
 			size = width[fl] = pngwidth;
 #else
-			printf("このテクスチャは対応できないフォーマット→%s¥n", filename[fl]);
+			printf("このテクスチャは対応できないフォーマット→%s\n", filename[fl]);
 			continue;
 #endif
 		}
@@ -827,7 +826,7 @@ void mqoCallListObject(MQO_OBJECT mqoobj[], int num)
 	GLint				bindGL_TEXTURE_2D = 0;
 	GLboolean			isGL_TEXTURE_2D = GL_FALSE;
 	GLboolean			isGL_BLEND = GL_FALSE;
-//GLint				blendGL_SRC_ALPHA = 0;
+	//GLint				blendGL_SRC_ALPHA = 0;
 	GLint				intFrontFace;
 
 	int		o, m, offset;
@@ -989,6 +988,7 @@ void mqoCallListObject(MQO_OBJECT mqoobj[], int num)
 "C:/data/file.bmp" → "C:/data/"
 "data/file.mqo"    → "data/"
 =========================================================================*/
+
 #ifdef __APPLE__
     
     void mqoGetDirectory(const char *path_file, char *path_dir)
@@ -1740,7 +1740,7 @@ void mqoMakePolygon(MQO_OBJDATA *readObj, MQO_OBJECT *mqoobj,
 	}
 	mqoobj->objnum++;
 	if (MAX_OBJECT <= mqoobj->objnum) {
-		printf("MQOファイル読み込み：　最大オブジェクト数を超えました[%d]¥n", mqoobj->objnum);
+		printf("MQOファイル読み込み：　最大オブジェクト数を超えました[%d]\n", mqoobj->objnum);
 		mqoobj->objnum = MAX_OBJECT - 1;
 	}
 

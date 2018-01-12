@@ -158,10 +158,10 @@ Copyright (c) 2009 Sunao Hashimoto and Keisuke Konishi
 
 #define MAX_TEXTURE				100			// テクスチャの最大取り扱い数
 #define MAX_OBJECT				50			// 1個のMQOファイル内の最大オブジェクト数
-#define SIZE_STR				256			// 文字列バッファのサイズ
+#define SIZE_STR		  		256			// 文字列バッファのサイズ
 #define DEF_IS_LITTLE_ENDIAN	1			// エンディアン指定（intel系=1）
-#define DEF_USE_LIBJPEG			0			// libjpegの使用（1:使用 0:未使用）
-#define DEF_USE_LIBPNG			0			// libpng の使用（1:使用 0:未使用）
+#define DEF_USE_LIBJPEG		  	0			// libjpegの使用（1:使用 0:未使用）
+#define DEF_USE_LIBPNG	  		0			// libpng の使用（1:使用 0:未使用）
 
 
 
