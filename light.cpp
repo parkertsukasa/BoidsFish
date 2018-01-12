@@ -11,7 +11,7 @@ void MainLight( int light_id, float r, float g, float b )
 	//int light_id = GL_LIGHT0;
 	float light_color[] = { 1.0, 1.0, 1.0, 1.0 };
     //float light_ambient[] = { 0.0, 0.0, 0.0, 1.0 };
-    float light_pos[] = { 0.0, 10.0, 0.0, 0.0 };
+    float light_pos[] = { 0.0, 70.0, 0.0, 0.0 };
 
 	light_color[0] = r;
 	light_color[1] = g;
@@ -29,7 +29,7 @@ void MainLight( int light_id, float r, float g, float b )
 void SubLight( int light_id, float r, float g, float b )
 {
 	//int light_id = GL_LIGHT1;
-    float light_color[]   = { 0.2, 0.2, 0.2, 1.0 };
+    float light_color[]   = { 0.2, 0.2, 0.8, 1.0 };
     //float light_ambient[] = { 0.0, 0.0, 0.0, 1.0 };
     float light_pos[]     = { 0.0, -10.0, 0.0, 0.0 };
 

@@ -31,12 +31,12 @@ void InitScene( void )
 	////// シーンデータの初期化
 	simdata.clip_far = 300.0;
 	simdata.clip_near = 0.1;
-	simdata.air_color[0] = 1.0;
-	simdata.air_color[1] = 1.0;
+	simdata.air_color[0] = 0.4;
+	simdata.air_color[1] = 0.4;
 	simdata.air_color[2] = 1.0;
-	simdata.air_color[3] = 0.5; // fog density factor
-	simdata.sky_color[0] = 0.2;
-	simdata.sky_color[1] = 0.3;
+	simdata.air_color[3] = 0.7; // fog density factor
+	simdata.sky_color[0] = 0.3;
+	simdata.sky_color[1] = 0.4;
 	simdata.sky_color[2] = 0.8;
 	simdata.sky_color[3] = 0.5; // sky color factor
 	//////
@@ -557,15 +557,9 @@ void Cruising (int i)
 
 
   //----- 水槽の端まで行ったら反転 ------
-  if (fish[i].pos.x > AQUARIUM_MAX || fish[i].pos.x < AQUARIUM_MIN )
-  {
-        fish[i].out = true;
-  }
-  else if (fish[i].pos.y > AQUARIUM_MAX || fish[i].pos.y < AQUARIUM_MIN )
-  {
-        fish[i].out = true;
-  }
-  else if (fish[i].pos.z > AQUARIUM_MAX || fish[i].pos.z < AQUARIUM_MIN )
+  if (fish[i].pos.x > AQUARIUM_MAX || fish[i].pos.x < AQUARIUM_MIN ||
+      fish[i].pos.y > AQUARIUM_MAX || fish[i].pos.y < AQUARIUM_MIN ||
+      fish[i].pos.z > AQUARIUM_MAX || fish[i].pos.z < AQUARIUM_MIN )
   {
         fish[i].out = true;
   }
@@ -582,7 +576,7 @@ void ReturnAquarium (int i)
   center.y = 0;
   center.z = 0;
 
-	float speed_factor = 10;
+	float speed_factor = 1;
 
 	Vector3 move;
 	move.x = (center.x - fish[i].pos.x)/speed_factor;

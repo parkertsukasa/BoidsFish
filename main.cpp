@@ -100,7 +100,7 @@ void display( void )
 	MainLight( GL_LIGHT0, 1.0, 1.0, 1.0 );
 
 	//▼サブライトON: R, G, B
-	SubLight( GL_LIGHT1, 0.2, 0.2, 0.2 );
+	SubLight( GL_LIGHT1, 0.2, 0.2, 0.6 );
 
 	//▽フォグON: R, G, B, 密度, 開始距離, 終了距離	
 	Fog( GL_EXP, 
