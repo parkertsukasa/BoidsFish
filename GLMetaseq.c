@@ -989,18 +989,32 @@ void mqoCallListObject(MQO_OBJECT mqoobj[], int num)
 "C:/data/file.bmp" → "C:/data/"
 "data/file.mqo"    → "data/"
 =========================================================================*/
+#ifdef __APPLE__
+    
+    void mqoGetDirectory(const char *path_file, char *path_dir)
+    {
+        char *pStr;
+        int len;
 
-void mqoGetDirectory(const char *path_file, char *path_dir)
-{
-	char *pStr;
-	int len;
+        pStr = MAX( const_cast<char*>(strrchr(path_file, '\\')), strrchr(path_file, '/'));
+        len = MAX((int)(pStr - path_file) + 1, 0);
+        strncpy(path_dir, path_file, len);
+        path_dir[len] = (char)0;
+    }
+#else
+    
+    void mqoGetDirectory(const char *path_file, char *path_dir)
+    {
+        char *pStr;
+        int len;
+        
+        pStr = MAX(strrchr(path_file, '\\'), strrchr(path_file, '/'));
+        len = MAX((int)(pStr - path_file) + 1, 0);
+        strncpy(path_dir, path_file, len);
+        path_dir[len] = (char)0;
+    }
 
-	pStr = MAX( const_cast<char*>(strrchr(path_file, '\\')), strrchr(path_file, '/'));
-	len = MAX((int)(pStr - path_file) + 1, 0);
-	strncpy(path_dir, path_file, len);
-	path_dir[len] = (char)0;
-}
-
+#endif
 
 /*=========================================================================
 【関数】mqoSnormal
