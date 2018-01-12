@@ -9,7 +9,8 @@ void DrawScene( void );
 #define AQUARIUM_MAX 50
 #define AQUARIUM_MIN -50
 
-#define LENGTH 1000
+#define LENGTH 500
+#define FEEDLENGTH 10
 
 //-------- object data
 typedef struct {
@@ -64,6 +65,8 @@ typedef struct {
   Vector3 forward;
   GLfloat mat[16];
   bool hungry;
+  int feednum;
+  bool out;
 
 }FishDataT;
 
@@ -71,12 +74,17 @@ float RadtoDeg (float f);
 float GetVector2Length ( float x, float y );
 float GetInnerProduct (float x1, float y1, float x2, float y2);
 float GetVector2Angle (float x1, float y1, float x2, float y2);
-void FeedControl();
+
+void FeedControl(int j);
+void GiveFeed (float x, float y);
+
 void Cruising(int i);
 Vector3 Cohesion(int i);
 Vector3 Separation(int i);
 Vector3 Alignment(int i);
 Vector3 EatFeed(int i);
+
+void ReturnAquarium(int i);
 
 void SetPosition (int i);
 

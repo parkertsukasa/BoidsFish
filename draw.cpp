@@ -14,7 +14,7 @@ extern WindowDataT window;
 extern SimDataT simdata;
 
 extern FishDataT fish[];
-extern FeedDataT feed;
+extern FeedDataT feed[];
 
 //------- prototypes for user functions
 
@@ -111,12 +111,15 @@ void drawFishModel()
 /*---------------------------------------------------------------- drawFeed
  * drawFeed:
  *--------*/
-void drawFeed ()
+void drawFeed (int j)
 {
-  glPushMatrix();
-    glTranslatef(feed.pos.x, feed.pos.y, feed.pos.z);
-    drawSolidCube ();
-  glPopMatrix();
+  if (feed[j].alive)
+  {
+    glPushMatrix();
+     glTranslatef(feed[j].pos.x, feed[j].pos.y, feed[j].pos.z);
+     drawSolidCube ();
+    glPopMatrix();
+  }
 }
 
 
@@ -160,12 +163,16 @@ void DrawScene( void )
 		
 
 		drawAquarium ();
-    drawFeed ();
 
 		for (int i = 0; i < LENGTH; i++)
 		{
 			drawFish(i);
 		}
+
+    for (int j = 0; j < FEEDLENGTH; j++)
+    {
+      drawFeed(j);  
+    }
 
 	glPopMatrix();
 

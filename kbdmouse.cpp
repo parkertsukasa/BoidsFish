@@ -127,11 +127,18 @@ void funcKeyUp( int key, int x, int y )
  *--------*/
 void mouseClick( int button , int state, int x, int y )
 {
+  //----- マウス座標の正規化 -----
+  float mouseX = (float)x/window.width * 2.0 -1.0;
+  float mouseY = (float)y/window.height * 2.0 -1.0;
+
     switch( button ){
       case GLUT_LEFT_BUTTON:
         switch( state ){
           case GLUT_DOWN: // press
-        
+
+            if(!cam.up)
+              GiveFeed (mouseX, mouseY);
+
             break;
           case GLUT_UP: // release
 

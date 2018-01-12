@@ -13,12 +13,12 @@
 SimDataT simdata;
 CamDataT cam;
 FishDataT fish[LENGTH];
-FeedDataT feed;
+FeedDataT feed[FEEDLENGTH];
 
 extern int time;
 
 bool set;
-
+int nowfeed;
 
 /*---------------------------------------------------------------- InitScene
  * InitScene:
@@ -49,22 +49,12 @@ void InitScene( void )
   cam.rot.z = 0.0;
   cam.up = false;  
 
-   
-	feed.pos.x = Random(-40, 40);
-	feed.pos.y = 40;
-	feed.pos.z = Random(-40, 40);
-  feed.rot.x = 0.0;
-  feed.rot.y = 0.0;
-  feed.rot.z = 0.0;
-  feed.amount = 50;
-  feed.alive = true;
-
 
 	for (int i = 0; i < LENGTH; i++)
 	{
-		fish[i].pos.x = Random(AQUARIUM_MIN, AQUARIUM_MAX);
-		fish[i].pos.y = Random(AQUARIUM_MIN, AQUARIUM_MAX);
-		fish[i].pos.z = Random(AQUARIUM_MIN, AQUARIUM_MAX);
+		fish[i].pos.x = Random(AQUARIUM_MIN + 20, AQUARIUM_MAX - 20);
+		fish[i].pos.y = Random(AQUARIUM_MIN + 20, AQUARIUM_MAX - 20);
+		fish[i].pos.z = Random(AQUARIUM_MIN + 20, AQUARIUM_MAX - 20);
 
 		fish[i].rot.x = 0.0;
 		fish[i].rot.y = 0.0;
@@ -80,9 +70,26 @@ void InitScene( void )
 
     fish[i].hungry = false;
 
+    fish[i].feednum = 0;
+
+    fish[i].out = false;
+  }
+
+  for (int j = 0; j < FEEDLENGTH; j++)
+  {      
+	  feed[j].pos.x = 0;
+	  feed[j].pos.y = 40;
+	  feed[j].pos.z = 0;
+    feed[j].rot.x = 0.0;
+    feed[j].rot.y = 0.0;
+    feed[j].rot.z = 0.0;
+    feed[j].amount = 50;
+    feed[j].alive = false;
   }
 
   set = false;
+
+  nowfeed = 0;
 
     return;
 }
@@ -93,15 +100,26 @@ void UpdateScene( void )
 {
 	//////// データ更新 ////////
 
-  FeedControl ();
-
 	for(int i = 0; i < LENGTH; i++)
 	{
     if(set)
-      SetPosition(i);
+    {
+      SetPosition(i);//整列
+    }
     else
-		  Cruising (i);
+    {
+      if(fish[i].out)
+       ReturnAquarium(i); //水槽の外にいたら戻ろうとする
+      else
+		    Cruising (i);//通常の巡行
+    }
 	}
+
+
+	for(int j = 0; j < FEEDLENGTH; j++)
+  {
+    FeedControl (j);
+  }
 
 	////////
     return;
@@ -179,22 +197,39 @@ float GetVector2Angle (float x1, float y1, float x2, float y2)
  * 餌を管理する関数群
  */
 
+/*------------------------------------------------------------- GiveFeed
+ * GiveFeed : 餌を増やす　kbdmouse.cppから呼び出す
+ */
+void GiveFeed (float x, float y)
+{
+    feed[nowfeed].pos.x = x * 50;
+    feed[nowfeed].pos.y = 50;
+    feed[nowfeed].pos.z = y * 50;
+
+    feed[nowfeed].alive = true;
+
+    if (nowfeed == FEEDLENGTH -1)
+    {
+      nowfeed = 0;
+    }
+    else
+    {
+      nowfeed += 1;
+    }
+}
 
 /*-------------------------------------------------------------- FeedControl
  * FeedControl : 餌の管理　自由落下や餌の残量
  *--------*/
-void FeedControl ()
+void FeedControl (int j)
 {
-    if(feed.pos.y >= AQUARIUM_MIN)
+    if(feed[j].pos.y >= -30)
     {
-      feed.pos.y -= 0.1;
+      feed[j].pos.y -= 0.1;
     }
     else
     {
-      feed.pos.x = Random(-40,40);
-      feed.pos.y = 35;
-      feed.pos.z = Random(-40,40);
-      //feed.alive = false;
+      feed[j].alive = false;
     }
 }
 
@@ -215,34 +250,51 @@ Vector3 Cohesion(int i)
 	ave.y = 0;
 	ave.z = 0;
 
-	//----- 自分以外の固体の中心を求める -----
+  int flock = 0;
+	//----- 周囲の固体の中心を求める -----
 	for(int j = 0; j < LENGTH; j++)
 	{
 		if(i != j)
 		{
-			ave.x += fish[j].pos.x;
-			ave.y += fish[j].pos.y;
-			ave.z += fish[j].pos.z;
+      //--- 各個体との距離を計算し一定距離より遠い個体は除外する ---
+      Vector3 dist_other;
+      dist_other.x = fish[i].pos.x - fish[j].pos.x;
+      dist_other.y = fish[i].pos.y - fish[j].pos.y;
+      dist_other.z = fish[i].pos.z - fish[j].pos.z;
+      float dist = GetVector3Length (dist_other.x, dist_other.y, dist_other.z);
+
+      float range = (float)AQUARIUM_MAX * 0.8;//水槽の大きさの4割
+
+      if(fish[i].hungry)//餌に近い場合は餌を優先
+        range *= 0.5;
+
+      if(dist < range && !fish[j].out)
+      {
+			  ave.x += fish[j].pos.x;
+			  ave.y += fish[j].pos.y;
+		  	ave.z += fish[j].pos.z;
+        flock += 1;
+      }
 		}
 	}
-	ave.x /= LENGTH-1;
-	ave.y /= LENGTH-1;
-	ave.z /= LENGTH-1;
+	ave.x /= flock;
+	ave.y /= flock;
+	ave.z /= flock;
 
 
   //----- 自分と餌との距離を求める -----
   Vector3 dist_to_feed;
-  dist_to_feed.x = feed.pos.x - fish[i].pos.x;
-  dist_to_feed.y = feed.pos.y - fish[i].pos.y;
-  dist_to_feed.z = feed.pos.z - fish[i].pos.z;
+  dist_to_feed.x = feed[fish[i].feednum].pos.x - fish[i].pos.x;
+  dist_to_feed.y = feed[fish[i].feednum].pos.y - fish[i].pos.y;
+  dist_to_feed.z = feed[fish[i].feednum].pos.z - fish[i].pos.z;
   float length_to_feed = GetVector3Length(dist_to_feed.x, dist_to_feed.y, dist_to_feed.z);
 
 
   //----- 群の中心と餌との距離を求める -----
   Vector3 dist_ave_to_feed;
-  dist_ave_to_feed.x = feed.pos.x - ave.x;
-  dist_ave_to_feed.y = feed.pos.y - ave.y;
-  dist_ave_to_feed.z = feed.pos.z - ave.z;
+  dist_ave_to_feed.x = feed[fish[i].feednum].pos.x - ave.x;
+  dist_ave_to_feed.y = feed[fish[i].feednum].pos.y - ave.y;
+  dist_ave_to_feed.z = feed[fish[i].feednum].pos.z - ave.z;
   float length_ave_to_feed = GetVector3Length(dist_ave_to_feed.x, dist_ave_to_feed.y, dist_ave_to_feed.z);
 
   if(length_ave_to_feed > length_to_feed)
@@ -310,20 +362,37 @@ Vector3 Alignment (int i)
 	ave.y = 0;
 	ave.z = 0;
 
-		//----- 自分以外の固体の速度の平均を求める -----
+  int flock = 0;//自分の周囲の個体の数
+		//----- 自分以外の固体の移動量の平均を求める -----
 	for(int j = 0; j < LENGTH; j++)
 	{
 		if(i != j)
 		{
-			ave.x += fish[j].move.x;
-			ave.y += fish[j].move.y;
-			ave.z += fish[j].move.z;
+      //--- 各個体との距離を計算し一定距離より遠い個体は除外する ---
+      Vector3 dist_other;
+      dist_other.x = fish[i].pos.x - fish[j].pos.x;
+      dist_other.y = fish[i].pos.y - fish[j].pos.y;
+      dist_other.z = fish[i].pos.z - fish[j].pos.z;
+      float dist = GetVector3Length (dist_other.x, dist_other.y, dist_other.z);
+
+      float range = (float)AQUARIUM_MAX * 1.2;//水槽の大きさの6割
+
+      if(fish[i].hungry)//餌に近い場合は餌を優先
+        range *= 0.5;
+
+      if(dist < range && !fish[j].out)
+      {
+			  ave.x += fish[j].move.x;
+			  ave.y += fish[j].move.y;
+			  ave.z += fish[j].move.z;
+        flock += 1;
+      }
 		}
 	}
 
-	ave.x /= LENGTH - 1;
-	ave.y /= LENGTH - 1;
-	ave.z /= LENGTH - 1;
+	ave.x /= flock;
+	ave.y /= flock;
+	ave.z /= flock;
 
 	//----- 自分の移動量との差を加える -----
 	float speed_factor = 1.0;
@@ -375,15 +444,40 @@ void SetPosition (int i)
  *--------*/
 Vector3 EatFeed (int i)
 {
+  //----- 一番近い餌を探す -----
+  float nearfeed = 100000;
+  for (int j = 0; j < FEEDLENGTH; j++)
+  {
+    if(feed[j].alive)
+    {
+      Vector3 diff;
+      diff.x = feed[j].pos.x - fish[i].pos.x;
+      diff.y = feed[j].pos.y - fish[i].pos.y;
+      diff.z = feed[j].pos.z - fish[i].pos.z;
+      //餌との距離を求める
+      float dist = GetVector3Length(diff.x, diff.y, diff.z);
+      if (nearfeed > dist)
+      {
+        nearfeed = dist;
+        fish[i].feednum = j;
+      }
+    }
+  }
+
+  if (nearfeed == 100000)
+    fish[i].feednum = -1;
+
+
+
 	//----- 餌の方向へ移動する -----
 	float speed_factor = 300;
 
 	Vector3 move;
-  if (feed.alive)
+  if (feed[fish[i].feednum].alive && fish[i].feednum >= 0)
   {
-	  move.x = (feed.pos.x - fish[i].pos.x)/speed_factor;
-	  move.y = (feed.pos.y - fish[i].pos.y)/speed_factor;
-	  move.z = (feed.pos.z - fish[i].pos.z)/speed_factor;
+	  move.x = (feed[fish[i].feednum].pos.x - fish[i].pos.x)/speed_factor;
+	  move.y = (feed[fish[i].feednum].pos.y - fish[i].pos.y)/speed_factor;
+	  move.z = (feed[fish[i].feednum].pos.z - fish[i].pos.z)/speed_factor;
   }
   else
   {
@@ -417,7 +511,7 @@ void Cruising (int i)
   else
   {
     factor_cohe = 0.6;
-    factor_sepa = 0.7;
+    factor_sepa = 0.5;
     factor_alig = 0.95;
     factor_eat_ = 3.0;
   }
@@ -465,18 +559,64 @@ void Cruising (int i)
   //----- 水槽の端まで行ったら反転 ------
   if (fish[i].pos.x > AQUARIUM_MAX || fish[i].pos.x < AQUARIUM_MIN )
   {
-        fish[i].move.x *= -1;
+        fish[i].out = true;
   }
-  if (fish[i].pos.y > AQUARIUM_MAX || fish[i].pos.y < AQUARIUM_MIN )
+  else if (fish[i].pos.y > AQUARIUM_MAX || fish[i].pos.y < AQUARIUM_MIN )
   {
-        fish[i].move.y *= -1;
+        fish[i].out = true;
   }
-  if (fish[i].pos.z > AQUARIUM_MAX || fish[i].pos.z < AQUARIUM_MIN )
+  else if (fish[i].pos.z > AQUARIUM_MAX || fish[i].pos.z < AQUARIUM_MIN )
   {
-        fish[i].move.z *= -1;
+        fish[i].out = true;
   }
-
 }
 
+
+/*-------------------------------------------------------------- ReturnAquarium
+ * ReturnAquarium : 水槽へ戻る 水槽の外へ出てしまった時に水槽の中心へ向けて移動
+ *--------*/
+void ReturnAquarium (int i)
+{
+  Vector3 center;
+  center.x = 0;
+  center.y = 0;
+  center.z = 0;
+
+	float speed_factor = 10;
+
+	Vector3 move;
+	move.x = (center.x - fish[i].pos.x)/speed_factor;
+	move.y = (center.y - fish[i].pos.y)/speed_factor;
+	move.z = (center.z - fish[i].pos.z)/speed_factor;
+
+  //----- 速度が早すぎた場合、正規化を行う -----
+  float velocity_max = 10.0;
+  float velocity = sqrtf((move.x * move.x) + (move.y * move.y) + (move.z * move.z));
+  if (velocity > velocity_max)
+  {
+    move.x = (move.x / velocity) * velocity_max;    
+    move.y = (move.y / velocity) * velocity_max;    
+    move.z = (move.z / velocity) * velocity_max;    
+  }
+  //----- 移動量を位置に与える -----
+	fish[i].pos.x += move.x;
+	fish[i].pos.y += move.y;
+	fish[i].pos.z += move.z;
+  
+  //----- 移動方向を向く ------
+  //----- pitch -----
+  fish[i].rot.x = RadtoDeg( atan2f (move.y, GetVector2Length (move.x, move.z)));
+
+  //----- yaw -----
+  fish[i].rot.y = RadtoDeg ( atan2f (-move.x, -move.z));
+
+  //----- 水槽に戻ったら終了 ------
+  if (fish[i].pos.x < AQUARIUM_MAX && fish[i].pos.x > AQUARIUM_MIN &&
+      fish[i].pos.y < AQUARIUM_MAX && fish[i].pos.y > AQUARIUM_MIN &&
+      fish[i].pos.z < AQUARIUM_MAX && fish[i].pos.z > AQUARIUM_MIN )
+  {
+      fish[i].out = false;
+  }
+}
 
 //end of file
