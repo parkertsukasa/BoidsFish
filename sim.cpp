@@ -12,6 +12,7 @@
 
 SimDataT simdata;
 CamDataT cam;
+CamObj camobj;
 FishDataT fish[LENGTH];
 FeedDataT feed[FEEDLENGTH];
 
@@ -30,11 +31,11 @@ void InitScene( void )
 
 	////// シーンデータの初期化
 	simdata.clip_far = 300.0;
-	simdata.clip_near = 0.1;
-	simdata.air_color[0] = 0.4;
-	simdata.air_color[1] = 0.4;
+	simdata.clip_near = 0.01;
+	simdata.air_color[0] = 0.3;
+	simdata.air_color[1] = 0.3;
 	simdata.air_color[2] = 1.0;
-	simdata.air_color[3] = 0.7; // fog density factor
+	simdata.air_color[3] = 0.8; // fog density factor
 	simdata.sky_color[0] = 0.3;
 	simdata.sky_color[1] = 0.4;
 	simdata.sky_color[2] = 0.8;
@@ -47,8 +48,17 @@ void InitScene( void )
   cam.rot.x = 0.0;
   cam.rot.y = 0.0;
   cam.rot.z = 0.0;
-  cam.up = false;  
+  cam.up = 0;  
 
+  camobj.radius = 150;
+  camobj.speed = 0.005;
+  camobj.pos.x = 0.0;
+  camobj.pos.y = 50.0;
+  camobj.pos.z = -camobj.radius;
+  camobj.center.x = 0.0;
+  camobj.center.y = 0.0;
+  camobj.center.z = 0.0;
+  camobj.thete = 0.0;
 
 	for (int i = 0; i < LENGTH; i++)
 	{
@@ -100,6 +110,8 @@ void UpdateScene( void )
 {
 	//////// データ更新 ////////
 
+  CameraRotate();
+
 	for(int i = 0; i < LENGTH; i++)
 	{
     if(set)
@@ -129,7 +141,6 @@ void UpdateScene( void )
 /*--------------------------------------------------------------------------------------------
  * 数学的便利関数群
  */
-
 
 
 /*-------------------------------------------------------------- RadtoDeg
@@ -191,6 +202,24 @@ float GetVector2Angle (float x1, float y1, float x2, float y2)
 
     return angle;
 }
+
+
+/*--------------------------------------------------------------------------------------------
+ * カメラを管理する関数群
+ */
+
+
+/*-------------------------------------------------------------- CameraRotate
+ * 水槽の周囲にカメラを回転させる
+ */
+void CameraRotate ()
+{
+  camobj.thete += camobj.speed;
+  camobj.pos.x = camobj.radius * cosf(camobj.thete);
+  camobj.pos.z = camobj.radius * sinf(camobj.thete);
+}
+
+
 
 
 /*--------------------------------------------------------------------------------------------
@@ -527,7 +556,7 @@ void Cruising (int i)
 	fish[i].move.z = move_cohe.z * factor_cohe + move_sepa.z * factor_sepa + move_alig.z * factor_alig + factor_eat_ * move_eat_.z; 
 
   //----- 速度が早すぎた場合、正規化を行う -----
-  float velocity_max = 10.0;
+  float velocity_max = 3.0;
   float velocity = sqrtf((fish[i].move.x * fish[i].move.x) + (fish[i].move.y * fish[i].move.y) + (fish[i].move.z * fish[i].move.z));
   if (velocity > velocity_max)
   {
@@ -584,7 +613,7 @@ void ReturnAquarium (int i)
 	move.z = (center.z - fish[i].pos.z)/speed_factor;
 
   //----- 速度が早すぎた場合、正規化を行う -----
-  float velocity_max = 10.0;
+  float velocity_max = 5.0;
   float velocity = sqrtf((move.x * move.x) + (move.y * move.y) + (move.z * move.z));
   if (velocity > velocity_max)
   {

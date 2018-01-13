@@ -49,7 +49,11 @@ void charKeyDown( unsigned char key, int x, int y )
         break;
 
       case 'c': // camera position change
-        cam.up = !cam.up;
+        if(cam.up < 2)
+          cam.up += 1;
+        else
+          cam.up = 0;
+
         break;
 
       case 's': // Fish position Alignment
@@ -136,7 +140,7 @@ void mouseClick( int button , int state, int x, int y )
         switch( state ){
           case GLUT_DOWN: // press
 
-            if(!cam.up)
+            if(cam.up == 0)
               GiveFeed (mouseX, mouseY);
 
             break;

@@ -1,4 +1,4 @@
-﻿#include <stdlib.h>
+#include <stdlib.h>
 #include <stdio.h>
 
 #include "platform.h"
@@ -12,6 +12,8 @@
 
 extern WindowDataT window;
 extern SimDataT simdata;
+
+extern CamObj camobj;
 
 extern FishDataT fish[];
 extern FeedDataT feed[];
@@ -79,6 +81,7 @@ void drawSolidCone()
 {
 		glPushMatrix();
 	{
+    setMaterialColor(1.0, 1.0, 1.0);
 		glTranslatef( 0.0, 0.0, 0.0 );    //オブジェクト基準位置調整
 		glRotatef( 0.0, 0.0, 1.0, 0.0 );  //オブジェクト基準姿勢調整：ヨー角
 		glRotatef( 0.0, 1.0, 0.0, 0.0 ); //オブジェクト基準姿勢調整：ピッチ角
@@ -89,6 +92,7 @@ void drawSolidCone()
     return;
 }
 
+
 /*--------------------------------------------------------- drawFishModel
  * drawFishModel:
  *--------*/
@@ -96,6 +100,7 @@ void drawFishModel()
 {
 		glPushMatrix();
 	{
+    setMaterialColor(1.0, 1.0, 1.0);
 		glTranslatef( 0.0, 0.0, 0.0 );    //オブジェクト基準位置調整
 		glRotatef( 0.0, 0.0, 1.0, 0.0 );  //オブジェクト基準姿勢調整：ヨー角
 		glRotatef( 0.0, 1.0, 0.0, 0.0 ); //オブジェクト基準姿勢調整：ピッチ角
@@ -116,8 +121,9 @@ void drawFeed (int j)
   if (feed[j].alive)
   {
     glPushMatrix();
-     glTranslatef(feed[j].pos.x, feed[j].pos.y, feed[j].pos.z);
-     drawSolidCube ();
+      setMaterialColor(0.0, 0.0, 0.0);
+      glTranslatef(feed[j].pos.x, feed[j].pos.y, feed[j].pos.z);
+      drawSolidCube ();
     glPopMatrix();
   }
 }
@@ -160,7 +166,6 @@ void DrawScene( void )
 {		
 
 	glPushMatrix();
-		
 
 		drawAquarium ();
 

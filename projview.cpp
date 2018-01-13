@@ -9,6 +9,7 @@
 
 extern SimDataT simdata;
 extern CamDataT cam;
+extern CamObj camobj;
 extern WindowDataT window;
 
 /*---------------------------------------------------------------- Viewing
@@ -16,16 +17,27 @@ extern WindowDataT window;
  *--------*/
 void Viewing( void )
 {
-  if(cam.up)
+  if(cam.up == 2)
   {
+      cam.pos.x = camobj.pos.x;
+      cam.pos.y = camobj.pos.y;
+      cam.pos.z = camobj.pos.z;
+      cam.rot.x = 0.0;
+      cam.rot.y = 0.0;
+      cam.rot.z = 0.0;
+      gluLookAt( cam.pos.x,  cam.pos.y,  cam.pos.z, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0 );
+  }
+  else if(cam.up == 1)
+  {      
       cam.pos.x = 0.0;
       cam.pos.y = 0.0;
       cam.pos.z = 175.0;
       cam.rot.x = 0.0;
       cam.rot.y = 0.0;
       cam.rot.z = 0.0;
+      gluLookAt( cam.pos.x,  cam.pos.y,  cam.pos.z, cam.rot.x, cam.rot.y, cam.rot.z, 0.0, 1.0, 0.0 );
   }
-  else
+  else 
   {      
       cam.pos.x = 0.0;
       cam.pos.y = 175.0;
@@ -33,9 +45,8 @@ void Viewing( void )
       cam.rot.x = 0.0;
       cam.rot.y = 0.0;
       cam.rot.z = 0.0;
+      gluLookAt( cam.pos.x,  cam.pos.y,  cam.pos.z, cam.rot.x, cam.rot.y, cam.rot.z, 0.0, 1.0, 0.0 );
   }
-
-    gluLookAt( cam.pos.x,  cam.pos.y,  cam.pos.z, cam.rot.x, cam.rot.y, cam.rot.z, 0.0, 1.0, 0.0 );
 }
 /*---------------------------------------------------------------- Projection
  * Projection:

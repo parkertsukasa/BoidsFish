@@ -142,7 +142,7 @@ void initWindow( char *winname )
 	window.xo = 100;
 	window.yo = 100;
 	window.width = 800;
-	window.height = 600;
+	window.height = 800;
 	////////////////
 
 	window.aspect = (float)window.width/window.height; // aspect ratio
