@@ -148,7 +148,7 @@ void drawFish (int i)
     glGetFloatv( GL_MODELVIEW_MATRIX, fish[i].mat);//変換マトリクスの取得
 	  drawSolidCone();
     //drawFishModel();
-    //DrawKumanomi(i);
+    DrawKumanomi(i);
 	}
 	glPopMatrix();
 }
