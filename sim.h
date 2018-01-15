@@ -28,6 +28,14 @@ typedef struct {
 
 } Vector3;
 
+typedef struct {
+
+	float r;
+	float g;
+	float b;
+  float a;
+
+} Color;
 //-------- simulation data
 typedef struct {
 
@@ -71,6 +79,7 @@ typedef struct {
 	Vector3 rot;
 	Vector3 move;
   Vector3 forward;
+  Color color;
   GLfloat mat[16];
   bool hungry;
   int feednum;
@@ -98,3 +107,6 @@ void ReturnAquarium(int i);
 
 void SetPosition (int i);
 
+void ColorChange (int i);
+
+//end of file

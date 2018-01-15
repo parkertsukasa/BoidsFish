@@ -80,21 +80,21 @@ void display( void )
 	glViewport( 0, 0, window.width, window.height );
 
     //-------- clear buffers --------
-    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+  glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
 	//-------- projection transformation --------
-    glMatrixMode( GL_PROJECTION );
-    glLoadIdentity();
+  glMatrixMode( GL_PROJECTION );
+  glLoadIdentity();
 	Projection();
 
 	//-------- viewing transformation --------
-    glMatrixMode( GL_MODELVIEW );
+  glMatrixMode( GL_MODELVIEW );
 	glLoadIdentity();
 
 	//▼ヘッドライトON: R, G, B, 照度半減距離[m]
 	HeadLight( GL_LIGHT2, 0.25, 0.25, 0.25, simdata.clip_far );
 
-    Viewing();
+  Viewing();
 
 	//▼メインライトON: R, G, B
 	MainLight( GL_LIGHT0, 1.0, 1.0, 1.0 );
@@ -112,11 +112,11 @@ void display( void )
 
     //-------- draw --------
 	glEnable( GL_DEPTH_TEST ); // ---- begin: 
-    glEnable( GL_LIGHTING );
+    //glEnable( GL_LIGHTING );
 
     DrawScene();
 
-    glDisable( GL_LIGHTING );
+    //glDisable( GL_LIGHTING );
     glDisable( GL_DEPTH_TEST );
 
 	//-------- swapbuffers --------
@@ -150,10 +150,10 @@ void initWindow( char *winname )
 
 	//-------- window properties
 	glutInitWindowPosition( window.xo, window.yo );
-    glutInitWindowSize( window.width, window.height );
+  glutInitWindowSize( window.width, window.height );
 
     //-------- config buffers
-    glutInitDisplayMode( GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH );
+  glutInitDisplayMode( GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH );
 
 	//-------- open window
 	glutCreateWindow( window.title );
@@ -164,33 +164,34 @@ void initWindow( char *winname )
 
     return;
 }
+
 /*---------------------------------------------------------------------- main
  * main
  *--------*/
 int main( int argc, char *argv[] )
 {
-    glutInit( &argc, argv );
+  glutInit( &argc, argv );
 
-    initWindow( argv[0] );
+  initWindow( argv[0] );
 
 	//-------- basic callbacks
-    glutDisplayFunc( display );  // display callback function
-    glutIdleFunc( update );    // idle callback function
-	glutReshapeFunc( reshape ); // reshape callback function
+  glutDisplayFunc( display );  // display callback function
+  glutIdleFunc( update );    // idle callback function
+  glutReshapeFunc( reshape ); // reshape callback function
 
 	//-------- keyboard callbacks
-    glutKeyboardFunc( charKeyDown ); // character key down callback
+  glutKeyboardFunc( charKeyDown ); // character key down callback
 	glutKeyboardUpFunc( charKeyUp ); // character key up callback
 	glutSpecialFunc( funcKeyDown ); // function key down callback
 	glutSpecialUpFunc( funcKeyUp ); // function key up callback
 	glutIgnoreKeyRepeat( 1 );   // disable key-repeat
 
 	//-------- mouse callbacks
-    glutMouseFunc( mouseClick );       // mouse click callback
+  glutMouseFunc( mouseClick );       // mouse click callback
 	glutPassiveMotionFunc( mouseMotion ); // passive motion callback
 	glutMotionFunc( mouseDrag ); // mouse drag callback	
 	
-    printf( "[H]:Help\n" );     // indicate help instruction
+    printf( "[H]:Help\n[S]:Alignment\n[C]:CameraPositionChange\n" );     // indicate help instruction
 
     InitScene();
 

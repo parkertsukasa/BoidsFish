@@ -32,14 +32,14 @@ void InitScene( void )
 	////// シーンデータの初期化
 	simdata.clip_far = 300.0;
 	simdata.clip_near = 0.01;
-	simdata.air_color[0] = 0.3;
-	simdata.air_color[1] = 0.3;
-	simdata.air_color[2] = 1.0;
-	simdata.air_color[3] = 0.8; // fog density factor
-	simdata.sky_color[0] = 0.3;
-	simdata.sky_color[1] = 0.4;
-	simdata.sky_color[2] = 0.8;
-	simdata.sky_color[3] = 0.5; // sky color factor
+  simdata.air_color[0] = 0.0;
+	simdata.air_color[1] = 0.0;
+	simdata.air_color[2] = 0.0;
+	simdata.air_color[3] = 0.0; // fog density factor
+	simdata.sky_color[0] = 0.0;
+	simdata.sky_color[1] = 0.0;
+	simdata.sky_color[2] = 0.0;
+	simdata.sky_color[3] = 0.0; // sky color factor
 	//////
 
   cam.pos.x = 0.0;
@@ -69,6 +69,12 @@ void InitScene( void )
 		fish[i].rot.x = 0.0;
 		fish[i].rot.y = 0.0;
 		fish[i].rot.z = 0.0;
+
+    fish[i].color.r = 0.0;
+    fish[i].color.g = 0.0;
+    fish[i].color.b = 0.0;
+    fish[i].color.a = 0.0;
+    
 
 		fish[i].move.x = Random(-2,2);
 		fish[i].move.y = Random(-2,2);
@@ -125,6 +131,9 @@ void UpdateScene( void )
       else
 		    Cruising (i);//通常の巡行
     }
+
+    ColorChange(i);
+
 	}
 
 
@@ -639,6 +648,39 @@ void ReturnAquarium (int i)
       fish[i].pos.z < AQUARIUM_MAX && fish[i].pos.z > AQUARIUM_MIN )
   {
       fish[i].out = false;
+  }
+}
+
+
+
+
+/*--------------------------------------------------------------------------------------------
+ * 色にまつわる関数群
+ */
+void ColorChange (int i)
+{
+  //水槽の上層にいるかどうか
+  bool upside;
+  if(fish[i].pos.y > 0)
+    upside = true;
+  else 
+    upside = false;
+
+  if(upside)
+  {
+    float ratio = fish[i].pos.y / AQUARIUM_MAX;
+    fish[i].color.r = ratio;
+    fish[i].color.g = 1 - ratio;
+    fish[i].color.b = 0;
+    fish[i].color.a = 1;
+  }
+  else
+  {
+    float ratio = fish[i].pos.y / AQUARIUM_MIN;
+    fish[i].color.r = 0;
+    fish[i].color.g = 1 - ratio;
+    fish[i].color.b = ratio;
+    fish[i].color.a = 1;
   }
 }
 
