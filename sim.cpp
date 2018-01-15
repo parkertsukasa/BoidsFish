@@ -613,7 +613,7 @@ void ReturnAquarium (int i)
 	move.z = (center.z - fish[i].pos.z)/speed_factor;
 
   //----- 速度が早すぎた場合、正規化を行う -----
-  float velocity_max = 5.0;
+  float velocity_max = 10.0;
   float velocity = sqrtf((move.x * move.x) + (move.y * move.y) + (move.z * move.z));
   if (velocity > velocity_max)
   {
