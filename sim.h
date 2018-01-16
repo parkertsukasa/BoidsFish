@@ -9,7 +9,7 @@ void DrawScene( void );
 #define AQUARIUM_MAX 50
 #define AQUARIUM_MIN -50
 
-#define LENGTH 300
+#define LENGTH 500
 #define FEEDLENGTH 10
 
 //-------- object data
@@ -51,6 +51,12 @@ typedef struct {
 } CamDataT;
 
 typedef struct {
+
+	float x;
+	float y;
+} MouseDataT;
+
+typedef struct {
     float speed;
     float radius;
     float thete;
@@ -84,6 +90,7 @@ float GetInnerProduct (float x1, float y1, float x2, float y2);
 float GetVector2Angle (float x1, float y1, float x2, float y2);
 
 void CameraRotate();
+void MouseObj();
 
 void FeedControl(int j);
 void GiveFeed (float x, float y);

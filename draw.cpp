@@ -14,6 +14,7 @@ extern WindowDataT window;
 extern SimDataT simdata;
 
 extern CamObj camobj;
+extern MouseDataT mouse;
 
 extern FishDataT fish[];
 extern FeedDataT feed[];
@@ -69,6 +70,7 @@ void drawSolidCube( void )
 {
 	glPushMatrix();
 	{
+    setMaterialColor(0.9, 0.8, 0.1);
 		glTranslatef( 0.0, 0.0, 0.0 );   //オブジェクト基準位置調整
 		glRotatef( 0.0, 0.0, 1.0, 0.0 ); //オブジェクト基準姿勢調整：ヨー角
 		glRotatef( 0.0, 1.0, 0.0, 0.0 ); //オブジェクト基準姿勢調整：ピッチ角
@@ -107,7 +109,7 @@ void drawSolidCone()
 		glRotatef( 0.0, 0.0, 1.0, 0.0 );  //オブジェクト基準姿勢調整：ヨー角
 		glRotatef( 0.0, 1.0, 0.0, 0.0 ); //オブジェクト基準姿勢調整：ピッチ角
 		glRotatef( 0.0, 0.0, 0.0, 1.0 );  //オブジェクト基準姿勢調整：ロール角
-		glutSolidCone( 1.0, 5.0, 10.0, 5.0 );   //半径，高さ, 円の分割, 高さの分割
+		glutSolidCone( 0.7, 5.0, 10.0, 5.0 );   //半径，高さ, 円の分割, 高さの分割
 	}
 	glPopMatrix();
     return;
@@ -132,6 +134,17 @@ void drawFishModel()
     return;
 }
 
+/*---------------------------------------------------------------- drawMouseObj
+ * drawMouseObj:
+ *--------*/
+void drawMouseObj()
+{
+  glPushMatrix();
+    setMaterialColor(1.0, 1.0, 1.0);
+    glTranslatef(mouse.x, AQUARIUM_MAX, mouse.y);
+    drawSolidSphere();
+  glPopMatrix();
+}
 
 
 /*---------------------------------------------------------------- drawFeed
@@ -142,7 +155,6 @@ void drawFeed (int j)
   if (feed[j].alive)
   {
     glPushMatrix();
-      setMaterialColor(0.0, 0.0, 0.0);
       glTranslatef(feed[j].pos.x, feed[j].pos.y, feed[j].pos.z);
       drawSolidCube ();
     glPopMatrix();
@@ -189,6 +201,7 @@ void DrawScene( void )
 	glPushMatrix();
 
 		drawAquarium ();
+    drawMouseObj ();
 
 		for (int i = 0; i < LENGTH; i++)
 		{

@@ -12,6 +12,7 @@
 
 extern SimDataT simdata;
 extern CamDataT cam;
+extern MouseDataT mouse;
 extern WindowDataT window;
 
 extern bool set;
@@ -197,8 +198,13 @@ void mouseDrag( int x, int y )
 void mouseMotion( int x, int y )
 {
 	////////
-
+ //----- マウス座標の正規化 -----
+  float mouseX = (float)x/window.width * 2.0 -1.0;
+  float mouseY = (float)y/window.height * 2.0 -1.0;
+  mouse.x = mouseX;
+  mouse.y = mouseY;
 
 	////////
     return;
 }
+//end of file
