@@ -13,6 +13,7 @@
 extern SimDataT simdata;
 extern CamDataT cam;
 extern WindowDataT window;
+extern MouseDataT mouse;
 
 extern bool set;
 
@@ -135,6 +136,8 @@ void mouseClick( int button , int state, int x, int y )
   float mouseX = (float)x/window.width * 2.0 -1.0;
   float mouseY = (float)y/window.height * 2.0 -1.0;
 
+
+
     switch( button ){
       case GLUT_LEFT_BUTTON:
         switch( state ){
@@ -198,6 +201,11 @@ void mouseMotion( int x, int y )
 {
 	////////
 
+  //----- マウス座標の正規化 -----
+  float mouseX = (float)x/window.width * 2.0 -1.0;
+  float mouseY = (float)y/window.height * 2.0 -1.0;
+  mouse.x = mouseX;
+  mouse.y = mouseY;
 
 	////////
     return;

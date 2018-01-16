@@ -15,6 +15,7 @@ CamDataT cam;
 CamObj camobj;
 FishDataT fish[LENGTH];
 FeedDataT feed[FEEDLENGTH];
+MouseDataT mouse;
 
 extern int time;
 
@@ -26,6 +27,8 @@ int nowfeed;
  *--------*/
 void InitScene( void )
 {
+
+  glutSetCursor(GLUT_CURSOR_NONE);//マウスの非表示
 
 //  CreateMyModels ();
 
@@ -59,6 +62,9 @@ void InitScene( void )
   camobj.center.y = 0.0;
   camobj.center.z = 0.0;
   camobj.thete = 0.0;
+
+  mouse.x = 0;
+  mouse.y = 0;
 
 	for (int i = 0; i < LENGTH; i++)
 	{
@@ -117,6 +123,7 @@ void UpdateScene( void )
 	//////// データ更新 ////////
 
   CameraRotate();
+  MouseObj();
 
 	for(int i = 0; i < LENGTH; i++)
 	{
@@ -235,14 +242,22 @@ void CameraRotate ()
  * 餌を管理する関数群
  */
 
+/*------------------------------------------------------------- MouseObj
+ * MouseObj : マウスの位置のシミュレーション
+ */
+void MouseObj ()
+{
+  mouse.x *= AQUARIUM_MAX;
+  mouse.y *= AQUARIUM_MAX;
+}
 /*------------------------------------------------------------- GiveFeed
  * GiveFeed : 餌を増やす　kbdmouse.cppから呼び出す
  */
 void GiveFeed (float x, float y)
 {
-    feed[nowfeed].pos.x = x * 50;
-    feed[nowfeed].pos.y = 50;
-    feed[nowfeed].pos.z = y * 50;
+    feed[nowfeed].pos.x = x * AQUARIUM_MAX;
+    feed[nowfeed].pos.y = AQUARIUM_MAX;
+    feed[nowfeed].pos.z = y * AQUARIUM_MAX;
 
     feed[nowfeed].alive = true;
 

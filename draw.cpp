@@ -14,6 +14,7 @@ extern WindowDataT window;
 extern SimDataT simdata;
 
 extern CamObj camobj;
+extern MouseDataT mouse;
 
 extern FishDataT fish[];
 extern FeedDataT feed[];
@@ -86,7 +87,7 @@ void drawSolidCone()
 		glRotatef( 0.0, 0.0, 1.0, 0.0 );  //オブジェクト基準姿勢調整：ヨー角
 		glRotatef( 0.0, 1.0, 0.0, 0.0 ); //オブジェクト基準姿勢調整：ピッチ角
 		glRotatef( 0.0, 0.0, 0.0, 1.0 );  //オブジェクト基準姿勢調整：ロール角
-		glutSolidCone( 1.0, 5.0, 10.0, 5.0 );   //半径，高さ, 円の分割, 高さの分割
+		glutSolidCone( 0.5, 5.0, 10.0, 5.0 );   //半径，高さ, 円の分割, 高さの分割
 	}
 	glPopMatrix();
     return;
@@ -112,6 +113,17 @@ void drawFishModel()
 }
 
 
+/*---------------------------------------------------------------- drawMouseObj
+ * drawMouseObj:
+ *--------*/
+void drawMouseObj()
+{
+  glPushMatrix();
+    glColor3f(1.0, 1.0, 1.0);
+    glTranslatef(mouse.x, 0.0, mouse.y);
+    drawSolidSphere();
+  glPopMatrix();
+}
 
 /*---------------------------------------------------------------- drawFeed
  * drawFeed:
@@ -169,6 +181,7 @@ void DrawScene( void )
 	glPushMatrix();
 
 		drawAquarium ();
+    drawMouseObj();
 
 		for (int i = 0; i < LENGTH; i++)
 		{

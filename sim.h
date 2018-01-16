@@ -48,6 +48,12 @@ typedef struct {
 	////////
 } SimDataT;
 
+typedef struct {
+
+	float x;
+	float y;
+} MouseDataT;
+
 //-------- Camera Settings
 typedef struct {
     
@@ -93,6 +99,8 @@ float GetInnerProduct (float x1, float y1, float x2, float y2);
 float GetVector2Angle (float x1, float y1, float x2, float y2);
 
 void CameraRotate();
+
+void MouseObj();
 
 void FeedControl(int j);
 void GiveFeed (float x, float y);
