@@ -30,15 +30,15 @@ void InitScene( void )
 //  CreateMyModels ();
 
 	////// シーンデータの初期化
-	simdata.clip_far = 300.0;
+	simdata.clip_far = 250.0;
 	simdata.clip_near = 0.01;
-	simdata.air_color[0] = 0.3;
+	simdata.air_color[0] = 0.2;
 	simdata.air_color[1] = 0.3;
 	simdata.air_color[2] = 1.0;
 	simdata.air_color[3] = 0.8; // fog density factor
-	simdata.sky_color[0] = 0.3;
-	simdata.sky_color[1] = 0.4;
-	simdata.sky_color[2] = 0.8;
+	simdata.sky_color[0] = 0.1;
+	simdata.sky_color[1] = 0.3;
+	simdata.sky_color[2] = 0.9;
 	simdata.sky_color[3] = 0.5; // sky color factor
 	//////
 

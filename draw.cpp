@@ -21,6 +21,7 @@ extern FeedDataT feed[];
 //------- prototypes for user functions
 
 void setMaterialColor( float r, float g, float b );
+void setEmissiveColor( float r, float g, float b );
 
 /*--------------------------------------------------------- setMaterialColor
  * setMaterialColor:
@@ -38,6 +39,26 @@ void setMaterialColor( float r, float g, float b )
     glMaterialfv( GL_FRONT, GL_DIFFUSE, diffuse );
     glMaterialfv( GL_FRONT, GL_SPECULAR, specular );
     glMaterialf( GL_FRONT, GL_SHININESS, 32.0 );
+
+    return;
+}
+/*--------------------------------------------------------- setEmissiveColor
+ * setEmissiveColor:
+ *--------*/
+void setEmissiveColor( float r, float g, float b )
+{
+    float diffuse[4];
+    float specular[] = { 0.8, 0.8, 0.8, 1.0 };
+
+	diffuse[0] = r;
+	diffuse[1] = g;
+	diffuse[2] = b;
+	diffuse[3] = 1.0;
+
+    glMaterialfv( GL_FRONT, GL_DIFFUSE, diffuse );
+    glMaterialfv( GL_FRONT, GL_SPECULAR, specular );
+    glMaterialf( GL_FRONT, GL_SHININESS, 32.0 );
+    glMaterialfv( GL_FRONT, GL_EMISSION, diffuse );
 
     return;
 }
