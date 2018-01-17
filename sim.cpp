@@ -55,7 +55,7 @@ void InitScene( void )
   camobj.radius = 150;
   camobj.speed = 0.005;
   camobj.pos.x = 0.0;
-  camobj.pos.y = 50.0;
+  camobj.pos.y = 70.0;
   camobj.pos.z = -camobj.radius;
   camobj.center.x = 0.0;
   camobj.center.y = 0.0;

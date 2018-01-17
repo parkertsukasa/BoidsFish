@@ -141,7 +141,6 @@ void mouseClick( int button , int state, int x, int y )
         switch( state ){
           case GLUT_DOWN: // press
 
-            if(cam.up == 0)
               GiveFeed (mouseX, mouseY);
 
             break;
