@@ -36,6 +36,7 @@ void setMaterialColor( float r, float g, float b )
     glMaterialfv( GL_FRONT, GL_DIFFUSE, diffuse );
     glMaterialfv( GL_FRONT, GL_SPECULAR, specular );
     glMaterialf( GL_FRONT, GL_SHININESS, 32.0 );
+    glMaterialfv( GL_FRONT, GL_EMISSION, diffuse );
 
     return;
 }
@@ -141,12 +142,13 @@ void drawFish (int i)
 {
 		glPushMatrix();
 	{
+    setMaterialColor(0.9, 0.3, 0.2);
 		glTranslatef(fish[i].pos.x, fish[i].pos.y, fish[i].pos.z );    //オブジェクト基準位置調整
 		glRotatef( fish[i].rot.y, 0.0, 1.0, 0.0 );  //オブジェクト基準姿勢調整：ヨー角
 		glRotatef( fish[i].rot.x, 1.0, 0.0, 0.0 ); //オブジェクト基準姿勢調整：ピッチ角
 		glRotatef( fish[i].rot.z, 0.0, 0.0, 1.0 );  //オブジェクト基準姿勢調整：ロール角
     glGetFloatv( GL_MODELVIEW_MATRIX, fish[i].mat);//変換マトリクスの取得
-	  drawSolidCone();
+	  //drawSolidCone();
     //drawFishModel();
     DrawKumanomi(i);
 	}

@@ -9,7 +9,7 @@ void DrawScene( void );
 #define AQUARIUM_MAX 50
 #define AQUARIUM_MIN -50
 
-#define LENGTH 500
+#define LENGTH 200
 #define FEEDLENGTH 10
 
 //-------- object data
