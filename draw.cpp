@@ -120,7 +120,7 @@ void drawMouseObj()
 {
   glPushMatrix();
     glColor3f(1.0, 1.0, 1.0);
-    glTranslatef(mouse.x, 0.0, mouse.y);
+    glTranslatef(mouse.x, AQUARIUM_MAX, mouse.y);
     drawSolidSphere();
   glPopMatrix();
 }
