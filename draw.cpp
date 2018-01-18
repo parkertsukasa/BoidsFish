@@ -83,7 +83,7 @@ void drawSolidCone()
 		glPushMatrix();
 	{
     setMaterialColor(1.0, 1.0, 1.0);
-		glTranslatef( 0.0, 0.0, 0.0 );    //オブジェクト基準位置調整
+		glTranslatef( 0.0, 0.0, -1.0 );    //オブジェクト基準位置調整
 		glRotatef( 0.0, 0.0, 1.0, 0.0 );  //オブジェクト基準姿勢調整：ヨー角
 		glRotatef( 0.0, 1.0, 0.0, 0.0 ); //オブジェクト基準姿勢調整：ピッチ角
 		glRotatef( 0.0, 0.0, 0.0, 1.0 );  //オブジェクト基準姿勢調整：ロール角
