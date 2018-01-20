@@ -22,11 +22,74 @@ extern int time;
 bool set;
 int nowfeed;
 
+/*
+** シェーダ
+*/
+#include "glsl.h"
+static GLuint vertShader;
+static GLuint fragShader;
+static GLuint gl2Program;
+
 /*---------------------------------------------------------------- InitScene
  * InitScene:
  *--------*/
 void InitScene( void )
 {
+//------------------------------------------------------------ 以下GLSLの処理
+  /* シェーダプログラムのコンパイル／リンク結果を得る変数 */
+  GLint compiled, linked;
+
+  /* シェーダオブジェクトの作成 */
+  vertShader = glCreateShader(GL_VERTEX_SHADER);
+  fragShader = glCreateShader(GL_FRAGMENT_SHADER);
+
+  /* シェーダのソースプログラムの読み込み */
+  if (readShaderSource(vertShader, "simple.vert")) exit(1);
+  if (readShaderSource(fragShader, "simple.frag")) exit(1);
+
+  /* バーテックスシェーダのソースプログラムのコンパイル */
+  glCompileShader(vertShader);
+  glGetShaderiv(vertShader, GL_COMPILE_STATUS, &compiled);
+  printShaderInfoLog(vertShader);
+  if (compiled == GL_FALSE) {
+    fprintf(stderr, "Compile error in vertex shader.\n");
+    exit(1);
+  }
+  
+  /* フラグメントシェーダのソースプログラムのコンパイル */
+  glCompileShader(fragShader);
+  glGetShaderiv(fragShader, GL_COMPILE_STATUS, &compiled);
+  printShaderInfoLog(fragShader);
+  if (compiled == GL_FALSE) {
+    fprintf(stderr, "Compile error in fragment shader.\n");
+    exit(1);
+  }
+
+    /* プログラムオブジェクトの作成 */
+  gl2Program = glCreateProgram();
+
+  /* シェーダオブジェクトのシェーダプログラムへの登録 */
+  glAttachShader(gl2Program, vertShader);
+  glAttachShader(gl2Program, fragShader);
+
+  /* シェーダオブジェクトの削除 */
+  glDeleteShader(vertShader);
+  glDeleteShader(fragShader);
+
+   /* シェーダプログラムのリンク */
+  glLinkProgram(gl2Program);
+  glGetProgramiv(gl2Program, GL_LINK_STATUS, &linked);
+  printProgramInfoLog(gl2Program);
+  if (linked == GL_FALSE) {
+    fprintf(stderr, "Link error.\n");
+    exit(1);
+  }
+
+    /* シェーダプログラムの適用 */
+  glUseProgram(gl2Program);
+
+//------------------------------------------------------------ 以上
+
 
   glutSetCursor(GLUT_CURSOR_NONE);//マウスの非表示
 
@@ -35,14 +98,14 @@ void InitScene( void )
 	////// シーンデータの初期化
 	simdata.clip_far = 300.0;
 	simdata.clip_near = 0.01;
-  simdata.air_color[0] = 0.0;
-	simdata.air_color[1] = 0.0;
-	simdata.air_color[2] = 0.0;
-	simdata.air_color[3] = 0.0; // fog density factor
+  simdata.air_color[0] = 1.0;
+	simdata.air_color[1] = 1.0;
+	simdata.air_color[2] = 1.0;
+	simdata.air_color[3] = 0.5; // fog density factor
 	simdata.sky_color[0] = 0.0;
 	simdata.sky_color[1] = 0.0;
 	simdata.sky_color[2] = 0.0;
-	simdata.sky_color[3] = 0.0; // sky color factor
+	simdata.sky_color[3] = 1.0; // sky color factor
 	//////
 
   cam.pos.x = 0.0;
@@ -68,9 +131,9 @@ void InitScene( void )
 
 	for (int i = 0; i < LENGTH; i++)
 	{
-		fish[i].pos.x = Random(AQUARIUM_MIN + 20, AQUARIUM_MAX - 20);
-		fish[i].pos.y = Random(AQUARIUM_MIN + 20, AQUARIUM_MAX - 20);
-		fish[i].pos.z = Random(AQUARIUM_MIN + 20, AQUARIUM_MAX - 20);
+		fish[i].pos.x = Random(AQUARIUM_MIN + 30, AQUARIUM_MAX - 30);
+		fish[i].pos.y = Random(AQUARIUM_MIN + 30, AQUARIUM_MAX - 30);
+		fish[i].pos.z = Random(AQUARIUM_MIN + 30, AQUARIUM_MAX - 30);
 
 		fish[i].rot.x = 0.0;
 		fish[i].rot.y = 0.0;

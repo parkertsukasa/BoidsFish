@@ -111,12 +111,12 @@ void display( void )
 		simdata.clip_near, simdata.clip_far );
 
     //-------- draw --------
-	glEnable( GL_DEPTH_TEST ); // ---- begin: 
-    //glEnable( GL_LIGHTING );
+	  glEnable( GL_DEPTH_TEST ); // ---- begin: 
+    glEnable( GL_LIGHTING );
 
     DrawScene();
 
-    //glDisable( GL_LIGHTING );
+    glDisable( GL_LIGHTING );
     glDisable( GL_DEPTH_TEST );
 
 	//-------- swapbuffers --------

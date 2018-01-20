@@ -10,6 +10,7 @@
 #include "util.h"
 #include "mymodel.h"
 
+
 extern WindowDataT window;
 extern SimDataT simdata;
 
@@ -87,7 +88,7 @@ void drawSolidCone()
 		glRotatef( 0.0, 0.0, 1.0, 0.0 );  //オブジェクト基準姿勢調整：ヨー角
 		glRotatef( 0.0, 1.0, 0.0, 0.0 ); //オブジェクト基準姿勢調整：ピッチ角
 		glRotatef( 0.0, 0.0, 0.0, 1.0 );  //オブジェクト基準姿勢調整：ロール角
-		glutSolidCone( 0.5, 5.0, 10.0, 5.0 );   //半径，高さ, 円の分割, 高さの分割
+		glutSolidCone( 0.5, 5.0, 6.0, 3.0 );   //半径，高さ, 円の分割, 高さの分割
 	}
 	glPopMatrix();
     return;
