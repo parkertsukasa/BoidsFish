@@ -68,9 +68,9 @@ void InitScene( void )
 
 	for (int i = 0; i < LENGTH; i++)
 	{
-		fish[i].pos.x = Random(AQUARIUM_MIN + 20, AQUARIUM_MAX - 20);
-		fish[i].pos.y = Random(AQUARIUM_MIN + 20, AQUARIUM_MAX - 20);
-		fish[i].pos.z = Random(AQUARIUM_MIN + 20, AQUARIUM_MAX - 20);
+		fish[i].pos.x = Random(AQUARIUM_MIN + 30, AQUARIUM_MAX - 30);
+		fish[i].pos.y = Random(AQUARIUM_MIN + 30, AQUARIUM_MAX - 30);
+		fish[i].pos.z = Random(AQUARIUM_MIN + 30, AQUARIUM_MAX - 30);
 
 		fish[i].rot.x = 0.0;
 		fish[i].rot.y = 0.0;
