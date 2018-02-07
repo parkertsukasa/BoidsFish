@@ -356,7 +356,7 @@ Vector3 Cohesion(int i)
     fish[i].hungry = false;
 
 	//平均と自分の位置の差を移動量とする
-	float speed_factor = 300;
+	float speed_factor = 400;
 
 	Vector3 move;
 	move.x = (ave.x - fish[i].pos.x)/speed_factor;
@@ -375,10 +375,8 @@ Vector3 Separation(int i)
 {
 	float dist_min = 5;//ほかの固体に近づける最短の距離
 
-	Vector3 move;
-	move.x = 0;
-	move.y = 0;
-	move.z = 0;
+  int nearfish = 0;//最も近い魚のIDが入る 
+  float dist = 0.0; 
 
 	for(int j = 0; j < LENGTH; j++)
 	{
@@ -389,18 +387,22 @@ Vector3 Separation(int i)
 			diff.x = fish[i].pos.x - fish[j].pos.x;
 			diff.y = fish[i].pos.y - fish[j].pos.y;
 			diff.z = fish[i].pos.z - fish[j].pos.z;
-			float dist = sqrtf((diff.x * diff.x) + (diff.y * diff.y) + (diff.z * diff.z));
+			float nowdist = sqrtf((diff.x * diff.x) + (diff.y * diff.y) + (diff.z * diff.z));
 
-			if(dist < dist_min)//一定以下の距離なら
-			{
-				//----- 反対方向へ移動量を与える ------
-				float speed_factor = 20;
-				move.x -= (fish[j].pos.x - fish[i].pos.x) / speed_factor;
-				move.y -= (fish[j].pos.y - fish[i].pos.y) / speed_factor;
-				move.z -= (fish[j].pos.z - fish[i].pos.z) / speed_factor;
-			}
+			if(dist > nowdist)//今までで最も近い距離の時
+      {
+        dist = nowdist;
+        nearfish = j;
+      }
 		}
 	}
+
+				//----- 反対方向へ移動量を与える ------
+	float speed_factor = 2;
+  Vector3 move;
+	move.x = (fish[nearfish].pos.x) / speed_factor * -1;
+	move.y = (fish[nearfish].pos.y) / speed_factor * -1;
+	move.z = (fish[nearfish].pos.z) / speed_factor * -1;
 
 	return move;
 }
@@ -448,11 +450,11 @@ Vector3 Alignment (int i)
 	ave.z /= flock;
 
 	//----- 自分の移動量との差を加える -----
-	float speed_factor = 1.0;
+	float speed_factor = 2.0;
 	Vector3 move;
-	move.x = (fish[i].move.x - ave.x)/speed_factor;
-	move.y = (fish[i].move.y - ave.y)/speed_factor;
-	move.z = (fish[i].move.z - ave.z)/speed_factor;
+	move.x = (ave.x - fish[i].move.x)/speed_factor;
+	move.y = (ave.y - fish[i].move.y)/speed_factor;
+	move.z = (ave.z - fish[i].move.z)/speed_factor;
 
 	return move;
 }
@@ -557,15 +559,15 @@ void Cruising (int i)
   if(fish[i].hungry)
   {
     factor_cohe = 0.2;
-    factor_sepa = 0.5;
-    factor_alig = 0.6;
+    factor_sepa = 0.8;
+    factor_alig = 0.3;
     factor_eat_ = 3.0;
   }
   else
   {
-    factor_cohe = 0.6;
-    factor_sepa = 0.5;
-    factor_alig = 0.95;
+    factor_cohe = 1.0;
+    factor_sepa = 0.8;
+    factor_alig = 0.1;
     factor_eat_ = 3.0;
   }
 
@@ -575,12 +577,14 @@ void Cruising (int i)
 	Vector3 move_alig = Alignment (i);
   Vector3 move_eat_ = EatFeed (i);
 
-	fish[i].move.x = move_cohe.x * factor_cohe + move_sepa.x * factor_sepa + move_alig.x * factor_alig + factor_eat_ * move_eat_.x; 
-	fish[i].move.y = move_cohe.y * factor_cohe + move_sepa.y * factor_sepa + move_alig.y * factor_alig + factor_eat_ * move_eat_.y; 
-	fish[i].move.z = move_cohe.z * factor_cohe + move_sepa.z * factor_sepa + move_alig.z * factor_alig + factor_eat_ * move_eat_.z; 
+  float factor = factor_cohe + factor_sepa + factor_alig + factor_eat_;
+
+	fish[i].move.x = (move_cohe.x * factor_cohe + move_sepa.x * factor_sepa + move_alig.x * factor_alig + factor_eat_ * move_eat_.x) / factor; 
+	fish[i].move.y = (move_cohe.y * factor_cohe + move_sepa.y * factor_sepa + move_alig.y * factor_alig + factor_eat_ * move_eat_.y) / factor; 
+	fish[i].move.z = (move_cohe.z * factor_cohe + move_sepa.z * factor_sepa + move_alig.z * factor_alig + factor_eat_ * move_eat_.z) / factor; 
 
   //----- 速度が早すぎた場合、正規化を行う -----
-  float velocity_max = 3.0;
+  float velocity_max = 30.0;
   float velocity = sqrtf((fish[i].move.x * fish[i].move.x) + (fish[i].move.y * fish[i].move.y) + (fish[i].move.z * fish[i].move.z));
   if (velocity > velocity_max)
   {
