@@ -112,11 +112,11 @@ void display( void )
 
     //-------- draw --------
 	glEnable( GL_DEPTH_TEST ); // ---- begin: 
-    glEnable( GL_LIGHTING );
+   // glEnable( GL_LIGHTING );
 
     DrawScene();
 
-    glDisable( GL_LIGHTING );
+    //glDisable( GL_LIGHTING );
     glDisable( GL_DEPTH_TEST );
 
 	//-------- swapbuffers --------

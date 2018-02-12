@@ -87,6 +87,11 @@ void InitScene( void )
     fish[i].feednum = 0;
 
     fish[i].out = false;
+
+    fish[i].color.r = 0.0;
+    fish[i].color.g = 0.0;
+    fish[i].color.b = 0.0;
+    fish[i].color.a = 0.0;
   }
 
   for (int j = 0; j < FEEDLENGTH; j++)
@@ -126,6 +131,7 @@ void UpdateScene( void )
     else
     {
 		  Cruising (i);//通常の巡行
+      ColorChange (i);
     }
 	}
 
@@ -634,7 +640,7 @@ void Cruising (int i)
   fish[i].move.z = fish[i].move.z + fish[i].forward.z;
 
   //----- 速度が早すぎた場合、正規化を行う -----
-  float velocity_max = 0.5;
+  float velocity_max = 0.2;
   float velocity = sqrtf((fish[i].move.x * fish[i].move.x) + (fish[i].move.y * fish[i].move.y) + (fish[i].move.z * fish[i].move.z));
   if (velocity > velocity_max)
   {
@@ -658,5 +664,33 @@ void Cruising (int i)
 
 }
 
+/*--------------------------------------------------------------------------------------------
+ * 色にまつわる関数群
+ */
+void ColorChange (int i)
+{
+  //水槽の上層にいるかどうか
+  bool upside;
+  if(fish[i].pos.y > 0)
+    upside = true;
+  else 
+    upside = false;
 
+  if(upside)
+  {
+    float ratio = fish[i].pos.y / AQUARIUM_MAX;
+    fish[i].color.r = ratio;
+    fish[i].color.g = 1 - ratio;
+    fish[i].color.b = 0;
+    fish[i].color.a = 1;
+  }
+  else
+  {
+    float ratio = fish[i].pos.y / AQUARIUM_MIN;
+    fish[i].color.r = 0;
+    fish[i].color.g = 1 - ratio;
+    fish[i].color.b = ratio;
+    fish[i].color.a = 1;
+  }
+}
 //end of file

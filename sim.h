@@ -9,7 +9,7 @@ void DrawScene( void );
 #define AQUARIUM_MAX 50
 #define AQUARIUM_MIN -50
 
-#define LENGTH 500
+#define LENGTH 300
 #define FEEDLENGTH 10
 
 //-------- object data
@@ -27,6 +27,15 @@ typedef struct {
 	float z;
 
 } Vector3;
+
+typedef struct {
+
+	float r;
+	float g;
+	float b;
+  float a;
+
+} Color;
 
 //-------- simulation data
 typedef struct {
@@ -83,6 +92,7 @@ typedef struct {
   int feednum;
   bool out;
 
+  Color color;
 }FishDataT;
 
 float RadtoDeg (float f);
@@ -106,5 +116,7 @@ Vector3 EatFeed(int i);
 void ReturnAquarium(int i);
 
 void SetPosition (int i);
+
+void ColorChange (int i);
 
 //end of file
