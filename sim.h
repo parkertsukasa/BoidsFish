@@ -78,6 +78,7 @@ typedef struct {
 	Vector3 move;
   Vector3 forward;
   GLfloat mat[16];
+  float range;
   bool hungry;
   int feednum;
   bool out;
@@ -98,6 +99,7 @@ void GiveFeed (float x, float y);
 void Cruising(int i);
 Vector3 Cohesion(int i);
 Vector3 Separation(int i);
+void AvoidWall(int i, int *flock, float *movex, float *movey, float *movez);
 Vector3 Alignment(int i);
 Vector3 EatFeed(int i);
 
@@ -105,3 +107,4 @@ void ReturnAquarium(int i);
 
 void SetPosition (int i);
 
+//end of file
