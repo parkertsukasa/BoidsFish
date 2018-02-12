@@ -54,5 +54,6 @@ void Viewing( void )
 void Projection( void )
 {
 	//---- begin projection transformation
-    gluPerspective( 45.0, window.aspect, simdata.clip_near, simdata.clip_far );
+    //gluPerspective( 45.0, window.aspect, simdata.clip_near, simdata.clip_far );
+    glOrtho (AQUARIUM_MIN - 50, AQUARIUM_MAX + 50, AQUARIUM_MIN - 50, AQUARIUM_MAX + 50, 1.0, 300);
 }
