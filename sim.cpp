@@ -131,7 +131,7 @@ void UpdateScene( void )
     else
     {
 		  Cruising (i);//通常の巡行
-      ColorChange (i);
+      //ColorChange (i);
     }
 	}
 
