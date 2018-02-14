@@ -80,7 +80,7 @@ void InitScene( void )
     fish[i].forward.y = 0.0;
     fish[i].forward.z = 0.0;
 
-    fish[i].range = (float)AQUARIUM_MAX * 0.8;//水槽の大きさの4割
+    fish[i].range = (float)AQUARIUM_MAX * 0.6;//水槽の大きさの3割
 
     fish[i].hungry = false;
 
@@ -592,42 +592,57 @@ Vector3 EatFeed (int i)
 }
 
 
+/*-------------------------------------------------------------- Avoid
+ * Avoid : 回避 特定のオブジェクトから逃げるように振る舞う
+ *--------*/
+Vector3 Avoid (int i)
+{
+  Vector3 move;
+  move.x = 0.0;
+  move.y = 0.0;
+  move.z = 0.0;
+
+  Vector3 diff;
+  diff.x = mouse.x - fish[i].pos.x;
+  diff.y = 0.0 - fish[i].pos.y;
+  diff.z = mouse.y - fish[i].pos.z;
+
+  float length = GetVector3Length(diff.x, diff.y, diff.z);
+
+  if(length < fish[i].range)
+  {
+    move.x = (diff.x / length) * 500.0 / (length * length) * -1;
+    move.y = (diff.y / length) * 500.0 / (length * length) * -1;
+    move.z = (diff.z / length) * 500.0 / (length * length) * -1;
+  }
+
+  return move;
+
+}
+
 /*-------------------------------------------------------------- Cruising
  * Cruising : 巡航 3種類の移動量を合成する
  *--------*/
 void Cruising (int i)
 {
 	//----- それぞれの速度の重み ------
-  float factor_cohe;
-	float factor_sepa;
-	float factor_alig;
-  float factor_eat_;
+  float factor_cohe = 1.0;
+	float factor_sepa = 1.0;
+	float factor_alig = 1.0;
+  float factor_eat_ = 1.0;
+  float factor_avoi = 1.0;
 
-	//--- 餌に近い場合は餌に向かう ---
-  if(fish[i].hungry)
-  {
-    factor_cohe = 0.2;
-    factor_sepa = 0.5;
-    factor_alig = 0.6;
-    factor_eat_ = 3.0;
-  }
-  else
-  {
-    factor_cohe = 1.0;
-    factor_sepa = 3.0;
-    factor_alig = 3.0;
-    factor_eat_ = 1.0;
-  }
 
 	//----- それぞれの速度を求める ------
  	Vector3 move_cohe = Cohesion (i);
 	Vector3 move_sepa = Separation (i);
 	Vector3 move_alig = Alignment (i);
   Vector3 move_eat_ = EatFeed (i);
+  Vector3 move_avoi = Avoid (i);
 
-	fish[i].move.x = move_cohe.x * factor_cohe + move_sepa.x * factor_sepa + move_alig.x * factor_alig + factor_eat_ * move_eat_.x; 
-	fish[i].move.y = move_cohe.y * factor_cohe + move_sepa.y * factor_sepa + move_alig.y * factor_alig + factor_eat_ * move_eat_.y; 
-	fish[i].move.z = move_cohe.z * factor_cohe + move_sepa.z * factor_sepa + move_alig.z * factor_alig + factor_eat_ * move_eat_.z; 
+	fish[i].move.x = move_cohe.x * factor_cohe + move_sepa.x * factor_sepa + move_alig.x * factor_alig + factor_eat_ * move_eat_.x + move_avoi.x * factor_avoi; 
+	fish[i].move.y = move_cohe.y * factor_cohe + move_sepa.y * factor_sepa + move_alig.y * factor_alig + factor_eat_ * move_eat_.y + move_avoi.y * factor_avoi; 
+	fish[i].move.z = move_cohe.z * factor_cohe + move_sepa.z * factor_sepa + move_alig.z * factor_alig + factor_eat_ * move_eat_.z + move_avoi.z * factor_avoi; 
 
   //----- 角度から正面方向を求める ------
   fish[i].forward.x = -sinf(DegtoRad(fish[i].rot.y)); 
@@ -653,7 +668,6 @@ void Cruising (int i)
 	fish[i].pos.x += fish[i].move.x;
 	fish[i].pos.y += fish[i].move.y;
 	fish[i].pos.z += fish[i].move.z;
-
 
 
   //----- 移動方向を向く ------

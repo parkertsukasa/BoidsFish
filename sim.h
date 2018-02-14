@@ -112,6 +112,7 @@ Vector3 Separation(int i);
 void AvoidWall(int i, int *flock, float *movex, float *movey, float *movez);
 Vector3 Alignment(int i);
 Vector3 EatFeed(int i);
+Vector3 Avoid(int i);
 
 void ReturnAquarium(int i);
 

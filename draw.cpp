@@ -140,8 +140,8 @@ void drawFishModel()
 void drawMouseObj()
 {
   glPushMatrix();
-    setMaterialColor(1.0, 1.0, 1.0);
-    glTranslatef(mouse.x, AQUARIUM_MAX, mouse.y);
+    glColor3f(1.0, 1.0, 1.0);
+    glTranslatef(mouse.x, 0.0, mouse.y);
     drawSolidSphere();
   glPopMatrix();
 }
