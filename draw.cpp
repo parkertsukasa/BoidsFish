@@ -168,6 +168,7 @@ void drawFeed (int j)
 void drawAquarium()
 {
   glPushMatrix();
+    glColor3f(1.0, 1.0, 1.0);
     glTranslatef(0.0, 0.0, 0.0);
     glutWireCube(100.0);
   glPopMatrix();

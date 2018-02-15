@@ -66,11 +66,11 @@ typedef struct {
 } MouseDataT;
 
 typedef struct {
-    float speed;
-    float radius;
-    float thete;
-    Vector3 pos;
-    Vector3 center;
+  float speed;
+  float radius;
+  float thete;
+  Vector3 pos;
+  Vector3 center;
 } CamObj;
 
 typedef struct {
@@ -82,23 +82,25 @@ typedef struct {
 
 typedef struct {
 
-	Vector3 pos;
-	Vector3 rot;
-	Vector3 move;
+  Vector3 pos;
+  Vector3 rot;
+  Vector3 move;
   Vector3 forward;
   GLfloat mat[16];
   float range;
+  float sightangle;
   bool hungry;
   int feednum;
-  bool out;
 
   Color color;
 }FishDataT;
 
 float RadtoDeg (float f);
+float DegtoRad (float f);
 float GetVector2Length ( float x, float y );
 float GetInnerProduct (float x1, float y1, float x2, float y2);
 float GetVector2Angle (float x1, float y1, float x2, float y2);
+float GetVector3Angle (float x1, float y1, float z1, float x2, float y2, float z2);
 
 void CameraRotate();
 void MouseObj();
