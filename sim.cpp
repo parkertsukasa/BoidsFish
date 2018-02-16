@@ -14,7 +14,9 @@ SimDataT simdata;
 CamDataT cam;
 CamObj camobj;
 MouseDataT mouse;
-FishDataT Rfish[LENGTH_R];
+FishDataT Rfish[LENGTH];
+FishDataT Gfish[LENGTH];
+FishDataT Bfish[LENGTH];
 FeedDataT feed[FEEDLENGTH];
 
 extern int time;
@@ -64,7 +66,14 @@ void InitScene( void )
 
 	for (int i = 0; i < LENGTH; i++)
 	{
-    FishInit(i, &Rfish[]);
+    FishInit(i, Rfish);
+    FishColorChange(&Rfish[i].color, 1.0, 0.0, 0.0, 1.0);
+      
+    FishInit(i, Gfish);
+    FishColorChange(&Gfish[i].color, 0.0, 1.0, 0.0, 1.0);
+
+    FishInit(i, Bfish);
+    FishColorChange(&Bfish[i].color, 0.0, 0.0, 1.0, 1.0);
   }
 
 
@@ -87,35 +96,46 @@ void InitScene( void )
     return;
 }
 
+/* ------------------------------------------------------------ FishColorChange
+ * FishColorChange 魚の色を変更する関数
+ */
+void FishColorChange(Color *color, float r , float g, float b, float a)
+{
+  color->r = r;
+  color->g = g;
+  color->b = b;
+  color->a = a;
+}
+
 /* ------------------------------------------------------------- FishInit
  * FishInit 各種類の魚の値を初期化する関数
  */
-void FishInit(int i, FishDataT *fish[])
+void FishInit(int i, FishDataT fish[])
 {
-	*fish[i]->pos->x = Random(AQUARIUM_MIN + 30, AQUARIUM_MAX - 30);
-	*fish[i]->pos->y = Random(AQUARIUM_MIN + 30, AQUARIUM_MAX - 30);
-	*fish[i]->pos->z = Random(AQUARIUM_MIN + 30, AQUARIUM_MAX - 30);
-	*fish[i]->rot->x = Random(0.0, 360.0);
-	*fish[i]->rot->y = Random(0.0, 360.0);
-	*fish[i]->rot->z = 0.0;
+	fish[i].pos.x = Random(AQUARIUM_MIN + 30, AQUARIUM_MAX - 30);
+	fish[i].pos.y = Random(AQUARIUM_MIN + 30, AQUARIUM_MAX - 30);
+	fish[i].pos.z = Random(AQUARIUM_MIN + 30, AQUARIUM_MAX - 30);
+	fish[i].rot.x = Random(0.0, 360.0);
+	fish[i].rot.y = Random(0.0, 360.0);
+	fish[i].rot.z = 0.0;
 
-	*fish[i].move.x = Random(-2,2);
-	*fish[i].move.y = Random(-2,2);
-	*fish[i].move.z = Random(5,5);
+	fish[i].move.x = Random(-2,2);
+	fish[i].move.y = Random(-2,2);
+	fish[i].move.z = Random(5,5);
 
-  *fish[i].forward.x = -sinf(DegtoRad(fish[i].rot.y)); 
-  *fish[i].forward.y = sinf(DegtoRad(fish[i].rot.x)); 
-  *fish[i].forward.z = -cosf(DegtoRad(fish[i].rot.y)); 
+  fish[i].forward.x = -sinf(DegtoRad(fish[i].rot.y)); 
+  fish[i].forward.y = sinf(DegtoRad(fish[i].rot.x)); 
+  fish[i].forward.z = -cosf(DegtoRad(fish[i].rot.y)); 
+  
+  fish[i].range = (float)AQUARIUM_MAX * 0.6;//水槽の大きさの3割
+  fish[i].sightangle = 30.0;//実際はこの値の二倍が視野角の広さになる
+  fish[i].hungry = false;
+  fish[i].feednum = 0;
 
-  *fish[i].range = (float)AQUARIUM_MAX * 0.6;//水槽の大きさの3割
-  *fish[i].sightangle = 30.0;//実際はこの値の二倍が視野角の広さになる
-  *fish[i].hungry = false;
-  *fish[i].feednum = 0;
-
-  *fish[i].color.r = 0.0;
-  *fish[i].color.g = 0.0;
-  *fish[i].color.b = 0.0;
-  *fish[i].color.a = 0.0;
+  fish[i].color.r = 1.0;
+  fish[i].color.g = 1.0;
+  fish[i].color.b = 1.0;
+  fish[i].color.a = 1.0;
 }
 
 
@@ -125,14 +145,16 @@ void FishInit(int i, FishDataT *fish[])
 void UpdateScene( void )
 {
 	//////// データ更新 ////////
-//  printf("%f,%f,%f\n", fish[0].rot.x, fish[0].rot.y, fish[0].rot.z);
+  //printf("%f,%f,%f\n", Rfish[0].pos.x, Rfish[0].pos.y, Rfish[0].pos.z);
   
   CameraRotate();
   MouseObj ();
 
 	for(int i = 0; i < LENGTH; i++)
 	{
-		Cruising (i, &Rfish[]);//通常の巡行
+		Cruising (i, Rfish);//通常の巡行
+		Cruising (i, Gfish);//通常の巡行
+		Cruising (i, Bfish);//通常の巡行
 	}
 
 
@@ -236,12 +258,12 @@ float GetVector3Angle (float x1, float y1, float z1, float x2, float y2, float z
 
     if(product > 0.0 && Alength > 0.0 && Blength > 0.0)
     {
-      cos_theta = product / (Alength * Blength);//----- cosθを求める -----
+      //----- cosθを求める -----
+      cos_theta = product / (Alength * Blength);
     }
     else
     {
       float angle = 0.0;
-     // printf("ERROR!");
       return angle;
     }
     //----- θを求める -----
@@ -329,7 +351,7 @@ void FeedControl (int j)
 /*-------------------------------------------------------------- Cohesion
  * Gather : 結合　群れの中心に向かって進行する
  *--------*/
-Vector3 Gather(int i, FishDataT *fish[])
+Vector3 Gather(int i, FishDataT fish[])
 {
 
 	Vector3 ave;
@@ -345,24 +367,25 @@ Vector3 Gather(int i, FishDataT *fish[])
 		{
       //--- 各個体との距離を計算し一定距離より遠い個体は除外する ---
       Vector3 diff;
-      diff.x = *fish[i].pos.x - *fish[j].pos.x;
-      diff.y = *fish[i].pos.y - *fish[j].pos.y;
-      diff.z = *fish[i].pos.z - *fish[j].pos.z;
+      diff.x = fish[i].pos.x - fish[j].pos.x;
+      diff.y = fish[i].pos.y - fish[j].pos.y;
+      diff.z = fish[i].pos.z - fish[j].pos.z;
       float length = GetVector3Length (diff.x, diff.y, diff.z);
 
-      float angle = GetVector3Angle(*fish[i].forward.x, *fish[i].forward.y, *fish[i].forward.z, diff.x, diff.y, diff.z);
+      float angle = GetVector3Angle(fish[i].forward.x, fish[i].forward.y, fish[i].forward.z, diff.x, diff.y, diff.z);
+     // printf("%f\n", angle);
 
       bool visible;
-      if(fabs(angle) < *fish[i].sightangle && length < *fish[i].range)
+      if(fabs(angle) < fish[i].sightangle && length < fish[i].range)
         visible = true;
       else
         visible = false;
 
       if(visible)
       {
-			  ave.x += *fish[j].pos.x;
-			  ave.y += *fish[j].pos.y;
-		  	ave.z += *fish[j].pos.z;
+			  ave.x += fish[j].pos.x;
+			  ave.y += fish[j].pos.y;
+		  	ave.z += fish[j].pos.z;
         flock += 1;
       }
 		}
@@ -375,9 +398,9 @@ Vector3 Gather(int i, FishDataT *fish[])
 	float speed_factor = 300;
 
 	Vector3 move;
-	move.x = (ave.x - *fish[i].pos.x)/speed_factor;
-	move.y = (ave.y - *fish[i].pos.y)/speed_factor;
-	move.z = (ave.z - *fish[i].pos.z)/speed_factor;
+	move.x = (ave.x - fish[i].pos.x)/speed_factor;
+	move.y = (ave.y - fish[i].pos.y)/speed_factor;
+	move.z = (ave.z - fish[i].pos.z)/speed_factor;
 
 
 	return move;
@@ -387,10 +410,8 @@ Vector3 Gather(int i, FishDataT *fish[])
 /*-------------------------------------------------------------- Separation
  * Separate : 分離 ほかの固体と距離が近過ぎたらはなれる
  *--------*/
-Vector3 Separate(int i)
+Vector3 Separate(int i, FishDataT fish[])
 {
-	float dist_min = 5;//ほかの固体に近づける最短の距離
-
 	Vector3 move;
 	move.x = 0;
 	move.y = 0;
@@ -404,16 +425,16 @@ Vector3 Separate(int i)
 		{
       //----- 距離を求める -----
       Vector3 diff;
-      diff.x = *fish[j].pos.x - *fish[i].pos.x;
-      diff.y = *fish[j].pos.y - *fish[i].pos.y;
-      diff.z = *fish[j].pos.z - *fish[i].pos.z;
+      diff.x = fish[j].pos.x - fish[i].pos.x;
+      diff.y = fish[j].pos.y - fish[i].pos.y;
+      diff.z = fish[j].pos.z - fish[i].pos.z;
       float length = GetVector3Length(diff.x, diff.y, diff.z);
         
-      if(length < *fish[i].range)
+      if(length < fish[i].range && length > 0.0)
       {
-        move.x += (diff.x / length) * 30.0 / (length * length) * -1; 
-        move.y += (diff.y / length) * 30.0 / (length * length) * -1; 
-        move.z += (diff.z / length) * 30.0 / (length * length) * -1; 
+        move.x += (diff.x / length) * 10.0 / (length * length) * -1; 
+        move.y += (diff.y / length) * 10.0 / (length * length) * -1; 
+        move.z += (diff.z / length) * 10.0 / (length * length) * -1; 
         flock += 1;
       }
 		}
@@ -430,7 +451,7 @@ Vector3 Separate(int i)
 /*-------------------------------------------------------------- Enclose
  * Enclose : 壁から逃げる 壁の位置に仮想の魚がいると想定して、Separation同様に距離を取るように振る舞う
  *--------*/
-Vector3 Enclose(int i, FishDataT *fish[])
+Vector3 Enclose(int i, FishDataT fish[])
 {
   Vector3 wallfish[6];
   wallfish[0].x = AQUARIUM_MAX;
@@ -468,18 +489,18 @@ Vector3 Enclose(int i, FishDataT *fish[])
   {
     //壁との距離を求める
     Vector3 diff;
-    diff.x = wallfish[j].x - *fish[i].pos.x;
-    diff.y = wallfish[j].y - *fish[i].pos.y;
-    diff.z = wallfish[j].z - *fish[i].pos.z;
+    diff.x = wallfish[j].x - fish[i].pos.x;
+    diff.y = wallfish[j].y - fish[i].pos.y;
+    diff.z = wallfish[j].z - fish[i].pos.z;
     float length = GetVector3Length(diff.x, diff.y, diff.z);
 
-    if(length < *fish[i].range * 2)
+    if(length < fish[i].range * 2 && length > 0.0)
     {
       flock += 1;
 
-      movex += (diff.x / length) * 50.0 / length * -1; 
-      movey += (diff.y / length) * 50.0 / length * -1; 
-      movez += (diff.z / length) * 50.0 / length * -1; 
+      move.x += (diff.x / length) * 10.0 / length * -1; 
+      move.y += (diff.y / length) * 10.0 / length * -1; 
+      move.z += (diff.z / length) * 10.0 / length * -1; 
     }
   }
 
@@ -494,7 +515,7 @@ Vector3 Enclose(int i, FishDataT *fish[])
 /*-------------------------------------------------------------- Alignment
  * Align : 整列 ほかの固体と同じ方向へ移動する
  *--------*/
-Vector3 Align (int i)
+Vector3 Align (int i, FishDataT fish[])
 {
 	Vector3 ave;
 	ave.x = 0;
@@ -509,24 +530,24 @@ Vector3 Align (int i)
 		{
       //--- 各個体との距離を計算し一定距離より遠い個体は除外する ---
       Vector3 diff;
-      diff.x = *fish[j].pos.x - *fish[i].pos.x;
-      diff.y = *fish[j].pos.y - *fish[i].pos.y;
-      diff.z = *fish[j].pos.z - *fish[i].pos.z;
+      diff.x = fish[j].pos.x - fish[i].pos.x;
+      diff.y = fish[j].pos.y - fish[i].pos.y;
+      diff.z = fish[j].pos.z - fish[i].pos.z;
       float length = GetVector3Length (diff.x, diff.y, diff.z);
 
-      float angle = GetVector3Angle(*fish[i].forward.x, *fish[i].forward.y, *fish[i].forward.z, diff.x, diff.y, diff.z);
+      float angle = GetVector3Angle(fish[i].forward.x, fish[i].forward.y, fish[i].forward.z, diff.x, diff.y, diff.z);
 
       bool visible;
-      if(fabs(angle) < *fish[i].sightangle && length < *fish[i].range)
+      if(fabs(angle) < fish[i].sightangle && length < fish[i].range)
         visible = true;
       else
         visible = false;
 
       if(visible)
       {
-			  ave.x += *fish[j].move.x;
-			  ave.y += *fish[j].move.y;
-			  ave.z += *fish[j].move.z;
+			  ave.x += fish[j].move.x;
+			  ave.y += fish[j].move.y;
+			  ave.z += fish[j].move.z;
         flock += 1;
       }
 		}
@@ -539,9 +560,9 @@ Vector3 Align (int i)
 	//----- 自分の移動量との差を加える -----
 	float speed_factor = 1.0;
 	Vector3 move;
-	move.x = (ave.x - *fish[i].move.x)/speed_factor;
-	move.y = (ave.y - *fish[i].move.y)/speed_factor;
-	move.z = (ave.z - *fish[i].move.z)/speed_factor;
+	move.x = (ave.x - fish[i].move.x)/speed_factor;
+	move.y = (ave.y - fish[i].move.y)/speed_factor;
+	move.z = (ave.z - fish[i].move.z)/speed_factor;
 
 	return move;
 }
@@ -553,27 +574,27 @@ Vector3 Align (int i)
 Vector3 EatFeed (int i, FishDataT fish[])
 {
   //----- 一番近い餌を探す -----
-  float nearfeed = 100000;
+  float nearfeed = -1;
   for (int j = 0; j < FEEDLENGTH; j++)
   {
     if(feed[j].alive)
     {
       Vector3 diff;
-      diff.x = feed[j].pos.x - *fish[i].pos.x;
-      diff.y = feed[j].pos.y - *fish[i].pos.y;
-      diff.z = feed[j].pos.z - *fish[i].pos.z;
+      diff.x = feed[j].pos.x - fish[i].pos.x;
+      diff.y = feed[j].pos.y - fish[i].pos.y;
+      diff.z = feed[j].pos.z - fish[i].pos.z;
       //餌との距離を求める
       float dist = GetVector3Length(diff.x, diff.y, diff.z);
       if (nearfeed > dist)
       {
         nearfeed = dist;
-        *fish[i].feednum = j;
+        fish[i].feednum = j;
       }
     }
   }
 
-  if (nearfeed == 100000)
-    *fish[i].feednum = -1;
+  if (nearfeed == -1)
+    fish[i].feednum = -1;
 
 
 
@@ -581,11 +602,11 @@ Vector3 EatFeed (int i, FishDataT fish[])
 	float speed_factor = 300;
 
 	Vector3 move;
-  if (feed[*fish[i].feednum].alive && *fish[i].feednum >= 0)
+  if (feed[fish[i].feednum].alive && fish[i].feednum >= 0)
   {
-	  move.x = (feed[*fish[i].feednum].pos.x - *fish[i].pos.x)/speed_factor;
-	  move.y = (feed[*fish[i].feednum].pos.y - *fish[i].pos.y)/speed_factor;
-	  move.z = (feed[*fish[i].feednum].pos.z - *fish[i].pos.z)/speed_factor;
+	  move.x = (feed[fish[i].feednum].pos.x - fish[i].pos.x)/speed_factor;
+	  move.y = (feed[fish[i].feednum].pos.y - fish[i].pos.y)/speed_factor;
+	  move.z = (feed[fish[i].feednum].pos.z - fish[i].pos.z)/speed_factor;
   }
   else
   {
@@ -600,7 +621,7 @@ Vector3 EatFeed (int i, FishDataT fish[])
 /*-------------------------------------------------------------- Avoid
  * Avoid : 回避 特定のオブジェクトから逃げるように振る舞う
  *--------*/
-Vector3 Avoid (int i, FishDataT *fish[])
+Vector3 Avoid (int i, FishDataT fish[])
 {
   Vector3 move;
   move.x = 0.0;
@@ -608,13 +629,13 @@ Vector3 Avoid (int i, FishDataT *fish[])
   move.z = 0.0;
 
   Vector3 diff;
-  diff.x = mouse.x - *fish[i].pos.x;
-  diff.y = 0.0 - *fish[i].pos.y;
-  diff.z = mouse.y - *fish[i].pos.z;
+  diff.x = mouse.x - fish[i].pos.x;
+  diff.y = 0.0 - fish[i].pos.y;
+  diff.z = mouse.y - fish[i].pos.z;
 
   float length = GetVector3Length(diff.x, diff.y, diff.z);
 
-  if(length < fish[i].range)
+  if(length < fish[i].range && length > 0.0)
   {
     move.x = (diff.x / length) * 500.0 / (length * length) * -1;
     move.y = (diff.y / length) * 500.0 / (length * length) * -1;
@@ -628,7 +649,7 @@ Vector3 Avoid (int i, FishDataT *fish[])
 /*-------------------------------------------------------------- Cruising
  * Cruising : 巡航 3種類の移動量を合成する
  *--------*/
-void Cruising (int i, FishDataT *fish[])
+void Cruising (int i, FishDataT fish[])
 {
 	//----- それぞれの速度の重み ------
   float factor_cohe = 1.0;
@@ -640,79 +661,50 @@ void Cruising (int i, FishDataT *fish[])
 
 
 	//----- それぞれの速度を求める ------
- 	Vector3 move_cohe = Gather(i, &fish[]);
-	Vector3 move_sepa = Separate(i, &fish[]);
-	Vector3 move_alig = Align(i, &fish[]);
-	Vector3 move_encl = Enclose(i, &fish[]);
-  Vector3 move_eat_ = EatFeed (i, &fish[]);
-  Vector3 move_avoi = Avoid (i, &fish[]);
+ 	Vector3 move_cohe = Gather(i, fish);
+	Vector3 move_sepa = Separate(i, fish);
+	Vector3 move_alig = Align(i, fish);
+	Vector3 move_encl = Enclose(i, fish);
+  Vector3 move_eat_ = EatFeed (i, fish);
+  Vector3 move_avoi = Avoid (i, fish);
 
-	*fish[i].move.x = move_cohe.x * factor_cohe + move_sepa.x * factor_sepa + move_alig.x * factor_alig + move_encl * factor_encl + move_eat_.x * factor_eat_ + move_avoi.x * factor_avoi; 
-	*fish[i].move.y = move_cohe.y * factor_cohe + move_sepa.y * factor_sepa + move_alig.y * factor_alig + move_encl * factor_encl + move_eat_.y * factor_eat_ + move_avoi.y * factor_avoi; 
-	*fish[i].move.z = move_cohe.z * factor_cohe + move_sepa.z * factor_sepa + move_alig.z * factor_alig + move_encl * factor_encl + move_eat_.z * factor_eat_ + move_avoi.z * factor_avoi; 
+	fish[i].move.x = move_cohe.x * factor_cohe + move_sepa.x * factor_sepa + move_alig.x * factor_alig + move_encl.x * factor_encl + move_eat_.x * factor_eat_ + move_avoi.x * factor_avoi; 
+	fish[i].move.y = move_cohe.y * factor_cohe + move_sepa.y * factor_sepa + move_alig.y * factor_alig + move_encl.y * factor_encl + move_eat_.y * factor_eat_ + move_avoi.y * factor_avoi; 
+	fish[i].move.z = move_cohe.z * factor_cohe + move_sepa.z * factor_sepa + move_alig.z * factor_alig + move_encl.z * factor_encl + move_eat_.z * factor_eat_ + move_avoi.z * factor_avoi; 
 
   //----- 角度から正面方向を求める ------
-  *fish[i].forward.y = sinf(DegtoRad(*fish[i].rot.x)); 
+  fish[i].forward.y = sinf(DegtoRad(fish[i].rot.x)); 
   //XZ平面への射影の長さlを求める
   float l = cosf(DegtoRad(fish[i].rot.x));
-  *fish[i].forward.x = -sinf(DegtoRad(*fish[i].rot.y)) * l; 
-  *fish[i].forward.z = -cosf(DegtoRad(*fish[i].rot.y)) * l; 
+  fish[i].forward.x = -sinf(DegtoRad(fish[i].rot.y)) * l; 
+  fish[i].forward.z = -cosf(DegtoRad(fish[i].rot.y)) * l; 
 
-  *fish[i].move.x = *fish[i].move.x + *fish[i].forward.x;
-  *fish[i].move.y = *fish[i].move.y + *fish[i].forward.y;
-  *fish[i].move.z = *fish[i].move.z + *fish[i].forward.z;
+  fish[i].move.x = fish[i].move.x + fish[i].forward.x;
+  fish[i].move.y = fish[i].move.y + fish[i].forward.y;
+  fish[i].move.z = fish[i].move.z + fish[i].forward.z;
 
   //----- 速度が早すぎた場合、正規化を行う -----
   float velocity_max = 0.2;
-  float velocity = sqrtf((*fish[i].move.x * *fish[i].move.x) + (*fish[i].move.y * *fish[i].move.y) + (*fish[i].move.z * *fish[i].move.z));
+  float velocity = sqrtf((fish[i].move.x * fish[i].move.x) + (fish[i].move.y * fish[i].move.y) + (fish[i].move.z * fish[i].move.z));
   if (velocity > velocity_max)
   {
-    *fish[i].move.x = (*fish[i].move.x / velocity) * velocity_max;    
-    *fish[i].move.y = (*fish[i].move.y / velocity) * velocity_max;    
-    *fish[i].move.z = (*fish[i].move.z / velocity) * velocity_max;    
+    fish[i].move.x = (fish[i].move.x / velocity) * velocity_max;    
+    fish[i].move.y = (fish[i].move.y / velocity) * velocity_max;    
+    fish[i].move.z = (fish[i].move.z / velocity) * velocity_max;    
   }
 
   //----- 移動量を位置に与える -----
-  *fish[i].pos.x += *fish[i].move.x;
-  *fish[i].pos.y += *fish[i].move.y;
-  *fish[i].pos.z += *fish[i].move.z;
+  fish[i].pos.x += fish[i].move.x;
+  fish[i].pos.y += fish[i].move.y;
+  fish[i].pos.z += fish[i].move.z;
 
 
   //----- 移動方向を向く ------
   //----- pitch -----
-  *fish[i].rot.x = RadtoDeg( atan2f (*fish[i].move.y, GetVector2Length (*fish[i].move.x, *fish[i].move.z)));
+  fish[i].rot.x = RadtoDeg( atan2f (fish[i].move.y, GetVector2Length (fish[i].move.x, fish[i].move.z)));
   //----- yaw -----
-  *fish[i].rot.y = RadtoDeg ( atan2f (-*fish[i].move.x, -*fish[i].move.z));
+  fish[i].rot.y = RadtoDeg ( atan2f (-fish[i].move.x, -fish[i].move.z));
 
 }
 
-/*--------------------------------------------------------------------------------------------
- * 色にまつわる関数群
- */
-void ColorChange (int i)
-{
-  //水槽の上層にいるかどうか
-  bool upside;
-  if(fish[i].pos.y > 0)
-    upside = true;
-  else 
-    upside = false;
-
-  if(upside)
-  {
-    float ratio = fish[i].pos.y / AQUARIUM_MAX;
-    fish[i].color.r = ratio;
-    fish[i].color.g = 1 - ratio;
-    fish[i].color.b = 0;
-    fish[i].color.a = 1;
-  }
-  else
-  {
-    float ratio = fish[i].pos.y / AQUARIUM_MIN;
-    fish[i].color.r = 0;
-    fish[i].color.g = 1 - ratio;
-    fish[i].color.b = ratio;
-    fish[i].color.a = 1;
-  }
-}
 //end of file

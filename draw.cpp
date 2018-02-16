@@ -17,6 +17,8 @@ extern CamObj camobj;
 extern MouseDataT mouse;
 
 extern FishDataT Rfish[];
+extern FishDataT Gfish[];
+extern FishDataT Bfish[];
 extern FeedDataT feed[];
 
 //------- prototypes for user functions
@@ -91,7 +93,7 @@ void drawSolidSphere( void )
 		glRotatef( 0.0, 0.0, 1.0, 0.0 );  //オブジェクト基準姿勢調整：ヨー角
 		glRotatef( 0.0, 1.0, 0.0, 0.0 ); //オブジェクト基準姿勢調整：ピッチ角
 		glRotatef( 0.0, 0.0, 0.0, 1.0 );  //オブジェクト基準姿勢調整：ロール角
-		glutSolidSphere( 1, 18, 16 );   //半径，経度方向分割数，緯度方向分割数
+		glutSolidSphere( 1.0, 18.0, 16.0 );   //半径，経度方向分割数，緯度方向分割数
 	}
 	glPopMatrix();
     return;
@@ -177,16 +179,16 @@ void drawAquarium()
 /*---------------------------------------------------------------- drawFish
  * drawFish:
  *--------*/
-void drawFish (int i, FishDataT *fish[])
+void drawFish (int i, FishDataT fish[])
 {
 		glPushMatrix();
 	{
-    glColor3f(*fish[i]->color.r, *fish[i]->color.g, *fish[i]->color.b);
-		glTranslatef(*fish[i]->pos.x, *fish[i]->pos.y, *fish[i]->pos.z );    //オブジェクト基準位置調整
-		glRotatef( *fish[i]->rot.y, 0.0, 1.0, 0.0 );  //オブジェクト基準姿勢調整：ヨー角
-		glRotatef( *fish[i]->rot.x, 1.0, 0.0, 0.0 ); //オブジェクト基準姿勢調整：ピッチ角
-		glRotatef( *fish[i]->rot.z, 0.0, 0.0, 1.0 );  //オブジェクト基準姿勢調整：ロール角
-    glGetFloatv( GL_MODELVIEW_MATRIX, *fish[i]->mat);//変換マトリクスの取得
+    glColor3f(fish[i].color.r, fish[i].color.g, fish[i].color.b);
+		glTranslatef(fish[i].pos.x, fish[i].pos.y, fish[i].pos.z);   //オブジェクト基準位置調整
+		glRotatef( fish[i].rot.y, 0.0, 1.0, 0.0 );  //オブジェクト基準姿勢調整：ヨー角
+		glRotatef( fish[i].rot.x, 1.0, 0.0, 0.0 ); //オブジェクト基準姿勢調整：ピッチ角
+		glRotatef( fish[i].rot.z, 0.0, 0.0, 1.0 );  //オブジェクト基準姿勢調整：ロール角
+    glGetFloatv( GL_MODELVIEW_MATRIX, fish[i].mat);//変換マトリクスの取得
 		drawSolidCone();
     //drawFishModel();
 	}
@@ -207,7 +209,9 @@ void DrawScene( void )
 
 		for (int i = 0; i < LENGTH; i++)
 		{
-			drawFish(i, &Rfish[]);
+			drawFish(i, Rfish);
+			drawFish(i, Gfish);
+			drawFish(i, Bfish);
 		}
 
     for (int j = 0; j < FEEDLENGTH; j++)
@@ -219,3 +223,5 @@ void DrawScene( void )
 
     return;
 }
+
+//end of file

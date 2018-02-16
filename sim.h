@@ -9,10 +9,10 @@ void DrawScene( void );
 #define AQUARIUM_MAX 50
 #define AQUARIUM_MIN -50
 
-#define LENGTH_R 100
-#define LENGTH_G 100
-#define LENGTH_B 100
+#define LENGTH 200
 #define FEEDLENGTH 10
+
+
 
 //-------- object data
 typedef struct {
@@ -110,13 +110,16 @@ void MouseObj();
 void FeedControl(int j);
 void GiveFeed (float x, float y);
 
-void Cruising (int i, FishDataT *fish[]);
-Vector3 Gather(int i, FishDataT *fish[]);
-Vector3 Separate(int i, FishDataT *fish[]);
-Vector3 Enclose(int i, FishDataT *fish[]);
-Vector3 Align(int i, FishDataT *fish[]);
-Vector3 EatFeed(int i, FishDataT *fish[]);
-Vector3 Avoid(int i, FishDataT *fish[]);
+void FishInit(int i, FishDataT fish[]);
+void FishColorChange(Color *color, float r, float g, float b, float a);
+
+void Cruising (int i, FishDataT fish[]);
+Vector3 Gather(int i, FishDataT fish[]);
+Vector3 Separate(int i, FishDataT fish[]);
+Vector3 Enclose(int i, FishDataT fish[]);
+Vector3 Align(int i, FishDataT fish[]);
+Vector3 EatFeed(int i, FishDataT fish[]);
+Vector3 Avoid(int i, FishDataT fish[]);
 
 void ColorChange (int i);
 
