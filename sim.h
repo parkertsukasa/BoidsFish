@@ -9,7 +9,9 @@ void DrawScene( void );
 #define AQUARIUM_MAX 50
 #define AQUARIUM_MIN -50
 
-#define LENGTH 300
+#define LENGTH_R 100
+#define LENGTH_G 100
+#define LENGTH_B 100
 #define FEEDLENGTH 10
 
 //-------- object data
@@ -108,17 +110,13 @@ void MouseObj();
 void FeedControl(int j);
 void GiveFeed (float x, float y);
 
-void Cruising(int i);
-Vector3 Cohesion(int i);
-Vector3 Separation(int i);
-void AvoidWall(int i, int *flock, float *movex, float *movey, float *movez);
-Vector3 Alignment(int i);
-Vector3 EatFeed(int i);
-Vector3 Avoid(int i);
-
-void ReturnAquarium(int i);
-
-void SetPosition (int i);
+void Cruising (int i, FishDataT *fish[]);
+Vector3 Gather(int i, FishDataT *fish[]);
+Vector3 Separate(int i, FishDataT *fish[]);
+Vector3 Enclose(int i, FishDataT *fish[]);
+Vector3 Align(int i, FishDataT *fish[]);
+Vector3 EatFeed(int i, FishDataT *fish[]);
+Vector3 Avoid(int i, FishDataT *fish[]);
 
 void ColorChange (int i);
 
