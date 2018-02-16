@@ -91,6 +91,7 @@ typedef struct {
   GLfloat mat[16];
   float range;
   float sightangle;
+  float speed;
   bool hungry;
   int feednum;
 

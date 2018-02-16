@@ -141,7 +141,6 @@ void mouseClick( int button , int state, int x, int y )
         switch( state ){
           case GLUT_DOWN: // press
 
-              GiveFeed (mouseX, mouseY);
 
             break;
           case GLUT_UP: // release
@@ -167,6 +166,7 @@ void mouseClick( int button , int state, int x, int y )
         switch( state ){
           case GLUT_DOWN: // press
 
+              GiveFeed (mouseX, mouseY);
             break;
           case GLUT_UP: // release
 
@@ -187,6 +187,11 @@ void mouseDrag( int x, int y )
 {
 	////////
 
+ //----- マウス座標の正規化 -----
+  float mouseX = (float)x/window.width * 2.0 -1.0;
+  float mouseY = (float)y/window.height * 2.0 -1.0;
+  mouse.x = mouseX;
+  mouse.y = mouseY;
 
 	////////
     return;
@@ -197,11 +202,6 @@ void mouseDrag( int x, int y )
 void mouseMotion( int x, int y )
 {
 	////////
- //----- マウス座標の正規化 -----
-  float mouseX = (float)x/window.width * 2.0 -1.0;
-  float mouseY = (float)y/window.height * 2.0 -1.0;
-  mouse.x = mouseX;
-  mouse.y = mouseY;
 
 	////////
     return;

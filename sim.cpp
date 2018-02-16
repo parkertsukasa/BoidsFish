@@ -126,9 +126,11 @@ void FishInit(int i, FishDataT fish[])
   fish[i].forward.x = -sinf(DegtoRad(fish[i].rot.y)); 
   fish[i].forward.y = sinf(DegtoRad(fish[i].rot.x)); 
   fish[i].forward.z = -cosf(DegtoRad(fish[i].rot.y)); 
+
+  fish[i].speed = 0.2;
   
   fish[i].range = (float)AQUARIUM_MAX * 0.6;//水槽の大きさの3割
-  fish[i].sightangle = 30.0;//実際はこの値の二倍が視野角の広さになる
+  fish[i].sightangle = 60.0;//実際はこの値の二倍が視野角の広さになる
   fish[i].hungry = false;
   fish[i].feednum = 0;
 
@@ -206,6 +208,12 @@ float GetVector2Length ( float x, float y )
 float GetVector3Length ( float x, float y, float z )
 {
   float length = sqrtf ( (x * x) + (y * y) + (z * z));
+
+ int nan = isnan(length); 
+
+  if(nan != 0)
+    length = 0.0;
+
   return length;
 }
 
@@ -263,7 +271,7 @@ float GetVector3Angle (float x1, float y1, float z1, float x2, float y2, float z
     }
     else
     {
-      float angle = 0.0;
+      float angle = 180.0;
       return angle;
     }
     //----- θを求める -----
@@ -373,7 +381,6 @@ Vector3 Gather(int i, FishDataT fish[])
       float length = GetVector3Length (diff.x, diff.y, diff.z);
 
       float angle = GetVector3Angle(fish[i].forward.x, fish[i].forward.y, fish[i].forward.z, diff.x, diff.y, diff.z);
-     // printf("%f\n", angle);
 
       bool visible;
       if(fabs(angle) < fish[i].sightangle && length < fish[i].range)
@@ -390,17 +397,29 @@ Vector3 Gather(int i, FishDataT fish[])
       }
 		}
 	}
-	ave.x /= flock;
-	ave.y /= flock;
-	ave.z /= flock;
+
+
+  if(flock > 0)
+  {
+	  ave.x /= flock;
+	  ave.y /= flock;
+	  ave.z /= flock;
+  }
 
 	//平均と自分の位置の差を移動量とする
-	float speed_factor = 300;
+	float speed_factor = 10.0;
+
+  Vector3 diff_ave;
+  diff_ave.x = ave.x - fish[i].pos.x;
+  diff_ave.y = ave.x - fish[i].pos.y;
+  diff_ave.z = ave.x - fish[i].pos.z;
+
+  float length_ave = GetVector3Length(diff_ave.x, diff_ave.y, diff_ave.z);
 
 	Vector3 move;
-	move.x = (ave.x - fish[i].pos.x)/speed_factor;
-	move.y = (ave.y - fish[i].pos.y)/speed_factor;
-	move.z = (ave.z - fish[i].pos.z)/speed_factor;
+	move.x = (diff_ave.x / length_ave) * speed_factor/ (length_ave * length_ave);
+	move.y = (diff_ave.y / length_ave) * speed_factor/ (length_ave * length_ave);
+	move.z = (diff_ave.z / length_ave) * speed_factor/ (length_ave * length_ave);
 
 
 	return move;
@@ -440,10 +459,13 @@ Vector3 Separate(int i, FishDataT fish[])
 		}
 	}
 
-  move.x /= (float)flock;
-  move.y /= (float)flock;
-  move.z /= (float)flock;
 
+  if(flock > 0)
+  {
+    move.x /= (float)flock;
+    move.y /= (float)flock;
+    move.z /= (float)flock;
+  }
 	return move;
 }
 
@@ -498,16 +520,18 @@ Vector3 Enclose(int i, FishDataT fish[])
     {
       flock += 1;
 
-      move.x += (diff.x / length) * 10.0 / length * -1; 
-      move.y += (diff.y / length) * 10.0 / length * -1; 
-      move.z += (diff.z / length) * 10.0 / length * -1; 
+      move.x += (diff.x / length) * 10.0 / (length * length) * -1; 
+      move.y += (diff.y / length) * 10.0 / (length * length) * -1; 
+      move.z += (diff.z / length) * 10.0 / (length * length) * -1; 
     }
   }
 
-  move.x /= (float)flock;
-  move.y /= (float)flock;
-  move.z /= (float)flock;
-
+  if(flock > 0)
+  {
+    move.x /= (float)flock;
+    move.y /= (float)flock;
+    move.z /= (float)flock;
+  }
 	return move;
 
 }
@@ -553,9 +577,12 @@ Vector3 Align (int i, FishDataT fish[])
 		}
 	}
 
-	ave.x /= flock;
-	ave.y /= flock;
-	ave.z /= flock;
+  if(flock > 0)
+  {
+	  ave.x /= flock;
+	  ave.y /= flock;
+	  ave.z /= flock;
+  }
 
 	//----- 自分の移動量との差を加える -----
 	float speed_factor = 1.0;
@@ -652,10 +679,10 @@ Vector3 Avoid (int i, FishDataT fish[])
 void Cruising (int i, FishDataT fish[])
 {
 	//----- それぞれの速度の重み ------
-  float factor_cohe = 1.0;
-	float factor_sepa = 1.0;
-	float factor_alig = 1.0;
-  float factor_eat_ = 1.0;
+  float factor_cohe = 0.1;
+	float factor_sepa = 0.1;
+	float factor_alig = 0.1;
+  float factor_eat_ = 0.1;
   float factor_avoi = 1.0;
   float factor_encl = 1.0;
 
@@ -679,12 +706,12 @@ void Cruising (int i, FishDataT fish[])
   fish[i].forward.x = -sinf(DegtoRad(fish[i].rot.y)) * l; 
   fish[i].forward.z = -cosf(DegtoRad(fish[i].rot.y)) * l; 
 
-  fish[i].move.x = fish[i].move.x + fish[i].forward.x;
-  fish[i].move.y = fish[i].move.y + fish[i].forward.y;
-  fish[i].move.z = fish[i].move.z + fish[i].forward.z;
+  fish[i].move.x = fish[i].move.x + (fish[i].forward.x * fish[i].speed);
+  fish[i].move.y = fish[i].move.y + (fish[i].forward.y * fish[i].speed);
+  fish[i].move.z = fish[i].move.z + (fish[i].forward.z * fish[i].speed);
 
   //----- 速度が早すぎた場合、正規化を行う -----
-  float velocity_max = 0.2;
+  float velocity_max = 10.0;
   float velocity = sqrtf((fish[i].move.x * fish[i].move.x) + (fish[i].move.y * fish[i].move.y) + (fish[i].move.z * fish[i].move.z));
   if (velocity > velocity_max)
   {
