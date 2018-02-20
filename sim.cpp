@@ -158,7 +158,7 @@ void UpdateScene( void )
   MouseObj ();
 
   density = DensitySerch();
-  printf("%d\n", density);
+ // printf("%d\n", density);
 
 	for(int i = 0; i < LENGTH; i++)
 	{
@@ -285,7 +285,11 @@ Vector3 Separate(int i, FishDataT fish[])
 
 
   if(flock > 0)
-    move = VectorDivi(move, (float)flock);
+   {
+    move.x /= (float)flock;
+    move.y /= (float)flock;
+    move.z /= (float)flock;
+  }
 
 	return move;
 }
@@ -380,7 +384,11 @@ Vector3 Align (int i, FishDataT fish[])
 	}
 
   if(flock > 0)
-    ave = VectorDivi(ave, (float)flock);
+  {
+	  ave.x /= flock;
+	  ave.y /= flock;
+	  ave.z /= flock;
+  }
 
 	//----- 自分の移動量との差を加える -----
 	float speed_factor = 1.0;
