@@ -12,7 +12,7 @@ void DrawScene( void );
 #define LENGTH 200
 #define FEEDLENGTH 10
 
-
+#include "vector.h"
 
 //-------- object data
 typedef struct {
@@ -21,14 +21,6 @@ typedef struct {
 	int state;
 	bool visible;
 } ObjDataT;
-
-typedef struct {
-
-	float x;
-	float y;
-	float z;
-
-} Vector3;
 
 typedef struct {
 
@@ -98,12 +90,6 @@ typedef struct {
   Color color;
 }FishDataT;
 
-float RadtoDeg (float f);
-float DegtoRad (float f);
-float GetVector2Length ( float x, float y );
-float GetInnerProduct (float x1, float y1, float x2, float y2);
-float GetVector2Angle (float x1, float y1, float x2, float y2);
-float GetVector3Angle (float x1, float y1, float z1, float x2, float y2, float z2);
 
 void CameraRotate();
 void MouseObj();
@@ -123,5 +109,7 @@ Vector3 EatFeed(int i, FishDataT fish[]);
 Vector3 Avoid(int i, FishDataT fish[]);
 
 void ColorChange (int i);
+
+int DensitySerch();
 
 //end of file

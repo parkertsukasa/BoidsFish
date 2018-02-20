@@ -1,4 +1,4 @@
-﻿#include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 
@@ -8,16 +8,24 @@
 
 #include "sim.h"
 
+
 //#include "mymodel.h"
 
 SimDataT simdata;
 CamDataT cam;
 CamObj camobj;
+
 MouseDataT mouse;
 FishDataT Rfish[LENGTH];
 FishDataT Gfish[LENGTH];
 FishDataT Bfish[LENGTH];
 FeedDataT feed[FEEDLENGTH];
+
+//----- 密度を調べるためのパラメータ -----
+Vector3 samplepos;//密度調査を行う場所の中心地
+float samplelength;//調査範囲
+int density;//対象範囲内にいる魚の数 
+
 
 extern int time;
 
@@ -33,6 +41,11 @@ void InitScene( void )
 //  CreateMyModels ();
   glutSetCursor(GLUT_CURSOR_NONE);//マウスの非表示
 
+  //----- 密度調査まわり -----
+  samplepos = VectorZero();
+  samplelength = AQUARIUM_MAX / 5;//水槽の幅の10%
+  density = 0;
+
 	////// シーンデータの初期化
 	simdata.clip_far = 250.0;
 	simdata.clip_near = 0.01;
@@ -46,12 +59,8 @@ void InitScene( void )
 	simdata.sky_color[3] = 0.5; // sky color factor
 	//////
 
-  cam.pos.x = 0.0;
-  cam.pos.y = 0.0;
-  cam.pos.z = 0.0;
-  cam.rot.x = 0.0;
-  cam.rot.y = 0.0;
-  cam.rot.z = 0.0;
+  cam.pos = VectorZero();
+  cam.rot = VectorZero();
   cam.up = 0;  
 
   camobj.radius = 150;
@@ -59,9 +68,7 @@ void InitScene( void )
   camobj.pos.x = 0.0;
   camobj.pos.y = 70.0;
   camobj.pos.z = -camobj.radius;
-  camobj.center.x = 0.0;
-  camobj.center.y = 0.0;
-  camobj.center.z = 0.0;
+  camobj.center = VectorZero();
   camobj.thete = 0.0;
 
 	for (int i = 0; i < LENGTH; i++)
@@ -82,9 +89,7 @@ void InitScene( void )
 	  feed[j].pos.x = 0;
 	  feed[j].pos.y = 40;
 	  feed[j].pos.z = 0;
-    feed[j].rot.x = 0.0;
-    feed[j].rot.y = 0.0;
-    feed[j].rot.z = 0.0;
+    feed[j].rot = VectorZero();
     feed[j].amount = 50;
     feed[j].alive = false;
   }
@@ -152,6 +157,9 @@ void UpdateScene( void )
   CameraRotate();
   MouseObj ();
 
+  density = DensitySerch();
+  printf("%d\n", density);
+
 	for(int i = 0; i < LENGTH; i++)
 	{
 		Cruising (i, Rfish);//通常の巡行
@@ -171,190 +179,28 @@ void UpdateScene( void )
 
 
 /*--------------------------------------------------------------------------------------------
- * 数学的便利関数群
- */
-
-
-/*-------------------------------------------------------------- RadtoDeg
- * ラジアンから度数へ変換する関数
- */
-float RadtoDeg (float f)
-{
-  float deg = f * 180.0 / 3.1415;
-  return deg;
-}
-
-/*-------------------------------------------------------------- RadtoDeg
- * 度数からラジアンへ変換する関数
- */
-float DegtoRad (float f)
-{
-  float rad = f * 3.1415 / 180.0;
-  return rad;
-}
-
-/*-------------------------------------------------------------- GetVector2Length
- * GetVector2Length : ベクトルの長さを取得する(2軸)
- */
-float GetVector2Length ( float x, float y )
-{
-  float length = sqrtf ( x * x + y * y );
-  return length;
-}
-
-/*-------------------------------------------------------------- GetVector3Length
- * GetVector3Length : ベクトルの長さを取得する(3軸)
- */
-float GetVector3Length ( float x, float y, float z )
-{
-  float length = sqrtf ( (x * x) + (y * y) + (z * z));
-
- int nan = isnan(length); 
-
-  if(nan != 0)
-    length = 0.0;
-
-  return length;
-}
-
-/*-------------------------------------------------------------- GetInnerProduct
- * GetInnerProduct : ベクトルの内積を求める
- */
-float GetInnerProduct (float x1, float y1, float x2, float y2)
-{
-    float product = x1 * x2 + y1 * y2;
-    return product;
-}
-
-/*-------------------------------------------------------------- GetVectorAngle
- * GetVector2Angle : ベクトルのなす角度を取得する
- */
-float GetVector2Angle (float x1, float y1, float x2, float y2)
-{
-    //----- それぞれのベクトルの長さを求める -----
-    float Alength = GetVector2Length (x1, y1);
-    float Blength = GetVector2Length (x2, y2);
-
-    //----- 内積を求める -----
-    float product = GetInnerProduct (x1, y1, x2, y2);
-
-    //----- cosθを求める -----
-    float cos_theta = product / (Alength * Blength);
-
-    //----- θを求める -----
-    float theta = acosf(cos_theta);
-
-    //----- ラジアンを度数に変換 -----
-    float angle = theta * 180.0 / 3.1415;
-
-    return angle;
-}
-
-/*-------------------------------------------------------------- GetVectorAngle
- * GetVector3Angle : ベクトルのなす角度を取得する
- */
-float GetVector3Angle (float x1, float y1, float z1, float x2, float y2, float z2)
-{
-    //----- それぞれのベクトルの長さを求める -----
-    float Alength = GetVector3Length (x1, y1, z1);
-    float Blength = GetVector3Length (x2, y2, z2);
-
-    //----- 内積を求める -----
-    float product = (x1 * x2) + (y1 * y2) + (z1 * z2); 
-
-    float cos_theta;
-
-    if(product > 0.0 && Alength > 0.0 && Blength > 0.0)
-    {
-      //----- cosθを求める -----
-      cos_theta = product / (Alength * Blength);
-    }
-    else
-    {
-      float angle = 180.0;
-      return angle;
-    }
-    //----- θを求める -----
-    float theta = acosf(cos_theta);
-
-    //----- ラジアンを度数に変換 -----
-    float angle = RadtoDeg(theta);
-
-    return angle;
-}
-
-/*--------------------------------------------------------------------------------------------
- * カメラを管理する関数群
- */
-
-
-/*-------------------------------------------------------------- CameraRotate
- * 水槽の周囲にカメラを回転させる
- */
-void CameraRotate ()
-{
-  camobj.thete += camobj.speed;
-  camobj.pos.x = camobj.radius * cosf(camobj.thete);
-  camobj.pos.z = camobj.radius * sinf(camobj.thete);
-}
-
-
-
-
-/*--------------------------------------------------------------------------------------------
- * 餌を管理する関数群
- */
-
-/*------------------------------------------------------------- MouseObj
- * MouseObj : マウスの位置のシミュレーション
- */
-void MouseObj ()
-{
-  mouse.x *= AQUARIUM_MAX;
-  mouse.y *= AQUARIUM_MAX;
-}
-
-/*------------------------------------------------------------- GiveFeed
- * GiveFeed : 餌を増やす　kbdmouse.cppから呼び出す
- */
-void GiveFeed (float x, float y)
-{
-    feed[nowfeed].pos.x = x * 50;
-    feed[nowfeed].pos.y = 50;
-    feed[nowfeed].pos.z = y * 50;
-
-    feed[nowfeed].alive = true;
-
-    if (nowfeed == FEEDLENGTH -1)
-    {
-      nowfeed = 0;
-    }
-    else
-    {
-      nowfeed += 1;
-    }
-}
-
-/*-------------------------------------------------------------- FeedControl
- * FeedControl : 餌の管理　自由落下や餌の残量
- *--------*/
-void FeedControl (int j)
-{
-    if(feed[j].pos.y >= -30)
-    {
-      feed[j].pos.y -= 0.1;
-    }
-    else
-    {
-      feed[j].alive = false;
-    }
-}
-
-
-/*--------------------------------------------------------------------------------------------
  * 魚の挙動をコントロールする関数群
  */
 
+/* ------------------------------------------------------------- isVisible
+ * isVisible 対象としている魚が視界内にいるのかどうかを判定する関数
+ */
+bool isVisible(int i, int j, FishDataT fish[])
+{
+  //--- 各個体との距離を計算し一定距離より遠い個体は除外する ---
+  Vector3 diff = VectorDiff(fish[i].pos, fish[j].pos);
+  float length = GetVector3Length (diff);
+
+  float angle = GetVector3Angle(fish[i].forward, diff);
+
+  bool visible;
+  if(fabs(angle) < fish[i].sightangle && length < fish[i].range)
+    visible = true;
+  else
+    visible = false;
+
+  return visible;
+}
 
 /*-------------------------------------------------------------- Cohesion
  * Gather : 結合　群れの中心に向かって進行する
@@ -362,10 +208,7 @@ void FeedControl (int j)
 Vector3 Gather(int i, FishDataT fish[])
 {
 
-	Vector3 ave;
-	ave.x = 0;
-	ave.y = 0;
-	ave.z = 0;
+	Vector3 ave = VectorZero();
 
   int flock = 0;
 	//----- 周囲の固体の中心を求める -----
@@ -373,24 +216,12 @@ Vector3 Gather(int i, FishDataT fish[])
 	{
 		if(i != j)
 		{
-      //--- 各個体との距離を計算し一定距離より遠い個体は除外する ---
-      Vector3 diff;
-      diff.x = fish[i].pos.x - fish[j].pos.x;
-      diff.y = fish[i].pos.y - fish[j].pos.y;
-      diff.z = fish[i].pos.z - fish[j].pos.z;
-      float length = GetVector3Length (diff.x, diff.y, diff.z);
 
-      float angle = GetVector3Angle(fish[i].forward.x, fish[i].forward.y, fish[i].forward.z, diff.x, diff.y, diff.z);
-
-      bool visible;
-      if(fabs(angle) < fish[i].sightangle && length < fish[i].range)
-        visible = true;
-      else
-        visible = false;
+      bool visible = isVisible(i, j, fish);
 
       if(visible)
       {
-			  ave.x += fish[j].pos.x;
+        ave.x += fish[j].pos.x;
 			  ave.y += fish[j].pos.y;
 		  	ave.z += fish[j].pos.z;
         flock += 1;
@@ -401,20 +232,17 @@ Vector3 Gather(int i, FishDataT fish[])
 
   if(flock > 0)
   {
-	  ave.x /= flock;
-	  ave.y /= flock;
-	  ave.z /= flock;
+	  ave.x /= (float)flock;
+	  ave.y /= (float)flock;
+	  ave.z /= (float)flock;
   }
-
+  
 	//平均と自分の位置の差を移動量とする
 	float speed_factor = 10.0;
 
-  Vector3 diff_ave;
-  diff_ave.x = ave.x - fish[i].pos.x;
-  diff_ave.y = ave.x - fish[i].pos.y;
-  diff_ave.z = ave.x - fish[i].pos.z;
+  Vector3 diff_ave = VectorDiff(ave, fish[i].pos);
 
-  float length_ave = GetVector3Length(diff_ave.x, diff_ave.y, diff_ave.z);
+  float length_ave = GetVector3Length( diff_ave );
 
 	Vector3 move;
 	move.x = (diff_ave.x / length_ave) * speed_factor/ (length_ave * length_ave);
@@ -442,12 +270,8 @@ Vector3 Separate(int i, FishDataT fish[])
 	{
 		if(i != j)
 		{
-      //----- 距離を求める -----
-      Vector3 diff;
-      diff.x = fish[j].pos.x - fish[i].pos.x;
-      diff.y = fish[j].pos.y - fish[i].pos.y;
-      diff.z = fish[j].pos.z - fish[i].pos.z;
-      float length = GetVector3Length(diff.x, diff.y, diff.z);
+      Vector3 diff = VectorDiff(fish[j].pos, fish[i].pos);
+      float length = GetVector3Length(diff);
         
       if(length < fish[i].range && length > 0.0)
       {
@@ -461,11 +285,8 @@ Vector3 Separate(int i, FishDataT fish[])
 
 
   if(flock > 0)
-  {
-    move.x /= (float)flock;
-    move.y /= (float)flock;
-    move.z /= (float)flock;
-  }
+    move = VectorDivi(move, (float)flock);
+
 	return move;
 }
 
@@ -500,10 +321,7 @@ Vector3 Enclose(int i, FishDataT fish[])
   wallfish[5].y = fish[i].pos.y;
   wallfish[5].z = AQUARIUM_MIN;
 
-  Vector3 move;
-  move.x = 0.0;
-  move.y = 0.0;
-  move.z = 0.0;
+  Vector3 move = VectorZero();
 
   int flock = 0;
 
@@ -514,12 +332,11 @@ Vector3 Enclose(int i, FishDataT fish[])
     diff.x = wallfish[j].x - fish[i].pos.x;
     diff.y = wallfish[j].y - fish[i].pos.y;
     diff.z = wallfish[j].z - fish[i].pos.z;
-    float length = GetVector3Length(diff.x, diff.y, diff.z);
+    float length = GetVector3Length(diff);
 
     if(length < fish[i].range * 2 && length > 0.0)
     {
       flock += 1;
-
       move.x += (diff.x / length) * 10.0 / (length * length) * -1; 
       move.y += (diff.y / length) * 10.0 / (length * length) * -1; 
       move.z += (diff.z / length) * 10.0 / (length * length) * -1; 
@@ -532,8 +349,8 @@ Vector3 Enclose(int i, FishDataT fish[])
     move.y /= (float)flock;
     move.z /= (float)flock;
   }
-	return move;
 
+	return move;
 }
 
 /*-------------------------------------------------------------- Alignment
@@ -541,10 +358,7 @@ Vector3 Enclose(int i, FishDataT fish[])
  *--------*/
 Vector3 Align (int i, FishDataT fish[])
 {
-	Vector3 ave;
-	ave.x = 0;
-	ave.y = 0;
-	ave.z = 0;
+	Vector3 ave = VectorZero();
 
   int flock = 0;//自分の周囲の個体の数
 		//----- 自分以外の固体の移動量の平均を求める -----
@@ -552,24 +366,12 @@ Vector3 Align (int i, FishDataT fish[])
 	{
 		if(i != j)
 		{
-      //--- 各個体との距離を計算し一定距離より遠い個体は除外する ---
-      Vector3 diff;
-      diff.x = fish[j].pos.x - fish[i].pos.x;
-      diff.y = fish[j].pos.y - fish[i].pos.y;
-      diff.z = fish[j].pos.z - fish[i].pos.z;
-      float length = GetVector3Length (diff.x, diff.y, diff.z);
 
-      float angle = GetVector3Angle(fish[i].forward.x, fish[i].forward.y, fish[i].forward.z, diff.x, diff.y, diff.z);
-
-      bool visible;
-      if(fabs(angle) < fish[i].sightangle && length < fish[i].range)
-        visible = true;
-      else
-        visible = false;
+      bool visible = isVisible(i, j, fish);
 
       if(visible)
       {
-			  ave.x += fish[j].move.x;
+        ave.x += fish[j].move.x;
 			  ave.y += fish[j].move.y;
 			  ave.z += fish[j].move.z;
         flock += 1;
@@ -578,11 +380,7 @@ Vector3 Align (int i, FishDataT fish[])
 	}
 
   if(flock > 0)
-  {
-	  ave.x /= flock;
-	  ave.y /= flock;
-	  ave.z /= flock;
-  }
+    ave = VectorDivi(ave, (float)flock);
 
 	//----- 自分の移動量との差を加える -----
 	float speed_factor = 1.0;
@@ -606,12 +404,9 @@ Vector3 EatFeed (int i, FishDataT fish[])
   {
     if(feed[j].alive)
     {
-      Vector3 diff;
-      diff.x = feed[j].pos.x - fish[i].pos.x;
-      diff.y = feed[j].pos.y - fish[i].pos.y;
-      diff.z = feed[j].pos.z - fish[i].pos.z;
+      Vector3 diff = VectorDiff(feed[j].pos, fish[i].pos);
       //餌との距離を求める
-      float dist = GetVector3Length(diff.x, diff.y, diff.z);
+      float dist = GetVector3Length(diff);
       if (nearfeed > dist)
       {
         nearfeed = dist;
@@ -637,9 +432,7 @@ Vector3 EatFeed (int i, FishDataT fish[])
   }
   else
   {
-    move.x = 0.0;    
-    move.y = 0.0;    
-    move.z = 0.0;    
+    move = VectorZero();    
   }
   return move;
 }
@@ -650,17 +443,14 @@ Vector3 EatFeed (int i, FishDataT fish[])
  *--------*/
 Vector3 Avoid (int i, FishDataT fish[])
 {
-  Vector3 move;
-  move.x = 0.0;
-  move.y = 0.0;
-  move.z = 0.0;
+  Vector3 move = VectorZero();
 
   Vector3 diff;
   diff.x = mouse.x - fish[i].pos.x;
   diff.y = 0.0 - fish[i].pos.y;
   diff.z = mouse.y - fish[i].pos.z;
 
-  float length = GetVector3Length(diff.x, diff.y, diff.z);
+  float length = GetVector3Length(diff);
 
   if(length < fish[i].range && length > 0.0)
   {
@@ -706,6 +496,7 @@ void Cruising (int i, FishDataT fish[])
   fish[i].forward.x = -sinf(DegtoRad(fish[i].rot.y)) * l; 
   fish[i].forward.z = -cosf(DegtoRad(fish[i].rot.y)) * l; 
 
+  //----- 正面方向への移動量を加える -----
   fish[i].move.x = fish[i].move.x + (fish[i].forward.x * fish[i].speed);
   fish[i].move.y = fish[i].move.y + (fish[i].forward.y * fish[i].speed);
   fish[i].move.z = fish[i].move.z + (fish[i].forward.z * fish[i].speed);
@@ -725,12 +516,122 @@ void Cruising (int i, FishDataT fish[])
   fish[i].pos.y += fish[i].move.y;
   fish[i].pos.z += fish[i].move.z;
 
-
   //----- 移動方向を向く ------
   //----- pitch -----
   fish[i].rot.x = RadtoDeg( atan2f (fish[i].move.y, GetVector2Length (fish[i].move.x, fish[i].move.z)));
   //----- yaw -----
   fish[i].rot.y = RadtoDeg ( atan2f (-fish[i].move.x, -fish[i].move.z));
+
+  //----- 左右へのブレを加える -----
+  fish[i].rot.y += Gaussian(-5.0, 5.0);
+
+}
+
+
+
+/*--------------------------------------------------------------------------------------------
+ * カメラを管理する関数群
+ */
+
+
+/*-------------------------------------------------------------- CameraRotate
+ * 水槽の周囲にカメラを回転させる
+ */
+void CameraRotate ()
+{
+    camobj.thete += camobj.speed;
+    camobj.pos.x = camobj.radius * cosf(camobj.thete);
+    camobj.pos.z = camobj.radius * sinf(camobj.thete);
+}
+
+
+
+
+/*--------------------------------------------------------------------------------------------
+ * 餌を管理する関数群
+ */
+
+/*------------------------------------------------------------- MouseObj
+ * MouseObj : マウスの位置のシミュレーション
+ */
+void MouseObj ()
+{
+    mouse.x *= AQUARIUM_MAX;
+    mouse.y *= AQUARIUM_MAX;
+}
+
+/*------------------------------------------------------------- GiveFeed
+ * GiveFeed : 餌を増やす　kbdmouse.cppから呼び出す
+ */
+void GiveFeed (float x, float y)
+{
+    feed[nowfeed].pos.x = x * 50;
+    feed[nowfeed].pos.y = 50;
+    feed[nowfeed].pos.z = y * 50;
+    
+    feed[nowfeed].alive = true;
+    
+    if (nowfeed == FEEDLENGTH -1)
+    {
+        nowfeed = 0;
+    }
+    else
+    {
+        nowfeed += 1;
+    }
+}
+
+/*-------------------------------------------------------------- FeedControl
+ * FeedControl : 餌の管理　自由落下や餌の残量
+ *--------*/
+void FeedControl (int j)
+{
+    if(feed[j].pos.y >= -30)
+    {
+        feed[j].pos.y -= 0.1;
+    }
+    else
+    {
+        feed[j].alive = false;
+    }
+}
+
+
+/* ------------------------------------------------------------- DemsitySerch
+ * DensitySerch 特定領域内に存在する魚の数をカウントする関数
+ */
+int DensitySerch ()
+{
+  int count = 0;
+
+  for(int i = 0; i < LENGTH; i++)
+  {
+    Vector3 diff = VectorDiff(samplepos, Rfish[i].pos);
+    float length = GetVector3Length(diff);
+    
+    if(length < samplelength)
+      count += 1;
+  }
+
+  for(int i = 0; i < LENGTH; i++)
+  {
+    Vector3 diff = VectorDiff(samplepos, Gfish[i].pos);
+    float length = GetVector3Length(diff);
+    
+    if(length < samplelength)
+      count += 1;
+  }
+
+  for(int i = 0; i < LENGTH; i++)
+  {
+    Vector3 diff = VectorDiff(samplepos, Bfish[i].pos);
+    float length = GetVector3Length(diff);
+    
+    if(length < samplelength)
+      count += 1;
+  }
+
+  return count;
 
 }
 

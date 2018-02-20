@@ -17,3 +17,16 @@ float Random( float rmin, float rmax ){
     return r;
 }
 
+float Gaussian(float min, float max)
+{
+  float gauss = 0.0;
+
+  for(int i = 0; i < 12; i++)
+  {
+    gauss += Random(min, max);
+  }
+
+  return gauss / 12;
+}
+
+//end of file
