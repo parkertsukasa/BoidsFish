@@ -9,7 +9,7 @@ void DrawScene( void );
 #define AQUARIUM_MAX 50
 #define AQUARIUM_MIN -50
 
-#define LENGTH 200
+#define LENGTH 100
 #define FEEDLENGTH 10
 
 #include "vector.h"

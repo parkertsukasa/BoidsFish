@@ -158,7 +158,7 @@ void UpdateScene( void )
   MouseObj ();
 
   density = DensitySerch();
- // printf("%d\n", density);
+  //printf("%d\n", density);
 
 	for(int i = 0; i < LENGTH; i++)
 	{
@@ -341,9 +341,9 @@ Vector3 Enclose(int i, FishDataT fish[])
     if(length < fish[i].range * 2 && length > 0.0)
     {
       flock += 1;
-      move.x += (diff.x / length) * 10.0 / (length * length) * -1; 
-      move.y += (diff.y / length) * 10.0 / (length * length) * -1; 
-      move.z += (diff.z / length) * 10.0 / (length * length) * -1; 
+      move.x += (diff.x / length) * 5.0 / (length * length) * -1; 
+      move.y += (diff.y / length) * 5.0 / (length * length) * -1; 
+      move.z += (diff.z / length) * 5.0 / (length * length) * -1; 
     }
   }
 
@@ -477,7 +477,7 @@ Vector3 Avoid (int i, FishDataT fish[])
 void Cruising (int i, FishDataT fish[])
 {
 	//----- それぞれの速度の重み ------
-  float factor_cohe = 0.1;
+  float factor_cohe = 0.3;
 	float factor_sepa = 0.1;
 	float factor_alig = 0.1;
   float factor_eat_ = 0.1;
