@@ -9,6 +9,7 @@
 #include "common.h"
 
 #include "sim.h"
+#include "interaction.h"
 
 extern SimDataT simdata;
 extern CamDataT cam;
@@ -61,6 +62,22 @@ void charKeyDown( unsigned char key, int x, int y )
         set = !set;
         break;
 
+      case '1':
+        SpeedUp();
+        break;
+
+      case '2':
+        SpeedDown();
+        break;
+
+      case '3':
+        SightAngleUp();
+        break;
+
+      case '4':
+        SightAngleDown();
+        break;
+
       default:
         break;
     }
@@ -105,6 +122,21 @@ void funcKeyDown( int key, int x, int y )
 	  case GLUT_KEY_DOWN://[↓]
 
 		break;
+
+    extern Selected interface;
+
+    case GLUT_KEY_F1:
+      interface.select = interface.RED;
+    break;
+
+    case GLUT_KEY_F2:
+      interface.select = interface.GREEN;
+    break;
+
+    case GLUT_KEY_F3:
+      interface.select = interface.BLUE;
+    break;
+
 	}
 }
 void funcKeyUp( int key, int x, int y )

@@ -164,8 +164,7 @@ Vector3 VectorScalar(Vector3 v1, float f)
 Vector3 VectorDivi(Vector3 v1, float f)
 {
   Vector3 v = VectorZero();
-  float length = GetVector3Length(v);
-  if(length > 0.0 && f > 0.0)
+  if(v.x > 0.0 && v.y > 0.0 && v.z > 0.0 && f > 0.0)
   {
     v.x = v1.x / f;
     v.y = v1.y / f;

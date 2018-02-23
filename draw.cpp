@@ -21,6 +21,8 @@ extern FishDataT Gfish[];
 extern FishDataT Bfish[];
 extern FeedDataT feed[];
 
+extern Selected interface;
+
 //------- prototypes for user functions
 
 void setMaterialColor( float r, float g, float b );
@@ -170,7 +172,7 @@ void drawFeed (int j)
 void drawAquarium()
 {
   glPushMatrix();
-    glColor3f(1.0, 1.0, 1.0);
+    glColor3f(interface.color.r, interface.color.g, interface.color.b);
     glTranslatef(0.0, 0.0, 0.0);
     glutWireCube(100.0);
   glPopMatrix();

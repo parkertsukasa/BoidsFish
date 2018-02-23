@@ -12,7 +12,10 @@ void DrawScene( void );
 #define LENGTH 100
 #define FEEDLENGTH 10
 
+#include "platform.h"
+
 #include "vector.h"
+#include "interaction.h"
 
 //-------- object data
 typedef struct {
@@ -90,6 +93,19 @@ typedef struct {
   Color color;
 }FishDataT;
 
+typedef struct {
+  enum kind {RED, BLUE, GREEN};
+  kind select;
+  Color color;
+}Selected;
+
+typedef struct {
+  float speed;
+  float sightangle;
+  float sightrange;
+  float kc, ks, ka;
+}Parameter;
+
 
 void CameraRotate();
 void MouseObj();
@@ -98,7 +114,7 @@ void FeedControl(int j);
 void GiveFeed (float x, float y);
 
 void FishInit(int i, FishDataT fish[]);
-void FishColorChange(Color *color, float r, float g, float b, float a);
+void ColorChange(Color *color, float r, float g, float b, float a);
 
 void Cruising (int i, FishDataT fish[]);
 Vector3 Gather(int i, FishDataT fish[]);
