@@ -63,7 +63,7 @@ void SpeedDown()
   {
     case interface.RED:
 
-      if(Rfish[0].speed > 0.1)
+      if(Rfish[0].speed >= 0.2)
       {
         for(int i = 0; i < LENGTH; i++)
         {
@@ -74,7 +74,7 @@ void SpeedDown()
 
     case interface.GREEN:
 
-      if(Gfish[0].speed > 0.1)
+      if(Gfish[0].speed >= 0.2)
       {
         for(int i = 0; i < LENGTH; i++)
         {
@@ -86,7 +86,7 @@ void SpeedDown()
 
     case interface.BLUE:
 
-      if(Bfish[0].speed > 0.1)
+      if(Bfish[0].speed >= 0.2)
       {
         for(int i = 0; i < LENGTH; i++)
         {
@@ -114,7 +114,6 @@ void SightAngleUp()
         {
           Rfish[i].sightangle += 10.0;
         }
-        printf("%f\n", Rfish[0].sightangle);
       }
 
       break;
@@ -195,7 +194,18 @@ void SightAngleDown()
  */
 
 
-/* ------------------------------------------------------------- SelectType
+/* ------------------------------------------------------------ ShowParameter 
+ * ShowParameter パラメーターを表示する
+ */
+void ShowParameter()
+{
+  printf(" RED :Speed:%f,Angle:%f,Range:%f\n", Rfish[0].speed, Rfish[0].sightangle, Rfish[0].range);
+  printf("GREEN:Speed:%f,Angle:%f,Range:%f\n", Gfish[0].speed, Gfish[0].sightangle, Gfish[0].range);
+  printf("BLUE :Speed:%f,Angle:%f,Range:%f\n", Bfish[0].speed, Bfish[0].sightangle, Bfish[0].range);
+}
+
+
+/* ------------------------------------------------------------ SelectType
  * SelectType 選択されている種族の色に変更する関数
  */
 void SelectType()

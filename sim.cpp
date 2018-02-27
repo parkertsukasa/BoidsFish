@@ -48,10 +48,12 @@ void loadFishParam( const char *file )
     parameter.sightangle = strtod( num , NULL);
     fscanf( fp, "%s", num );
     parameter.sightrange = strtod( num , NULL);
-    fscanf( fp, "%s,%s,%s", num, num2, num3 );
+    fscanf( fp, "%s", num );
     parameter.kc = strtod( num , NULL);
-    parameter.ks = strtod( num2 , NULL);
-    parameter.ka = strtod( num3 , NULL);
+    fscanf( fp, "%s", num );
+    parameter.ks = strtod( num , NULL);
+    fscanf( fp, "%s", num );
+    parameter.ka = strtod( num , NULL);
 }
 
 /*---------------------------------------------------------------- InitScene
@@ -163,7 +165,7 @@ void FishInit(int i, FishDataT fish[])
 
   fish[i].speed = parameter.speed;
   
-  fish[i].range = (float)AQUARIUM_MAX * parameter.sightrange * 2.0;//水槽の大きさの3割
+  fish[i].range = (float)AQUARIUM_MAX * (parameter.sightrange * 2.0);
   fish[i].sightangle = parameter.sightangle;//実際はこの値の二倍が視野角の広さになる
   fish[i].hungry = false;
   fish[i].feednum = 0;
@@ -362,9 +364,9 @@ Vector3 Enclose(int i, FishDataT fish[])
     if(length < fish[i].range * 2 && length > 0.0)
     {
       flock += 1;
-      move.x += (diff.x / length) * 5.0 / (length * length) * -1; 
-      move.y += (diff.y / length) * 5.0 / (length * length) * -1; 
-      move.z += (diff.z / length) * 5.0 / (length * length) * -1; 
+      move.x += (diff.x / length) * 10.0 / (length * length) * -1; 
+      move.y += (diff.y / length) * 10.0 / (length * length) * -1; 
+      move.z += (diff.z / length) * 10.0 / (length * length) * -1; 
     }
   }
 
@@ -503,9 +505,10 @@ void Cruising (int i, FishDataT fish[])
 	float factor_sepa = parameter.ks;
 	float factor_alig = parameter.ka;
   float factor_eat_ = 0.1;
-  float factor_avoi = 1.0;
+  float factor_avoi = 0.5;
   float factor_encl = 0.5;
 
+//  printf("%f,%f,%f\n", factor_cohe, factor_sepa, factor_alig);
 
 	//----- それぞれの速度を求める ------
  	Vector3 move_cohe = Gather(i, fish);
@@ -553,7 +556,7 @@ void Cruising (int i, FishDataT fish[])
   fish[i].rot.y = RadtoDeg ( atan2f (-fish[i].move.x, -fish[i].move.z));
 
   //----- 左右へのブレを加える -----
-  fish[i].rot.y += Gaussian(-15.0, 15.0);
+  fish[i].rot.y += Gaussian(-5.0, 5.0);
 
 }
 

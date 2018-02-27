@@ -1,5 +1,7 @@
 //関数プロトタイプ宣言
 
+void ShowParameter();
+
 void SelectType();
 void SpeedUp();
 void SpeedDown();

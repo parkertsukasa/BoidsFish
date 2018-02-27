@@ -101,6 +101,22 @@ void drawSolidSphere( void )
     return;
 }
 
+/*--------------------------------------------------------- drawWireSphere
+ * drawWireSphere:
+ *--------*/
+void drawWireSphere( void )
+{
+	glPushMatrix();
+	{
+		glTranslatef( 0.0, 0.0, 0.0 );    //オブジェクト基準位置調整
+		glRotatef( 0.0, 0.0, 1.0, 0.0 );  //オブジェクト基準姿勢調整：ヨー角
+		glRotatef( 0.0, 1.0, 0.0, 0.0 ); //オブジェクト基準姿勢調整：ピッチ角
+		glRotatef( 0.0, 0.0, 0.0, 1.0 );  //オブジェクト基準姿勢調整：ロール角
+		glutWireSphere( 1.0, 18.0, 16.0 );   //半径，経度方向分割数，緯度方向分割数
+	}
+	glPopMatrix();
+    return;
+}
 /*--------------------------------------------------------- drawSolidCone
  * drawSolidCone:
  *--------*/
@@ -175,6 +191,7 @@ void drawAquarium()
     glColor3f(interface.color.r, interface.color.g, interface.color.b);
     glTranslatef(0.0, 0.0, 0.0);
     glutWireCube(100.0);
+		//glutWireSphere( 50.0, 18.0, 16.0 );   //半径，経度方向分割数，緯度方向分割数
   glPopMatrix();
 }
 

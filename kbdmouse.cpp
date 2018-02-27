@@ -45,6 +45,14 @@ void charKeyDown( unsigned char key, int x, int y )
         printf( "Instruction\n" );
         printf( "[H]:Help\n" );
         printf( "[Q]:Quit\n" );
+        printf( "[S]:ShowParameter\n" );
+        printf( "[F1]:SelectRED\n" );
+        printf( "[F2]:SelectGREEN\n" );
+        printf( "[F3]:SelectBLUE\n" );
+        printf( "[1]:SpeedUp\n" );
+        printf( "[2]:SpeedDown\n" );
+        printf( "[3]:SightAngleUp\n" );
+        printf( "[4]:SightAngleDown\n" );
         break;
       case 'q': // quit
         exit(0);
@@ -59,7 +67,7 @@ void charKeyDown( unsigned char key, int x, int y )
         break;
 
       case 's': // Fish position Alignment
-        set = !set;
+        ShowParameter();
         break;
 
       case '1':
