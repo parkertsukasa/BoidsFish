@@ -39,9 +39,9 @@ float GetVector2Length ( float x, float y )
 /*-------------------------------------------------------------- GetVector3Length
  * GetVector3Length : ベクトルの長さを取得する(3軸)
  */
-float GetVector3Length ( Vector3 v )
+float GetVector3Length ( Vector3 *v )
 {
-  float length = sqrtf ( (v.x * v.x) + (v.y * v.y) + (v.z * v.z));
+  float length = sqrtf ( (v->x * v->x) + (v->y * v->y) + (v->z * v->z));
 
  int nan = isnan(length); 
 
@@ -87,14 +87,14 @@ float GetVector2Angle (float x1, float y1, float x2, float y2)
 /*-------------------------------------------------------------- GetVectorAngle
  * GetVector3Angle : ベクトルのなす角度を取得する
  */
-float GetVector3Angle (Vector3 v1, Vector3 v2)
+float GetVector3Angle (Vector3 *v1, Vector3 *v2)
 {
     //----- それぞれのベクトルの長さを求める -----
     float Alength = GetVector3Length (v1);
     float Blength = GetVector3Length (v2);
 
     //----- 内積を求める -----
-    float product = (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z); 
+    float product = (v1->x * v2->x) + (v1->y * v2->y) + (v1->z * v2->z); 
 
     float cos_theta;
 
@@ -120,12 +120,12 @@ float GetVector3Angle (Vector3 v1, Vector3 v2)
 /* -------------------------------------------------------------- VectorAdd
  * VectorAdd ベクトル同士の足し算をする関数
  */
-Vector3 VectorAdd(Vector3 v1, Vector3 v2)
+Vector3 VectorAdd(Vector3 *v1, Vector3 *v2)
 {
   Vector3 v = VectorZero();
-  v.x = v1.x + v2.x;
-  v.y = v1.y + v2.y;
-  v.z = v1.z + v2.z;
+  v.x = v1->x + v2->x;
+  v.y = v1->y + v2->y;
+  v.z = v1->z + v2->z;
 
   return v;  
 }
@@ -134,26 +134,26 @@ Vector3 VectorAdd(Vector3 v1, Vector3 v2)
 /* -------------------------------------------------------------- VectorDiff
  * VectorDiff ベクトル同士の引き算をする関数
  */
-Vector3 VectorDiff(Vector3 v1, Vector3 v2)
+Vector3 VectorDiff(Vector3 *v1, Vector3 *v2)
 {
   Vector3 v = VectorZero();
-  v.x = v1.x - v2.x;
-  v.y = v1.y - v2.y;
-  v.z = v1.z - v2.z;
+  v.x = v1->x - v2->x;
+  v.y = v1->y - v2->y;
+  v.z = v1->z - v2->z;
 
   return v;  
 }
 
 
 /* -------------------------------------------------------------- VectorScalar
- * VectorScalar ベクトルを実数倍する関数
+ * VectorScalar ベクトルをスカラー倍する関数
  */
-Vector3 VectorScalar(Vector3 v1, float f)
+Vector3 VectorScalar(Vector3 *v1, float f)
 {
   Vector3 v = VectorZero();
-  v.x = v1.x * f;
-  v.y = v1.y * f;
-  v.z = v1.z * f;
+  v.x = v1->x * f;
+  v.y = v1->y * f;
+  v.z = v1->z * f;
 
   return v;  
 }
@@ -161,14 +161,14 @@ Vector3 VectorScalar(Vector3 v1, float f)
 /* -------------------------------------------------------------- VectorDivi
  * VectorDivi ベクトルを割り算する関数
  */
-Vector3 VectorDivi(Vector3 v1, float f)
+Vector3 VectorDivi(Vector3 *v1, float f)
 {
   Vector3 v = VectorZero();
-  if(v.x > 0.0 && v.y > 0.0 && v.z > 0.0 && f > 0.0)
+  if(v1->x > 0.0 && v1->y > 0.0 && v1->z > 0.0 && f > 0.0)
   {
-    v.x = v1.x / f;
-    v.y = v1.y / f;
-    v.z = v1.z / f;
+    v.x = v1->x / f;
+    v.y = v1->y / f;
+    v.z = v1->z / f;
   }
   return v;  
 }

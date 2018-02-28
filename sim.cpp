@@ -78,7 +78,7 @@ void InitScene( void )
 
 
 	////// シーンデータの初期化
-	simdata.clip_far = 250.0;
+	simdata.clip_far = 1000.0;
 	simdata.clip_near = 0.01;
 	simdata.air_color[0] = 0.0;
 	simdata.air_color[1] = 0.0;
@@ -221,10 +221,10 @@ void UpdateScene( void )
 bool isVisible(int i, int j, FishDataT fish[])
 {
   //--- 各個体との距離を計算し一定距離より遠い個体は除外する ---
-  Vector3 diff = VectorDiff(fish[i].pos, fish[j].pos);
-  float length = GetVector3Length (diff);
+  Vector3 diff = VectorDiff(&fish[i].pos, &fish[j].pos);
+  float length = GetVector3Length (&diff);
 
-  float angle = GetVector3Angle(fish[i].forward, diff);
+  float angle = GetVector3Angle(&fish[i].forward, &diff);
 
   bool visible;
   if(fabs(angle) < fish[i].sightangle && length < fish[i].range)
@@ -254,25 +254,26 @@ Vector3 Gather(int i, FishDataT fish[])
 
       if(visible)
       {
-        ave = VectorAdd(ave, fish[j].pos);
+        ave = VectorAdd(&ave, &fish[j].pos);
         flock += 1;
       }
 		}
 	}
 
+  //ave = VectorDivi(&ave, (float)flock);
   if(flock > 0)
   {
-    ave.x /= (float)flock;
-    ave.y /= (float)flock;
-    ave.z /= (float)flock;
+    ave.x /= (float)flock; 
+    ave.y /= (float)flock; 
+    ave.z /= (float)flock; 
   }
   
 	//平均と自分の位置の差を移動量とする
 	float speed_factor = 10.0;
 
-  Vector3 diff_ave = VectorDiff(ave, fish[i].pos);
+  Vector3 diff_ave = VectorDiff(&ave, &fish[i].pos);
 
-  float length_ave = GetVector3Length( diff_ave );
+  float length_ave = GetVector3Length( &diff_ave );
 
 	Vector3 move;
 	move.x = (diff_ave.x / length_ave) * speed_factor/ (length_ave * length_ave);
@@ -296,8 +297,8 @@ Vector3 Separate(int i, FishDataT fish[])
 	{
 		if(i != j)
 		{
-      Vector3 diff = VectorDiff(fish[j].pos, fish[i].pos);
-      float length = GetVector3Length(diff);
+      Vector3 diff = VectorDiff(&fish[j].pos, &fish[i].pos);
+      float length = GetVector3Length(&diff);
         
       if(length < fish[i].range && length > 0.0)
       {
@@ -309,9 +310,9 @@ Vector3 Separate(int i, FishDataT fish[])
 		}
 	}
 
-
+  //move = VectorDivi(&move, (float)flock);
   if(flock > 0)
-   {
+  {
     move.x /= (float)flock;
     move.y /= (float)flock;
     move.z /= (float)flock;
@@ -322,63 +323,35 @@ Vector3 Separate(int i, FishDataT fish[])
 
 
 /*-------------------------------------------------------------- Enclose
- * Enclose : 壁から逃げる 壁の位置に仮想の魚がいると想定して、Separation同様に距離を取るように振る舞う
+ * Enclose : 壁から逃げる
  *--------*/
 Vector3 Enclose(int i, FishDataT fish[])
 {
-  Vector3 wallfish[6];
-  wallfish[0].x = AQUARIUM_MAX;
-  wallfish[0].y = fish[i].pos.y;
-  wallfish[0].z = fish[i].pos.z;
+  Vector3 center = VectorZero();//水槽の中心
 
-  wallfish[1].x = AQUARIUM_MIN;
-  wallfish[1].y = fish[i].pos.y;
-  wallfish[1].z = fish[i].pos.z;
+  //----- 中心からの距離を求める -----
+  Vector3 diff = VectorDiff(&fish[i].pos, &center);
+  float length = GetVector3Length(&diff);
   
-  wallfish[2].x = fish[i].pos.x;
-  wallfish[2].y = AQUARIUM_MAX;
-  wallfish[2].z = fish[i].pos.z;
-  
-  wallfish[3].x = fish[i].pos.x;
-  wallfish[3].y = AQUARIUM_MIN;
-  wallfish[3].z = fish[i].pos.z;
+  //----- 壁からの距離を求める -----
+  float fromwall = AQUARIUM_MAX - length;
 
-  wallfish[4].x = fish[i].pos.x;
-  wallfish[4].y = fish[i].pos.y;
-  wallfish[4].z = AQUARIUM_MAX;
-
-  wallfish[5].x = fish[i].pos.x;
-  wallfish[5].y = fish[i].pos.y;
-  wallfish[5].z = AQUARIUM_MIN;
+  float k = 50.0 * fish[i].speed;//定数K
+  if(fish[i].speed > 1.0)
+    k *= fish[i].speed;
 
   Vector3 move = VectorZero();
-
-  int flock = 0;
-
-  for(int j = 0; j < 6; j++)
+  if(length > (AQUARIUM_MAX * 0.6))
   {
-    //壁との距離を求める
-    Vector3 diff = VectorDiff(wallfish[j], fish[i].pos);
-    float length = GetVector3Length(diff);
+    move.x = (diff.x / length) * k / ((length * 0.5) + (length * length * 0.5)) * -1;
+    move.y = (diff.y / length) * k / ((length * 0.5) + (length * length * 0.5)) * -1;
+    move.z = (diff.z / length) * k / ((length * 0.5) + (length * length * 0.5)) * -1;
 
-    if(length < fish[i].range * 2 && length > 0.0)
-    {
-      flock += 1;
-      move.x += (diff.x / length) * 10.0 / (length * length) * -1; 
-      move.y += (diff.y / length) * 10.0 / (length * length) * -1; 
-      move.z += (diff.z / length) * 10.0 / (length * length) * -1; 
-    }
+    if(length > AQUARIUM_MAX)
+      move = VectorScalar(&move, 10.0);
   }
 
-  /*
-  if(flock > 0)
-  {
-    move.x /= (float)flock;
-    move.y /= (float)flock;
-    move.z /= (float)flock;
-  }
-*/
-	return move;
+  return move;
 }
 
 /*-------------------------------------------------------------- Alignment
@@ -407,11 +380,12 @@ Vector3 Align (int i, FishDataT fish[])
 		}
 	}
 
+  //ave = VectorDivi(&ave, (float)flock);
   if(flock > 0)
   {
-	  ave.x /= flock;
-	  ave.y /= flock;
-	  ave.z /= flock;
+    ave.x /= (float)flock;
+    ave.y /= (float)flock;
+    ave.z /= (float)flock;
   }
 
 	//----- 自分の移動量との差を加える -----
@@ -436,9 +410,9 @@ Vector3 EatFeed (int i, FishDataT fish[])
   {
     if(feed[j].alive)
     {
-      Vector3 diff = VectorDiff(feed[j].pos, fish[i].pos);
+      Vector3 diff = VectorDiff(&feed[j].pos, &fish[i].pos);
       //餌との距離を求める
-      float dist = GetVector3Length(diff);
+      float dist = GetVector3Length(&diff);
       if (nearfeed > dist)
       {
         nearfeed = dist;
@@ -482,13 +456,13 @@ Vector3 Avoid (int i, FishDataT fish[])
   diff.y = 0.0 - fish[i].pos.y;
   diff.z = mouse.y - fish[i].pos.z;
 
-  float length = GetVector3Length(diff);
+  float length = GetVector3Length(&diff);
 
   if(length < fish[i].range && length > 0.0)
   {
-    move.x = (diff.x / length) * 500.0 / (length * length) * -1;
-    move.y = (diff.y / length) * 500.0 / (length * length) * -1;
-    move.z = (diff.z / length) * 500.0 / (length * length) * -1;
+    move.x = (diff.x / length) * 100.0 / (length * length) * -1;
+    move.y = (diff.y / length) * 100.0 / (length * length) * -1;
+    move.z = (diff.z / length) * 100.0 / (length * length) * -1;
   }
 
   return move;
@@ -505,8 +479,8 @@ void Cruising (int i, FishDataT fish[])
 	float factor_sepa = parameter.ks;
 	float factor_alig = parameter.ka;
   float factor_eat_ = 0.1;
-  float factor_avoi = 0.5;
-  float factor_encl = 0.5;
+  float factor_avoi = 0.1;
+  float factor_encl = 1.0;
 
 //  printf("%f,%f,%f\n", factor_cohe, factor_sepa, factor_alig);
 
@@ -639,8 +613,8 @@ int DensitySerch ()
 
   for(int i = 0; i < LENGTH; i++)
   {
-    Vector3 diff = VectorDiff(samplepos, Rfish[i].pos);
-    float length = GetVector3Length(diff);
+    Vector3 diff = VectorDiff(&samplepos, &Rfish[i].pos);
+    float length = GetVector3Length(&diff);
     
     if(length < samplelength)
       count += 1;
@@ -648,8 +622,8 @@ int DensitySerch ()
 
   for(int i = 0; i < LENGTH; i++)
   {
-    Vector3 diff = VectorDiff(samplepos, Gfish[i].pos);
-    float length = GetVector3Length(diff);
+    Vector3 diff = VectorDiff(&samplepos, &Gfish[i].pos);
+    float length = GetVector3Length(&diff);
     
     if(length < samplelength)
       count += 1;
@@ -657,8 +631,8 @@ int DensitySerch ()
 
   for(int i = 0; i < LENGTH; i++)
   {
-    Vector3 diff = VectorDiff(samplepos, Bfish[i].pos);
-    float length = GetVector3Length(diff);
+    Vector3 diff = VectorDiff(&samplepos, &Bfish[i].pos);
+    float length = GetVector3Length(&diff);
     
     if(length < samplelength)
       count += 1;

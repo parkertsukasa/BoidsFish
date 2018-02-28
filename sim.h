@@ -94,7 +94,7 @@ typedef struct {
 }FishDataT;
 
 typedef struct {
-  enum kind {RED, BLUE, GREEN};
+  enum kind {RED, BLUE, GREEN, WHITE};
   kind select;
   Color color;
 }Selected;

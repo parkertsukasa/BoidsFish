@@ -50,6 +50,10 @@ void SpeedUp()
       }
 
       break;
+
+    case interface.WHITE:
+
+      break;
   }
 }
 
@@ -93,6 +97,10 @@ void SpeedDown()
           Bfish[i].speed -= 0.1;
         }
       }
+
+      break;
+
+    case interface.WHITE:
 
       break;
   }
@@ -141,6 +149,10 @@ void SightAngleUp()
       }
 
       break;
+
+    case interface.WHITE:
+
+      break;
   }
 }
 
@@ -186,6 +198,10 @@ void SightAngleDown()
       }
 
       break;
+
+    case interface.WHITE:
+
+      break;
   }
 }
 
@@ -213,15 +229,23 @@ void SelectType()
   switch(interface.select)
   {
     case interface.RED:
-         ColorChange(&interface.color, 1.0, 0.0, 0.0, 1.0);
+         ColorChange(&interface.color, 1.0, 0.0, 0.0, 0.5);
          break;
 
     case interface.GREEN:
-         ColorChange(&interface.color, 0.0, 1.0, 0.0, 1.0);
+         ColorChange(&interface.color, 0.0, 1.0, 0.0, 0.5);
          break;
 
     case interface.BLUE:
-         ColorChange(&interface.color, 0.0, 0.0, 1.0, 1.0);
+         ColorChange(&interface.color, 0.0, 0.0, 1.0, 0.5);
+         break;
+
+    case interface.WHITE:
+         ColorChange(&interface.color, 1.0, 1.0, 1.0, 0.5);
+         break;
+
+    default:
+
          break;
   }
 }

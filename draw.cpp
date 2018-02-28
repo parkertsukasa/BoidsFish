@@ -190,8 +190,8 @@ void drawAquarium()
   glPushMatrix();
     glColor3f(interface.color.r, interface.color.g, interface.color.b);
     glTranslatef(0.0, 0.0, 0.0);
-    glutWireCube(100.0);
-		//glutWireSphere( 50.0, 18.0, 16.0 );   //半径，経度方向分割数，緯度方向分割数
+    //glutWireCube(100.0);
+    glutWireSphere( AQUARIUM_MAX, 18.0, 16.0 );   //半径，経度方向分割数，緯度方向分割数
   glPopMatrix();
 }
 

@@ -145,6 +145,9 @@ void funcKeyDown( int key, int x, int y )
       interface.select = interface.BLUE;
     break;
 
+    case GLUT_KEY_F4:
+      interface.select = interface.WHITE;
+    break;
 	}
 }
 void funcKeyUp( int key, int x, int y )
