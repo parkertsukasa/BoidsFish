@@ -344,12 +344,40 @@ Vector3 Enclose(int i, FishDataT fish[])
   if(length > (AQUARIUM_MAX * 0.6))
   {
     move.x = (diff.x / length) * k / ((length * 0.5) + (length * length * 0.5)) * -1;
-    move.y = (diff.y / length) * k / ((length * 0.5) + (length * length * 0.5)) * -1;
+    move.y = 0.0;
     move.z = (diff.z / length) * k / ((length * 0.5) + (length * length * 0.5)) * -1;
+    
+  Vector3 wallfish[2];
+  wallfish[0].x = fish[i].pos.x;
+  wallfish[0].y = AQUARIUM_MAX;
+  wallfish[0].z = fish[i].pos.z;
+
+  wallfish[1].x = fish[i].pos.x;
+  wallfish[1].y = AQUARIUM_MIN;
+  wallfish[1].z = fish[i].pos.z;
+
+  for(int j = 0; j < 2; j++)
+  {
+    //上下との差を求める
+    Vector3 diff;
+    diff = VectorDiff(&wallfish[j], &fish[i].pos);
+    float length_wall = GetVector3Length(&diff);
+
+    if(length_wall < fish[i].range)
+    {
+      float k = 3.0;//定数
+      move.y += (diff.y / length_wall) * k / (length_wall * length_wall) * -1;
+    }
+  }
 
     if(length > AQUARIUM_MAX)
-      move = VectorScalar(&move, 10.0);
+    {
+      move.x *= 10.0;
+      move.z *= 10.0;
+    }
   }
+
+
 
   return move;
 }

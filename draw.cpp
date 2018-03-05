@@ -8,6 +8,7 @@
 
 #include "sim.h"
 #include "util.h"
+#include "myShape.h"
 //#include "mymodel.h"
 
 extern WindowDataT window;
@@ -191,7 +192,8 @@ void drawAquarium()
     glColor3f(interface.color.r, interface.color.g, interface.color.b);
     glTranslatef(0.0, 0.0, 0.0);
     //glutWireCube(100.0);
-    glutWireSphere( AQUARIUM_MAX, 18.0, 16.0 );   //半径，経度方向分割数，緯度方向分割数
+    //glutWireSphere( AQUARIUM_MAX, 18.0, 16.0 );   //半径，経度方向分割数，緯度方向分割数
+    myWireCylinder( 50, 100, 20 ); //半径50, 高さ100, 20角形の角柱
   glPopMatrix();
 }
 
