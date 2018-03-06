@@ -5,7 +5,6 @@
 
 #include "common.h"
 
-
 #include "sim.h"
 #include "util.h"
 #include "myShape.h"

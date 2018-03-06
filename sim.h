@@ -1,4 +1,3 @@
-// sim.cpp
 void InitScene( void );
 void UpdateScene( void );
 
@@ -14,8 +13,9 @@ void DrawScene( void );
 
 #include "platform.h"
 
-#include "vector.h"
 #include "interaction.h"
+#include "vector.h"
+
 
 //-------- object data
 typedef struct {
@@ -45,6 +45,9 @@ typedef struct {
 
 	////////
 } SimDataT;
+
+enum kind {RED, BLUE, GREEN, WHITE};
+
 
 //-------- Camera Settings
 typedef struct {
@@ -77,24 +80,8 @@ typedef struct {
   bool alive;
 } FeedDataT;
 
-typedef struct {
-
-  Vector3 pos;
-  Vector3 rot;
-  Vector3 move;
-  Vector3 forward;
-  GLfloat mat[16];
-  float range;
-  float sightangle;
-  float speed;
-  bool hungry;
-  int feednum;
-
-  Color color;
-}FishDataT;
 
 typedef struct {
-  enum kind {RED, BLUE, GREEN, WHITE};
   kind select;
   Color color;
 }Selected;
@@ -113,7 +100,31 @@ void MouseObj();
 void FeedControl(int j);
 void GiveFeed (float x, float y);
 
-void FishInit(int i, FishDataT fish[]);
+
+int DensitySerch();
+
+//----- fish.cpp -----
+typedef struct {
+    kind species;
+    
+    Vector3 pos;
+    Vector3 rot;
+    Vector3 move;
+    Vector3 forward;
+    GLfloat mat[16];
+    float range;
+    float sightangle;
+    float speed;
+    bool hungry;
+    int feednum;
+    
+    Color color;
+}FishDataT;
+
+void FishInit();
+void FishUpdate();
+
+void FishStructInit(int i, FishDataT fish[], kind spc);
 void ColorChange(Color *color, float r, float g, float b, float a);
 
 void Cruising (int i, FishDataT fish[]);
@@ -123,9 +134,5 @@ Vector3 Enclose(int i, FishDataT fish[]);
 Vector3 Align(int i, FishDataT fish[]);
 Vector3 EatFeed(int i, FishDataT fish[]);
 Vector3 Avoid(int i, FishDataT fish[]);
-
-void ColorChange (int i);
-
-int DensitySerch();
 
 //end of file

@@ -16,7 +16,7 @@ void SpeedUp()
 {
   switch(interface.select)
   {
-    case interface.RED:
+    case RED:
 
       if(Rfish[0].speed < 2.0)
       {
@@ -27,7 +27,7 @@ void SpeedUp()
       }
       break;
 
-    case interface.GREEN:
+    case GREEN:
 
       if(Gfish[0].speed < 2.0)
       {
@@ -39,7 +39,7 @@ void SpeedUp()
 
       break;
 
-    case interface.BLUE:
+    case BLUE:
 
       if(Bfish[0].speed < 2.0)
       {
@@ -51,7 +51,7 @@ void SpeedUp()
 
       break;
 
-    case interface.WHITE:
+    case WHITE:
 
       break;
   }
@@ -65,7 +65,7 @@ void SpeedDown()
 {
   switch(interface.select)
   {
-    case interface.RED:
+    case RED:
 
       if(Rfish[0].speed >= 0.2)
       {
@@ -76,7 +76,7 @@ void SpeedDown()
       }
       break;
 
-    case interface.GREEN:
+    case GREEN:
 
       if(Gfish[0].speed >= 0.2)
       {
@@ -88,7 +88,7 @@ void SpeedDown()
 
       break;
 
-    case interface.BLUE:
+    case BLUE:
 
       if(Bfish[0].speed >= 0.2)
       {
@@ -100,7 +100,7 @@ void SpeedDown()
 
       break;
 
-    case interface.WHITE:
+    case WHITE:
 
       break;
   }
@@ -114,7 +114,7 @@ void SightAngleUp()
 {
   switch(interface.select)
   {
-    case interface.RED:
+    case RED:
 
       if(Rfish[0].sightangle < 180.0)
       {
@@ -126,7 +126,7 @@ void SightAngleUp()
 
       break;
 
-    case interface.GREEN:
+    case GREEN:
 
       if(Gfish[0].sightangle < 180.0)
       {
@@ -138,7 +138,7 @@ void SightAngleUp()
 
       break;
 
-    case interface.BLUE:
+    case BLUE:
 
       if(Bfish[0].sightangle < 180.0)
       {
@@ -150,7 +150,7 @@ void SightAngleUp()
 
       break;
 
-    case interface.WHITE:
+    case WHITE:
 
       break;
   }
@@ -163,7 +163,7 @@ void SightAngleDown()
 {
   switch(interface.select)
   {
-    case interface.RED:
+    case RED:
 
       if(Rfish[0].sightangle > 10.0)
       {
@@ -175,7 +175,7 @@ void SightAngleDown()
 
       break;
 
-    case interface.GREEN:
+    case GREEN:
 
       if(Gfish[0].sightangle > 10.0)
       {
@@ -187,7 +187,7 @@ void SightAngleDown()
 
       break;
 
-    case interface.BLUE:
+    case BLUE:
 
       if(Bfish[0].sightangle > 10.0)
       {
@@ -199,7 +199,7 @@ void SightAngleDown()
 
       break;
 
-    case interface.WHITE:
+    case WHITE:
 
       break;
   }
@@ -228,19 +228,19 @@ void SelectType()
 {
   switch(interface.select)
   {
-    case interface.RED:
+    case RED:
          ColorChange(&interface.color, 1.0, 0.0, 0.0, 0.5);
          break;
 
-    case interface.GREEN:
+    case GREEN:
          ColorChange(&interface.color, 0.0, 1.0, 0.0, 0.5);
          break;
 
-    case interface.BLUE:
+    case BLUE:
          ColorChange(&interface.color, 0.0, 0.0, 1.0, 0.5);
          break;
 
-    case interface.WHITE:
+    case WHITE:
          ColorChange(&interface.color, 1.0, 1.0, 1.0, 0.5);
          break;
 

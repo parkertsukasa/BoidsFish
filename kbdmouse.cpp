@@ -1,4 +1,4 @@
-﻿/******************************************************************************
+/******************************************************************************
  * keybdmouse.cpp: keyboard and mouse callback functions 
  */
 #include <stdlib.h>
@@ -134,19 +134,19 @@ void funcKeyDown( int key, int x, int y )
     extern Selected interface;
 
     case GLUT_KEY_F1:
-      interface.select = interface.RED;
+      interface.select = RED;
     break;
 
     case GLUT_KEY_F2:
-      interface.select = interface.GREEN;
+      interface.select = GREEN;
     break;
 
     case GLUT_KEY_F3:
-      interface.select = interface.BLUE;
+      interface.select = BLUE;
     break;
 
     case GLUT_KEY_F4:
-      interface.select = interface.WHITE;
+      interface.select = WHITE;
     break;
 	}
 }
