@@ -40,7 +40,7 @@ void Viewing( void )
   else 
   {      
       cam.pos.x = 0.0;
-      cam.pos.y = 200.0;
+      cam.pos.y = 100.0;
       cam.pos.z = 0.01;
       cam.rot.x = 0.0;
       cam.rot.y = 0.0;
@@ -55,5 +55,7 @@ void Projection( void )
 {
 	//---- begin projection transformation
     //gluPerspective( 45.0, window.aspect, simdata.clip_near, simdata.clip_far );
-    glOrtho (AQUARIUM_MIN - 50, AQUARIUM_MAX + 50, AQUARIUM_MIN - 50, AQUARIUM_MAX + 50, 1.0, 300);
+    glOrtho (AQUARIUM_MIN - 33.2, AQUARIUM_MAX + 33.2, AQUARIUM_MIN - 2, AQUARIUM_MAX + 2, 1.0, 300);
 }
+
+//end of file

@@ -380,7 +380,7 @@ Vector3 Avoid (int i, FishDataT fish[])
 /*-------------------------------------------------------------- Chase
  * Chase : 追いかける
  *--------*/
-void Chase (int i, FishDataT fish[])
+Vector3 Chase (int i, FishDataT fish[])
 {
     FishDataT *target;
     
@@ -401,14 +401,89 @@ void Chase (int i, FishDataT fish[])
             break;
     }
     
-    float f = target[0].pos.x;
-    
+    int neartarget = -1;
+    float nearlength = 1000000;
+
     for (int j = 0; j < LENGTH; j++)
     {
-        Vector3 diff = VectorDiff(&target[j].pos, &fish[i].pos);
-        float length = GetVector3Length(&diff);
+      Vector3 diff = VectorDiff(&target[j].pos, &fish[i].pos);
+      float length = GetVector3Length(&diff);
+      bool visible = isVisible(i, j, fish);
+
+      if(visible && length < nearlength)
+      {
+          neartarget = j;
+          nearlength = length;
+      }
+    }
+
+    Vector3 move = VectorZero();
+    if(neartarget > -1)
+    {
+      Vector3 difftarget = VectorDiff(&fish[i].pos, &target[neartarget].pos);
+      float lengthtarget = GetVector3Length(&difftarget);
+      float k = 1.0;
+      move.x = (difftarget.x / lengthtarget) / (lengthtarget * lengthtarget) * k; 
+      move.y = (difftarget.y / lengthtarget) / (lengthtarget * lengthtarget) * k; 
+      move.z = (difftarget.z / lengthtarget) / (lengthtarget * lengthtarget) * k; 
+    }
+
+    return move;
+
+}
+
+/*-------------------------------------------------------------- Escape
+ * Escape : 逃げる
+ *--------*/
+Vector3 Escape (int i, FishDataT fish[])
+{
+    FishDataT *target;
+    
+    switch(fish[i].species)
+    {
+        case RED:
+            target = Bfish;
+            break;
+            
+        case BLUE:
+            target = Gfish;
+            break;
+            
+        case GREEN:
+            target = Rfish;
+            break;
+        default:
+            break;
     }
     
+    int neartarget = -1;
+    float nearlength = 1000000;
+
+    for (int j = 0; j < LENGTH; j++)
+    {
+      Vector3 diff = VectorDiff(&target[j].pos, &fish[i].pos);
+      float length = GetVector3Length(&diff);
+
+      if(length < nearlength)
+      {
+          neartarget = j;
+          nearlength = length;
+      }
+    }
+
+    Vector3 move = VectorZero();
+    if(neartarget > -1)
+    {
+      Vector3 difftarget = VectorDiff(&fish[i].pos, &target[neartarget].pos);
+      float lengthtarget = GetVector3Length(&difftarget);
+      float k = 1.0;
+      move.x = (difftarget.x / lengthtarget) / (lengthtarget * lengthtarget) * k * -1; 
+      move.y = (difftarget.y / lengthtarget) / (lengthtarget * lengthtarget) * k * -1; 
+      move.z = (difftarget.z / lengthtarget) / (lengthtarget * lengthtarget) * k * -1; 
+    }
+
+    return move;
+
 }
 
 
@@ -424,6 +499,8 @@ void Cruising (int i, FishDataT fish[])
     float factor_eat_ = 0.1;
     float factor_avoi = 0.1;
     float factor_encl = 1.0;
+    float factor_chas = 0.1;
+    float factor_esca = 0.1;
     
     //  printf("%f,%f,%f\n", factor_cohe, factor_sepa, factor_alig);
     
@@ -434,10 +511,12 @@ void Cruising (int i, FishDataT fish[])
     Vector3 move_encl = Enclose(i, fish);
     Vector3 move_eat_ = EatFeed (i, fish);
     Vector3 move_avoi = Avoid (i, fish);
+    Vector3 move_chas = Chase (i, fish);
+    Vector3 move_esca = Escape(i, fish);
     
-    fish[i].move.x = move_cohe.x * factor_cohe + move_sepa.x * factor_sepa + move_alig.x * factor_alig + move_encl.x * factor_encl + move_eat_.x * factor_eat_ + move_avoi.x * factor_avoi;
-    fish[i].move.y = move_cohe.y * factor_cohe + move_sepa.y * factor_sepa + move_alig.y * factor_alig + move_encl.y * factor_encl + move_eat_.y * factor_eat_ + move_avoi.y * factor_avoi;
-    fish[i].move.z = move_cohe.z * factor_cohe + move_sepa.z * factor_sepa + move_alig.z * factor_alig + move_encl.z * factor_encl + move_eat_.z * factor_eat_ + move_avoi.z * factor_avoi;
+    fish[i].move.x = move_cohe.x * factor_cohe + move_sepa.x * factor_sepa + move_alig.x * factor_alig + move_encl.x * factor_encl + move_eat_.x * factor_eat_ + move_avoi.x * factor_avoi + move_cohe.x * factor_chas + move_esca.x *factor_esca;
+    fish[i].move.y = move_cohe.y * factor_cohe + move_sepa.y * factor_sepa + move_alig.y * factor_alig + move_encl.y * factor_encl + move_eat_.y * factor_eat_ + move_avoi.y * factor_avoi + move_cohe.y * factor_chas + move_esca.y *factor_esca;
+    fish[i].move.z = move_cohe.z * factor_cohe + move_sepa.z * factor_sepa + move_alig.z * factor_alig + move_encl.z * factor_encl + move_eat_.z * factor_eat_ + move_avoi.z * factor_avoi + move_cohe.z * factor_chas + move_esca.z *factor_esca;
     
     //----- 角度から正面方向を求める ------
     fish[i].forward.y = sinf(DegtoRad(fish[i].rot.x));

@@ -134,5 +134,7 @@ Vector3 Enclose(int i, FishDataT fish[]);
 Vector3 Align(int i, FishDataT fish[]);
 Vector3 EatFeed(int i, FishDataT fish[]);
 Vector3 Avoid(int i, FishDataT fish[]);
+Vector3 Chase(int i, FishDataT fish[]);
+Vector3 Escape(int i, FishDataT fish[]);
 
 //end of file

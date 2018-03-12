@@ -141,8 +141,8 @@ void initWindow( char *winname )
 	//////// ユーザカスタマイズ
 	window.xo = 100;
 	window.yo = 100;
-	window.width = 800;
-	window.height = 800;
+	window.width = 960;
+	window.height = 600;
 	////////////////
 
 	window.aspect = (float)window.width/window.height; // aspect ratio
