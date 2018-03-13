@@ -257,15 +257,17 @@ Vector3 Enclose(int i, FishDataT fish[]) 
 			wallfish[1].z = fish[i].pos.z; 
 			 
 			//----- 天井を避ける動き ----- 
-			Vector3 roofdiff = VectorDiff(&fish[i].pos, &wallfish[0]); 
+			Vector3 roofdiff = VectorDiff(&wallfish[0], &fish[i].pos); 
 			float rooflength = GetVector3Length(&roofdiff);//天井との距離 
-			if(rooflength > (HEIGHT/2)) 
-			{ 
-				float l = 5.0f; 
-				move.y = (roofdiff.y / rooflength) * l / (rooflength * rooflength) * -1; 
-				
-			}
-			 
+			float l = 10.0f; 
+			if(rooflength > (HEIGHT/4)) 
+				move.y = (roofdiff.y / rooflength) * l / (rooflength * rooflength); 
+
+      //----- 底面を避ける動き -----
+			Vector3 floordiff = VectorDiff(&wallfish[1], &fish[i].pos);
+      float floorlength = GetVector3Length(&floordiff);
+      if(floorlength > (HEIGHT/4))
+        move.y = (floordiff.y / floorlength) * l / (floorlength * floorlength);
 			 
 			 
 			 
