@@ -62,7 +62,7 @@ void FishStructInit(int i, FishDataT fish[], kind spc)
 	fish[i].pos.x = Random(AQUARIUM_MIN + 30, AQUARIUM_MAX - 30);
 	fish[i].pos.y = 0;
 	fish[i].pos.z = Random(AQUARIUM_MIN + 30, AQUARIUM_MAX - 30);
-	fish[i].rot.x = Random(0.0, 360.0);
+	fish[i].rot.x = 0.0;//Random(0.0, 360.0);
 	fish[i].rot.y = Random(0.0, 360.0);
 	fish[i].rot.z = 0.0;
 	
@@ -259,48 +259,25 @@ Vector3 Enclose(int i, FishDataT fish[]) 
 			//----- 天井を避ける動き ----- 
 			Vector3 roofdiff = VectorDiff(&wallfish[0], &fish[i].pos); 
 			float rooflength = GetVector3Length(&roofdiff);//天井との距離 
-			float l = 10.0f; 
-			if(rooflength > (HEIGHT/4)) 
-				move.y = (roofdiff.y / rooflength) * l / (rooflength * rooflength); 
+			float l = 0.1f; 
+			if(rooflength > (HEIGHT/2)) 
+      {
+				move.y = l * (1 - (rooflength / (HEIGHT/2))) * -1;
+          //(roofdiff.y / rooflength) / (rooflength * rooflength) * l; 
+        return move;
+      }
 
       //----- 底面を避ける動き -----
 			Vector3 floordiff = VectorDiff(&wallfish[1], &fish[i].pos);
       float floorlength = GetVector3Length(&floordiff);
-      if(floorlength > (HEIGHT/4))
-        move.y = (floordiff.y / floorlength) * l / (floorlength * floorlength);
+      if(floorlength > (HEIGHT/2))
+      {
+        move.y = l * (1 - (floorlength / (HEIGHT/2)));
+          //(floordiff.y / floorlength) / (floorlength * floorlength) * l;
+        return move;
+      }
 			 
-			 
-			 
-			/* 
-			 for(int j = 0; j < 2; j++)         { 
-			 //上下との差を求める 
-			 Vector3 diff; 
-			 diff = VectorDiff(&wallfish[j], &fish[i].pos); 
-			 float length_wall = GetVector3Length(&diff); 
-			  
-			 if(length_wall < 1)//fish[i].range) 
-			 { 
-			 float k = 5.0;//定数 
-			 move.y += (diff.y / length_wall) * k / (length_wall * length_wall) * -1; 
-			 
-			 
-			 } 
-			 
-			 
-			 } 
-			  
-			 if(length > AQUARIUM_MAX) 
-			 { 
-			 move.x *= 10.0; 
-			 move.z *= 10.0; 
-			 
-			 } 
-			 */ 
-			
 		}
-	 
-	 
-	 
 	 
 	return move; 
 	
@@ -580,6 +557,7 @@ Vector3 Escape (int i, FishDataT fish[])
 	fish[i].move.x = fish[i].move.x + (fish[i].forward.x * fish[i].speed); 
 	fish[i].move.y = fish[i].move.y + (fish[i].forward.y * fish[i].speed); 
 	fish[i].move.z = fish[i].move.z + (fish[i].forward.z * fish[i].speed); 
+
 	 
 	//----- 速度が早すぎた場合、正規化を行う ----- 
 	float velocity_max = 10.0; 
