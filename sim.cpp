@@ -128,7 +128,9 @@ void UpdateScene( void )
 {
     //////// データ更新 ////////
     //printf("%f,%f,%f\n", Rfish[0].pos.x, Rfish[0].pos.y, Rfish[0].pos.z);
-    
+    mouse.x = 0.0;
+    mouse.y = 0.0;
+    mouse.z = 0.0;
     CameraRotate();
     MouseObj ();
     
@@ -178,7 +180,7 @@ void CameraRotate ()
 void MouseObj ()
 {
     mouse.x *= AQUARIUM_MAX;
-    mouse.y *= AQUARIUM_MAX;
+    mouse.z *= AQUARIUM_MAX;
 }
 
 /*------------------------------------------------------------- GiveFeed

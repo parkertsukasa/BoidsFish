@@ -9,6 +9,8 @@ void DrawScene( void );
 #define AQUARIUM_MIN -50
 #define HEIGHT 50
 
+#define POINTRADIUS 5
+
 #define LENGTH 100
 #define FEEDLENGTH 10
 
@@ -64,6 +66,7 @@ typedef struct {
 
 	float x;
 	float y;
+  float z;
 } MouseDataT;
 
 typedef struct {

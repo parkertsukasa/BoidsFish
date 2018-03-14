@@ -2,11 +2,11 @@
 #include <stdlib.h>
 #include <math.h>
 #include "util.h"
-#include "sim.h" 
+#include "sim.h"
 
 extern FishDataT Rfish[LENGTH];
 extern FishDataT Gfish[LENGTH];
-extern FishDataT Bfish[LENGTH]; 
+extern FishDataT Bfish[LENGTH];
 
 extern Parameter parameter;
 extern FeedDataT feed[FEEDLENGTH];
@@ -259,23 +259,15 @@ Vector3 Enclose(int i, FishDataT fish[]) 
 			//----- 天井を避ける動き ----- 
 			Vector3 roofdiff = VectorDiff(&wallfish[0], &fish[i].pos); 
 			float rooflength = GetVector3Length(&roofdiff);//天井との距離 
-			float l = 0.1f; 
+			float l = 0.1f;
 			if(rooflength > (HEIGHT/2)) 
-      {
 				move.y = l * (1 - (rooflength / (HEIGHT/2))) * -1;
-          //(roofdiff.y / rooflength) / (rooflength * rooflength) * l; 
-        return move;
-      }
 
       //----- 底面を避ける動き -----
 			Vector3 floordiff = VectorDiff(&wallfish[1], &fish[i].pos);
       float floorlength = GetVector3Length(&floordiff);
       if(floorlength > (HEIGHT/2))
-      {
         move.y = l * (1 - (floorlength / (HEIGHT/2)));
-          //(floordiff.y / floorlength) / (floorlength * floorlength) * l;
-        return move;
-      }
 			 
 		}
 	 
@@ -369,20 +361,22 @@ Vector3 EatFeed (int i, FishDataT fish[]) 
 		Vector3 move; 
 	if (feed[fish[i].feednum].alive && fish[i].feednum >= 0) 
 	{ 
-		move.x = (feed[fish[i].feednum].pos.x - fish[i].pos.x)/speed_factor;         move.y = (feed[fish[i].feednum].pos.y - fish[i].pos.y)/speed_factor; 
+		move.x = (feed[fish[i].feednum].pos.x - fish[i].pos.x)/speed_factor;         
+    move.y = (feed[fish[i].feednum].pos.y - fish[i].pos.y)/speed_factor; 
 		move.z = (feed[fish[i].feednum].pos.z - fish[i].pos.z)/speed_factor; 
 		
 	}
 	 
 	else 
 	{ 
-		move = VectorZero();     } 
+		move = VectorZero();     
+  } 
 	return move; 
 	
 }
- 
- 
- 
+
+
+
 /*-------------------------------------------------------------- Avoid 
  * Avoid : 回避 特定のオブジェクトから逃げるように振る舞う 
  *--------*/ 
@@ -392,18 +386,19 @@ Vector3 Avoid (int i, FishDataT fish[]) 
 	 
 	Vector3 diff; 
 	diff.x = mouse.x - fish[i].pos.x; 
-	diff.y = 0.0 - fish[i].pos.y; 
-	diff.z = mouse.y - fish[i].pos.z; 
+	diff.y = mouse.y - fish[i].pos.y; 
+	diff.z = mouse.z - fish[i].pos.z; 
 	 
 	float length = GetVector3Length(&diff); 
-	 
-	if(length < fish[i].range && length > 0.0) 
-	{ 
-		move.x = (diff.x / length) * 100.0 / (length * length) * -1; 
-		move.y = (diff.y / length) * 100.0 / (length * length) * -1; 
-		move.z = (diff.z / length) * 100.0 / (length * length) * -1; 
-		
-	}
+
+  length -= POINTRADIUS;//ポイントの半径分減算
+	
+  float k = 0.1;//係数:避ける力の大きさ
+
+  move.x = (diff.x / length) * k * (1 / length) * -1;
+  move.y = (diff.y / length) * k * (1 / length) * -1;
+  move.z = (diff.z / length) * k * (1 / length) * -1;
+
 	return move; 
 }
  

@@ -234,7 +234,7 @@ void mouseDrag( int x, int y )
   float mouseX = (float)x/window.width * 2.0 -1.0;
   float mouseY = (float)y/window.height * 2.0 -1.0;
   mouse.x = mouseX;
-  mouse.y = mouseY;
+  mouse.z = mouseY;
 
 	////////
     return;
