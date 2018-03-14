@@ -7,7 +7,7 @@ void DrawScene( void );
 
 #define AQUARIUM_MAX 50
 #define AQUARIUM_MIN -50
-#define HEIGHT 50
+#define HEIGHT 80
 
 #define POINTRADIUS 5
 

@@ -191,12 +191,14 @@ Vector3 Separate(int i, FishDataT fish[]) 
 		{ 
 			Vector3 diff = VectorDiff(&fish[j].pos, &fish[i].pos); 
 			float length = GetVector3Length(&diff); 
+
+      float k = 30.0;//係数k
 			 
 			if(length < fish[i].range && length > 0.0) 
 			{ 
-				move.x += (diff.x / length) * 80.0 / (length * length) * -1; 
-				move.y += (diff.y / length) * 80.0 / (length * length) * -1; 
-				move.z += (diff.z / length) * 80.0 / (length * length) * -1; 
+				move.x += (diff.x / length) * k / (length * length) * -1; 
+				move.y += (diff.y / length) * k / (length * length) * -1; 
+				move.z += (diff.z / length) * k / (length * length) * -1; 
 				flock += 1; 
 				
 			}
@@ -234,44 +236,41 @@ Vector3 Enclose(int i, FishDataT fish[]) 
 	//----- 壁からの距離を求める ----- 
 	float fromwall = AQUARIUM_MAX - length; 
 	 
-	float k = 50.0 * fish[i].speed;//定数K 
-	if(fish[i].speed > 1.0) 
-		k *= fish[i].speed; 
+	float k = 20.0 * fish[i].speed;//係数K 
 		 
-		Vector3 move = VectorZero(); 
-		if(length > (AQUARIUM_MAX * 0.5)) 
-		{ 
-			move.x = (diff.x / length) * k / ((length * 0.5) + (length * length * 0.5)) * -1; 
-			move.y = 0.0; 
-			move.z = (diff.z / length) * k / ((length * 0.5) + (length * length * 0.5)) * -1; 
-			 
-			Vector3 wallfish[2]; 
-			//wallfish[0]:各個体の天井面への射影 
-			wallfish[0].x = fish[i].pos.x; 
-			wallfish[0].y = (HEIGHT /2); 
-			wallfish[0].z = fish[i].pos.z; 
-			 
-			//wallfish[1]:各個体の底面への射影 
-			wallfish[1].x = fish[i].pos.x; 
-			wallfish[1].y = -(HEIGHT / 2); 
-			wallfish[1].z = fish[i].pos.z; 
-			 
-			//----- 天井を避ける動き ----- 
-			Vector3 roofdiff = VectorDiff(&wallfish[0], &fish[i].pos); 
-			float rooflength = GetVector3Length(&roofdiff);//天井との距離 
-			float l = 0.1f;
-			if(rooflength > (HEIGHT/2)) 
-				move.y = l * (1 - (rooflength / (HEIGHT/2))) * -1;
+	Vector3 move = VectorZero(); 
+	if(length > (AQUARIUM_MAX * 0.5)) 
+	{ 
+		move.x = (diff.x / length) * k / ((length * 0.5) + (length * length * 0.5)) * -1; 
+		move.y = 0.0; 
+		move.z = (diff.z / length) * k / ((length * 0.5) + (length * length * 0.5)) * -1; 
+	}
 
-      //----- 底面を避ける動き -----
-			Vector3 floordiff = VectorDiff(&wallfish[1], &fish[i].pos);
-      float floorlength = GetVector3Length(&floordiff);
-      if(floorlength > (HEIGHT/2))
-        move.y = l * (1 - (floorlength / (HEIGHT/2)));
+	Vector3 wallfish[2]; 
+	//wallfish[0]:各個体の天井面への射影 
+	wallfish[0].x = fish[i].pos.x; 
+	wallfish[0].y = (HEIGHT /2); 
+	wallfish[0].z = fish[i].pos.z; 
 			 
-		}
-	 
-	return move; 
+	//wallfish[1]:各個体の底面への射影 
+	wallfish[1].x = fish[i].pos.x; 
+	wallfish[1].y = -(HEIGHT / 2); 
+	wallfish[1].z = fish[i].pos.z; 
+		 
+	//----- 天井を避ける動き ----- 
+	Vector3 roofdiff = VectorDiff(&wallfish[0], &fish[i].pos); 
+	float rooflength = GetVector3Length(&roofdiff);//天井との距離 
+	float l = 0.15f * fish[i].speed;//係数
+	if(rooflength > (HEIGHT/2)) 
+		move.y = l * (1 - (rooflength / (HEIGHT/2))) * -1;
+
+  //----- 底面を避ける動き -----
+	Vector3 floordiff = VectorDiff(&wallfish[1], &fish[i].pos);
+  float floorlength = GetVector3Length(&floordiff);
+  if(floorlength > (HEIGHT/2))
+    move.y = l * (1 - (floorlength / (HEIGHT/2)));
+   
+  return move; 
 	
 }
  
