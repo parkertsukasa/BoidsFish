@@ -70,9 +70,9 @@ void FishStructInit(int i, FishDataT fish[], kind spc)
 	fish[i].move.y = Random(-2,2); 
 	fish[i].move.z = Random(5,5); 
 	 
-	fish[i].forward.x = -sinf(DegtoRad(fish[i].rot.y)); 
-	fish[i].forward.y = sinf(DegtoRad(fish[i].rot.x)); 
-	fish[i].forward.z = -cosf(DegtoRad(fish[i].rot.y)); 
+	fish[i].forward.x = 0.0; 
+	fish[i].forward.y = 0.0; 
+	fish[i].forward.z = 0.1; 
 	 
 	fish[i].speed = parameter.speed; 
 	 
@@ -513,7 +513,14 @@ Vector3 Escape (int i, FishDataT fish[])
 	
 }
 
-  /*-------------------------------------------------------------- Cruising  * Cruising : 巡航 3種類の移動量を合成する  *--------*/ void Cruising (int i, FishDataT fish[]) { //----- それぞれの速度の重み ------
+  /*-------------------------------------------------------------- Cruising
+   * Cruising : 巡航 3種類の移動量を合成する 
+   * forwardベクトルは魚の速度を表すベクトル
+   * moveベクトルは計算の結果導き出された方向変位のベクトル
+   *--------*/ 
+void Cruising (int i, FishDataT fish[])
+{
+  //----- それぞれの速度の重み ------
 	float factor_cohe = parameter.kc;
 	float factor_sepa = parameter.ks;
 	float factor_alig = parameter.ka;
@@ -539,23 +546,76 @@ Vector3 Escape (int i, FishDataT fish[])
 	fish[i].move.y = move_cohe.y * factor_cohe + move_sepa.y * factor_sepa + move_alig.y * factor_alig + move_encl.y * factor_encl + move_eat_.y * factor_eat_ + move_avoi.y * factor_avoi + move_cohe.y * factor_chas + move_esca.y *factor_esca;
 	fish[i].move.z = move_cohe.z * factor_cohe + move_sepa.z * factor_sepa + move_alig.z * factor_alig + move_encl.z * factor_encl + move_eat_.z * factor_eat_ + move_avoi.z * factor_avoi + move_cohe.z * factor_chas + move_esca.z *factor_esca;
 	
-	 
-	//----- 角度から正面方向を求める ------ 
-	fish[i].forward.y = sinf(DegtoRad(fish[i].rot.x)); 
-	//XZ平面への射影の長さlを求める 
-	float l = cosf(DegtoRad(fish[i].rot.x)); 
-	fish[i].forward.x = -sinf(DegtoRad(fish[i].rot.y)) * l; 
-	fish[i].forward.z = -cosf(DegtoRad(fish[i].rot.y)) * l; 
-	 
-	//----- 正面方向への移動量を加える ----- 
-	fish[i].move.x = fish[i].move.x + (fish[i].forward.x * fish[i].speed); 
-	fish[i].move.y = fish[i].move.y + (fish[i].forward.y * fish[i].speed); 
-	fish[i].move.z = fish[i].move.z + (fish[i].forward.z * fish[i].speed); 
+  //------ XZ平面 ------
 
-	 
+  //XZ平面におけるmoveベクトルの長さを求める(|move|)
+  float movexzlength = GetVector2Length(fish[i].move.x, fish[i].move.z);
+
+  //XZ平面におけるforwardベクトルの長さ（速度）を求める(v1)
+  float velocityxz = GetVector2Length(fish[i].forward.x, fish[i].forward.z);
+
+  //forwardベクトルのY軸における回転量を求める(θf,θi)
+  float yawf = RadtoDeg( atan2f(-fish[i].forward.x, -fish[i].forward.z));
+
+  //moveベクトルのY軸における回転量を求める(θm)
+  float yawm = RadtoDeg( atan2f(-fish[i].move.x, -fish[i].move.z));
+  
+  //moveベクトルのローカルにおいてのyawを求める(θ)
+  float yaw = yawm - yawf;
+
+  //--- 推進力を求める ---(move.z)
+  float thrust = movexzlength * -sinf(yaw);
+  float k2 = 0.1;//係数
+
+  //--- 回転させる力を求める ---(move.x)
+  float rotateyaw = movexzlength * -cosf(yaw);
+  float k1 = 0.1;//係数
+
+  //変異した後のyawを求める(θi+1)
+  float newyaw = yawf + k1 * rotateyaw; 
+
+  //yawを元にベクトルを再構築(forward i+1)
+  fish[i].forward.x = -sinf(newyaw) * velocityxz;  
+  fish[i].forward.z = -cosf(newyaw) * velocityxz;  
+
+  //推進力を加える
+  fish[i].forward.x = fish[i].forward.x * (1 + (k2 * thrust) / velocityxz) * velocityxz;
+  fish[i].forward.z = fish[i].forward.z * (1 + (k2 * thrust) / velocityxz) * velocityxz;
+
+  //----- YZ平面 -----
+
+  //YZ平面におけるmoveベクトルの大きさを求める
+  float moveyzlength = GetVector2Length(fish[i].move.y, fish[i].move.z);
+
+  //YZ平面におけるforwardベクトルの大きさを求める
+  float forwardyzlength = GetVector2Length(fish[i].forward.y, fish[i].forward.z);
+
+  //forwardベクトルのX軸における回転量を求める(θf)
+  float pitchf = RadtoDeg( atan2f(fish[i].forward.y, forwardyzlength));
+
+  //moveベクトルのX軸における回転量を求める(θm)
+  float pitchm = RadtoDeg( atan2f(fish[i].move.y, moveyzlength));
+
+  //moveベクトルのローカルにおけるpitchを求める
+  float pitch = pitchm - pitchf;
+
+  //回転させる力を求める(move.y)
+  float rotatepitch = moveyzlength * -cosf(pitch);
+
+  //変異した後のpitchを求める(θi+1)
+  float newpitch = pitchf + k1 * rotatepitch;
+
+  //新たなpitchを元にベクトルを再構築
+  fish[i].forward.y = -sinf(newpitch) * forwardyzlength;
+  fish[i].forward.z = -cosf(newpitch) * forwardyzlength;
+
+
+
+
+
 	//----- 速度が早すぎた場合、正規化を行う ----- 
 	float velocity_max = 10.0; 
-	float velocity = sqrtf((fish[i].move.x * fish[i].move.x) + (fish[i].move.y * fish[i].move.y) + (fish[i].move.z * fish[i].move.z)); 
+	float velocity = GetVector3Length(&fish[i].move);
 	if (velocity > velocity_max) 
 	{ 
 		fish[i].move.x = (fish[i].move.x / velocity) * velocity_max; 
@@ -564,10 +624,8 @@ Vector3 Escape (int i, FishDataT fish[])
 	}
 	
 	 
-	 
-	 
 	//----- 水槽外にはみ出てしまいそうな場合水槽に沿う位置に移動を制限する ----- 
-	Vector3 nextpos  = VectorAdd(&fish[i].pos, &fish[i].move);//次のフレームでの位置 
+	Vector3 nextpos  = VectorAdd(&fish[i].pos, &fish[i].forward);//次のフレームでの位置 
 	float length = GetVector3Length(&nextpos);//水槽の中心からの距離 
 	 
 	//--- XZ平面においての制限 --- 

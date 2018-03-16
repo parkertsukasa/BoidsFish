@@ -33,6 +33,12 @@ float DegtoRad (float f)
 float GetVector2Length ( float x, float y )
 {
   float length = sqrtf ( x * x + y * y );
+  
+  int nan = isnan(length);
+
+  if(nan != 0)
+    length = 0.0;
+
   return length;
 }
 
@@ -43,7 +49,7 @@ float GetVector3Length ( Vector3 *v )
 {
   float length = sqrtf ( (v->x * v->x) + (v->y * v->y) + (v->z * v->z));
 
- int nan = isnan(length); 
+  int nan = isnan(length); 
 
   if(nan != 0)
     length = 0.0;
