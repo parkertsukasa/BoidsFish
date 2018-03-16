@@ -70,9 +70,9 @@ void FishStructInit(int i, FishDataT fish[], kind spc)
 	fish[i].move.y = Random(-2,2); 
 	fish[i].move.z = Random(5,5); 
 	 
-	fish[i].forward.x = 0.0; 
-	fish[i].forward.y = 0.0; 
-	fish[i].forward.z = 0.1; 
+	fish[i].forward.x = -sinf(DegtoRad(fish[i].rot.y)); 
+	fish[i].forward.y = sinf(DegtoRad(fish[i].rot.x)); 
+	fish[i].forward.z = -cosf(DegtoRad(fish[i].rot.y)); 
 	 
 	fish[i].speed = parameter.speed; 
 	 
