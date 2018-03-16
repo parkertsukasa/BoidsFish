@@ -137,14 +137,9 @@ Vector3 Gather(int i, FishDataT fish[]) 
 			if(visible) 
 			{ 
 				ave = VectorAdd(&ave, &fish[j].pos); 
-				flock += 1; 
-				
-			}
-			 
-			
+				flock += 1; 	
+			}	
 		}
-		 
-		
 	}
 	 
 	 
@@ -154,7 +149,6 @@ Vector3 Gather(int i, FishDataT fish[]) 
 		ave.x /= (float)flock; 
 		ave.y /= (float)flock; 
 		ave.z /= (float)flock; 
-		
 	}
 	 
 	 
@@ -192,7 +186,7 @@ Vector3 Separate(int i, FishDataT fish[]) 
 			Vector3 diff = VectorDiff(&fish[j].pos, &fish[i].pos); 
 			float length = GetVector3Length(&diff); 
 
-      float k = 30.0;//係数k
+      float k = 100.0;//係数k
 			 
 			if(length < fish[i].range && length > 0.0) 
 			{ 
@@ -236,13 +230,13 @@ Vector3 Enclose(int i, FishDataT fish[]) 
 	//----- 壁からの距離を求める ----- 
 	float fromwall = AQUARIUM_MAX - length; 
 	 
-	float k = 20.0 * fish[i].speed;//係数K 
+	float k = 500.0 * fish[i].speed;//係数K 
 		 
 	Vector3 move = VectorZero(); 
 	if(length > (AQUARIUM_MAX * 0.5)) 
 	{ 
 		move.x = (diff.x / length) * k / ((length * 0.5) + (length * length * 0.5)) * -1; 
-		move.y = 0.0; 
+		move.y = 0.0;
 		move.z = (diff.z / length) * k / ((length * 0.5) + (length * length * 0.5)) * -1; 
 	}
 
@@ -292,32 +286,29 @@ Vector3 Align (int i, FishDataT fish[]) 
 			 
 			if(visible) 
 			{ 
-				ave.x += fish[j].move.x; 
-				ave.y += fish[j].move.y; 
-				ave.z += fish[j].move.z; 
+				ave.x += fish[j].forward.x; 
+				ave.y += fish[j].forward.y; 
+				ave.z += fish[j].forward.z; 
 				flock += 1; 
-				
 			}
-			         } 
-		
+		} 
 	}
 	 
-	     //ave = VectorDivi(&ave, (float)flock); 
+	//ave = VectorDivi(&ave, (float)flock); 
 	if(flock > 0) 
 	{ 
 		ave.x /= (float)flock; 
 		ave.y /= (float)flock; 
-		ave.z /= (float)flock; 
-		
+		ave.z /= (float)flock;
 	}
 	 
 	 
 	//----- 自分の移動量との差を加える ----- 
 	float speed_factor = 1.0; 
 	Vector3 move; 
-	move.x = (ave.x - fish[i].move.x)/speed_factor; 
-	move.y = (ave.y - fish[i].move.y)/speed_factor; 
-	move.z = (ave.z - fish[i].move.z)/speed_factor; 
+	move.x = (ave.x - fish[i].forward.x)/speed_factor; 
+	move.y = (ave.y - fish[i].forward.y)/speed_factor; 
+	move.z = (ave.z - fish[i].forward.z)/speed_factor; 
 	 
 	return move; 
 	
@@ -525,7 +516,7 @@ void Cruising (int i, FishDataT fish[])
 	float factor_sepa = parameter.ks;
 	float factor_alig = parameter.ka;
 	float factor_eat_ = 0.1;
-	float factor_avoi = 0.1;
+	float factor_avoi = 0.0;
 	float factor_encl = 1.0;
 	float factor_chas = 0.0;
 	float factor_esca = 0.0;
@@ -555,10 +546,10 @@ void Cruising (int i, FishDataT fish[])
   float velocityxz = GetVector2Length(fish[i].forward.x, fish[i].forward.z);
 
   //forwardベクトルのY軸における回転量を求める(θf,θi)
-  float yawf = RadtoDeg( atan2f(-fish[i].forward.x, -fish[i].forward.z));
+  float yawf = atan2f(-fish[i].forward.x, -fish[i].forward.z);
 
   //moveベクトルのY軸における回転量を求める(θm)
-  float yawm = RadtoDeg( atan2f(-fish[i].move.x, -fish[i].move.z));
+  float yawm = atan2f(-fish[i].move.x, -fish[i].move.z);
   
   //moveベクトルのローカルにおいてのyawを求める(θ)
   float yaw = yawm - yawf;
@@ -569,7 +560,7 @@ void Cruising (int i, FishDataT fish[])
 
   //--- 回転させる力を求める ---(move.x)
   float rotateyaw = movexzlength * -cosf(yaw);
-  float k1 = 0.1;//係数
+  float k1 = 1.0;//係数
 
   //変異した後のyawを求める(θi+1)
   float newyaw = yawf + k1 * rotateyaw; 
@@ -579,8 +570,12 @@ void Cruising (int i, FishDataT fish[])
   fish[i].forward.z = -cosf(newyaw) * velocityxz;  
 
   //推進力を加える
-  fish[i].forward.x = fish[i].forward.x * (1 + (k2 * thrust) / velocityxz) * velocityxz;
-  fish[i].forward.z = fish[i].forward.z * (1 + (k2 * thrust) / velocityxz) * velocityxz;
+  if(thrust != 0.0 && velocityxz != 0.0 && fish[i].forward.x != 0.0 && fish[i].forward.z != 0.0)
+  {
+    //fish[i].forward.x = fish[i].forward.x * (1 + (k2 * thrust) / velocityxz) * velocityxz;
+    //fish[i].forward.z = fish[i].forward.z * (1 + (k2 * thrust) / velocityxz) * velocityxz;
+  }
+  printf("%f\n", velocityxz);
 
   //----- YZ平面 -----
 
@@ -591,10 +586,10 @@ void Cruising (int i, FishDataT fish[])
   float forwardyzlength = GetVector2Length(fish[i].forward.y, fish[i].forward.z);
 
   //forwardベクトルのX軸における回転量を求める(θf)
-  float pitchf = RadtoDeg( atan2f(fish[i].forward.y, forwardyzlength));
+  float pitchf = atan2f(fish[i].forward.y, forwardyzlength);
 
   //moveベクトルのX軸における回転量を求める(θm)
-  float pitchm = RadtoDeg( atan2f(fish[i].move.y, moveyzlength));
+  float pitchm = atan2f(fish[i].move.y, moveyzlength);
 
   //moveベクトルのローカルにおけるpitchを求める
   float pitch = pitchm - pitchf;
@@ -658,9 +653,9 @@ void Cruising (int i, FishDataT fish[])
 	 
 	//----- 移動方向を向く ------ 
 	//----- pitch ----- 
-	fish[i].rot.x = RadtoDeg( atan2f (fish[i].move.y, GetVector2Length (fish[i].move.x, fish[i].move.z))); 
+	fish[i].rot.x = RadtoDeg( atan2f (fish[i].forward.y, GetVector2Length (fish[i].forward.x, fish[i].forward.z))); 
 	//----- yaw ----- 
-	fish[i].rot.y = RadtoDeg ( atan2f (-fish[i].move.x, -fish[i].move.z)); 
+	fish[i].rot.y = RadtoDeg ( atan2f (-fish[i].forward.x, -fish[i].forward.z)); 
 	 
 	//----- 左右へのブレを加える ----- 
 	fish[i].rot.y += Gaussian(-5.0, 5.0); 
