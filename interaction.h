@@ -1,5 +1,8 @@
 //関数プロトタイプ宣言
 
+
+void ChangeDebugMode();
+
 void ShowParameter();
 
 void SelectType();

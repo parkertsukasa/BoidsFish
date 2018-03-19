@@ -85,7 +85,8 @@ void FishStructInit(int i, FishDataT fish[], kind spc)
 	fish[i].color.g = 1.0; 
 	fish[i].color.b = 1.0; 
 	fish[i].color.a = 1.0; 
-	
+
+  fish[i].wall = VectorZero();
 } 
  
  
@@ -194,7 +195,6 @@ Vector3 Separate(int i, FishDataT fish[]) 
 				move.y += (diff.y / length) * k / (length * length) * -1; 
 				move.z += (diff.z / length) * k / (length * length) * -1; 
 				flock += 1; 
-				
 			}
 		}
 	}
@@ -208,8 +208,19 @@ Vector3 Separate(int i, FishDataT fish[]) 
 		move.z /= (float)flock; 
 		
 	}
+
+  //大きすぎる場合は正規化して丸める
+  float movelength = GetVector3Length(&move);
+  float maxvalue = 5.0;
+  if(movelength > maxvalue)
+  {
+    move.x = move.x / movelength * maxvalue;
+    move.y = move.y / movelength * maxvalue;
+    move.z = move.z / movelength * maxvalue;
+  }
 	 
-	 
+	fish[i].wall = move;
+
 	return move; 
 	
 }
@@ -230,14 +241,14 @@ Vector3 Enclose(int i, FishDataT fish[]) 
 	//----- 壁からの距離を求める ----- 
 	float fromwall = AQUARIUM_MAX - length; 
 	 
-	float k = 500.0 * fish[i].speed;//係数K 
+	float k = 3.0 * fish[i].speed;//係数K 
 		 
 	Vector3 move = VectorZero(); 
 	if(length > (AQUARIUM_MAX * 0.5)) 
 	{ 
-		move.x = (diff.x / length) * k / ((length * 0.5) + (length * length * 0.5)) * -1; 
+		move.x = (diff.x / fromwall) * k / ((fromwall * 0.5) + (fromwall * fromwall * 0.5)) * -1; 
 		move.y = 0.0;
-		move.z = (diff.z / length) * k / ((length * 0.5) + (length * length * 0.5)) * -1; 
+		move.z = (diff.z / fromwall) * k / ((fromwall * 0.5) + (fromwall * fromwall * 0.5)) * -1; 
 	}
 
 	Vector3 wallfish[2]; 
@@ -264,6 +275,7 @@ Vector3 Enclose(int i, FishDataT fish[]) 
   if(floorlength > (HEIGHT/2))
     move.y = l * (1 - (floorlength / (HEIGHT/2)));
    
+
   return move; 
 	
 }
@@ -516,7 +528,7 @@ void Cruising (int i, FishDataT fish[])
 	float factor_sepa = parameter.ks;
 	float factor_alig = parameter.ka;
 	float factor_eat_ = 0.1;
-	float factor_avoi = 0.0;
+	float factor_avoi = 0.5;
 	float factor_encl = 1.0;
 	float factor_chas = 0.0;
 	float factor_esca = 0.0;
@@ -537,6 +549,37 @@ void Cruising (int i, FishDataT fish[])
 	fish[i].move.y = move_cohe.y * factor_cohe + move_sepa.y * factor_sepa + move_alig.y * factor_alig + move_encl.y * factor_encl + move_eat_.y * factor_eat_ + move_avoi.y * factor_avoi + move_cohe.y * factor_chas + move_esca.y *factor_esca;
 	fish[i].move.z = move_cohe.z * factor_cohe + move_sepa.z * factor_sepa + move_alig.z * factor_alig + move_encl.z * factor_encl + move_eat_.z * factor_eat_ + move_avoi.z * factor_avoi + move_cohe.z * factor_chas + move_esca.z *factor_esca;
 	
+/*
+	 //----- YZ平面 -----
+	 
+	 //YZ平面におけるmoveベクトルの大きさを求める
+	 float moveyzlength = GetVector2Length(fish[i].move.y, fish[i].move.z);
+	 
+	 //YZ平面におけるforwardベクトルの大きさを求める
+	 float forwardyzlength = GetVector2Length(fish[i].forward.y, fish[i].forward.z);
+	 
+	 //forwardベクトルのX軸における回転量を求める(θf)
+	 float pitchf = atan2f(fish[i].forward.y, forwardyzlength);
+	 
+	 //moveベクトルのX軸における回転量を求める(θm)
+	 float pitchm = atan2f(fish[i].move.y, moveyzlength);
+	 
+	 //moveベクトルのローカルにおけるpitchを求める
+	 float pitch = pitchm - pitchf;
+	 
+	 //回転させる力を求める(move.y)
+	 float rotatepitch = moveyzlength * -cosf(pitch);
+	float k1 = 1.0;//係数
+	 
+	 //変異した後のpitchを求める(θi+1)
+	 float newpitch = pitchf + k1 * rotatepitch;
+	 
+	 //新たなpitchを元にベクトルを再構築
+	 fish[i].forward.y = -sinf(newpitch) * forwardyzlength;
+	 fish[i].forward.z = -cosf(newpitch) * forwardyzlength;
+	*/
+
+	
   //------ XZ平面 ------
 
   //XZ平面におけるmoveベクトルの長さを求める(|move|)
@@ -556,68 +599,33 @@ void Cruising (int i, FishDataT fish[])
 
   //--- 推進力を求める ---(move.z)
   float thrust = movexzlength * -sinf(yaw);
-  float k2 = 0.1;//係数
+  if(thrust < 0.01 && thrust > -0.01)
+  {
+    if(thrust > 0.0)
+      thrust = 0.01;
+    else
+      thrust = -0.01;
+  }
+  float k2 = 0.0001;//係数
 
   //--- 回転させる力を求める ---(move.x)
   float rotateyaw = movexzlength * -cosf(yaw);
-  float k1 = 1.0;//係数
 
   //変異した後のyawを求める(θi+1)
   float newyaw = yawf + k1 * rotateyaw; 
+
+  //推進力を加える
+  if(thrust != 0.0 && velocityxz != 0.0 && fish[i].forward.x != 0.0 && fish[i].forward.z != 0.0)
+  {
+    fish[i].forward.x = fish[i].forward.x * (1 + (k2 * thrust) / velocityxz) * velocityxz;
+    fish[i].forward.z = fish[i].forward.z * (1 + (k2 * thrust) / velocityxz) * velocityxz;
+  }
 
   //yawを元にベクトルを再構築(forward i+1)
   fish[i].forward.x = -sinf(newyaw) * velocityxz;  
   fish[i].forward.z = -cosf(newyaw) * velocityxz;  
 
-  //推進力を加える
-  if(thrust != 0.0 && velocityxz != 0.0 && fish[i].forward.x != 0.0 && fish[i].forward.z != 0.0)
-  {
-    //fish[i].forward.x = fish[i].forward.x * (1 + (k2 * thrust) / velocityxz) * velocityxz;
-    //fish[i].forward.z = fish[i].forward.z * (1 + (k2 * thrust) / velocityxz) * velocityxz;
-  }
-  printf("%f\n", velocityxz);
 
-  //----- YZ平面 -----
-
-  //YZ平面におけるmoveベクトルの大きさを求める
-  float moveyzlength = GetVector2Length(fish[i].move.y, fish[i].move.z);
-
-  //YZ平面におけるforwardベクトルの大きさを求める
-  float forwardyzlength = GetVector2Length(fish[i].forward.y, fish[i].forward.z);
-
-  //forwardベクトルのX軸における回転量を求める(θf)
-  float pitchf = atan2f(fish[i].forward.y, forwardyzlength);
-
-  //moveベクトルのX軸における回転量を求める(θm)
-  float pitchm = atan2f(fish[i].move.y, moveyzlength);
-
-  //moveベクトルのローカルにおけるpitchを求める
-  float pitch = pitchm - pitchf;
-
-  //回転させる力を求める(move.y)
-  float rotatepitch = moveyzlength * -cosf(pitch);
-
-  //変異した後のpitchを求める(θi+1)
-  float newpitch = pitchf + k1 * rotatepitch;
-
-  //新たなpitchを元にベクトルを再構築
-  fish[i].forward.y = -sinf(newpitch) * forwardyzlength;
-  fish[i].forward.z = -cosf(newpitch) * forwardyzlength;
-
-
-
-
-
-	//----- 速度が早すぎた場合、正規化を行う ----- 
-	float velocity_max = 10.0; 
-	float velocity = GetVector3Length(&fish[i].move);
-	if (velocity > velocity_max) 
-	{ 
-		fish[i].move.x = (fish[i].move.x / velocity) * velocity_max; 
-		fish[i].move.y = (fish[i].move.y / velocity) * velocity_max; 
-		fish[i].move.z = (fish[i].move.z / velocity) * velocity_max; 
-	}
-	
 	 
 	//----- 水槽外にはみ出てしまいそうな場合水槽に沿う位置に移動を制限する ----- 
 	Vector3 nextpos  = VectorAdd(&fish[i].pos, &fish[i].forward);//次のフレームでの位置 
@@ -628,7 +636,6 @@ void Cruising (int i, FishDataT fish[])
 	{ 
 		nextpos.x = (nextpos.x * AQUARIUM_MAX / length); 
 		nextpos.z = (nextpos.z * AQUARIUM_MAX / length); 
-		
 	}
 	 
 	 
@@ -636,7 +643,6 @@ void Cruising (int i, FishDataT fish[])
 	if(nextpos.y > (HEIGHT/2) ) 
 	{ 
 		nextpos.y = HEIGHT/2; 
-		
 	}
 	 
 	 

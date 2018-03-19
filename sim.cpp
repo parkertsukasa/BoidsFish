@@ -75,6 +75,7 @@ void InitScene( void )
 
   //------ インターフェース関係 ------
   interface.select = RED;
+  interface.debug = false;
   ColorChange(&interface.color, 1.0, 0.0, 0.0, 1.0);
 
 

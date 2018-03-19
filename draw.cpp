@@ -125,7 +125,7 @@ void drawSolidCone()
 		glPushMatrix();
 	{
     setMaterialColor(1.0, 1.0, 1.0);
-		glTranslatef( 0.0, 0.0, -1.0 );    //オブジェクト基準位置調整
+		glTranslatef( 0.0, 0.0, -0.75 );    //オブジェクト基準位置調整
 		glRotatef( 0.0, 0.0, 1.0, 0.0 );  //オブジェクト基準姿勢調整：ヨー角
 		glRotatef( 0.0, 1.0, 0.0, 0.0 ); //オブジェクト基準姿勢調整：ピッチ角
 		glRotatef( 0.0, 0.0, 0.0, 1.0 );  //オブジェクト基準姿勢調整：ロール角
@@ -142,6 +142,17 @@ void drawSolidCone()
 void drawFIsh()
 {
   
+}
+
+/* --------------------------------------------------------- drawLine
+ * drawLine
+ */
+void drawLine(Vector3 *b, Vector3 *e)
+{
+  glBegin( GL_LINES );
+    glVertex3f(b->x, b->y, b->z);
+    glVertex3f(e->x, e->y, e->z);
+  glEnd();
 }
 
 
@@ -211,7 +222,7 @@ void drawAquarium()
  *--------*/
 void drawFish (int i, FishDataT fish[])
 {
-		glPushMatrix();
+	glPushMatrix();
 	{
     glColor3f(fish[i].color.r, fish[i].color.g, fish[i].color.b);
 		glTranslatef(fish[i].pos.x, fish[i].pos.y, fish[i].pos.z);   //オブジェクト基準位置調整
@@ -221,8 +232,28 @@ void drawFish (int i, FishDataT fish[])
     glGetFloatv( GL_MODELVIEW_MATRIX, fish[i].mat);//変換マトリクスの取得
 		drawSolidCone();
     //drawFishModel();
-	}
-	glPopMatrix();
+    
+  }
+  glPopMatrix();
+
+  if(interface.debug)
+  {
+    glPushMatrix();
+    {
+      // ----- デバッグ用の線の描画 -----
+      glColor3f(1.0, 1.0, 0.0);
+      Vector3 bigmove = VectorScalar(&fish[i].move , 50.0);
+      Vector3 movepoint = VectorAdd(&fish[i].pos, &bigmove);
+      drawLine(&fish[i].pos, &movepoint);
+
+      glColor3f(1.0, 1.0, 1.0);
+
+      Vector3 bigforward = VectorScalar(&fish[i].forward, 5.0);
+      Vector3 forwardpoint = VectorAdd(&fish[i].pos, &bigforward);
+      drawLine(&fish[i].pos, &forwardpoint);
+	  }
+	  glPopMatrix();
+  }
 }
 
 

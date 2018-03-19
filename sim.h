@@ -88,6 +88,7 @@ typedef struct {
 typedef struct {
   kind select;
   Color color;
+  bool debug;
 }Selected;
 
 typedef struct {
@@ -115,6 +116,7 @@ typedef struct {
     Vector3 rot;
     Vector3 move;
     Vector3 forward;
+    Vector3 wall;
     GLfloat mat[16];
     float range;
     float sightangle;

@@ -210,6 +210,14 @@ void SightAngleDown()
  */
 
 
+/* ------------------------------------------------------------ ChangeDebugMode 
+ * ChanegeDebugMode
+ */
+void ChangeDebugMode()
+{
+  interface.debug = !interface.debug;
+}
+
 /* ------------------------------------------------------------ ShowParameter 
  * ShowParameter パラメーターを表示する
  */
