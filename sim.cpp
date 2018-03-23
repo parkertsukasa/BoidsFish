@@ -163,7 +163,7 @@ void UpdateScene( void )
  */
 void CameraRotate ()
 {
-    camobj.thete += camobj.speed;
+    //camobj.thete += camobj.speed;
     camobj.pos.x = camobj.radius * cosf(camobj.thete);
     camobj.pos.z = camobj.radius * sinf(camobj.thete);
 }

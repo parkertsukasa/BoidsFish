@@ -129,6 +129,7 @@ void drawSolidCone()
 		glRotatef( 0.0, 0.0, 1.0, 0.0 );  //オブジェクト基準姿勢調整：ヨー角
 		glRotatef( 0.0, 1.0, 0.0, 0.0 ); //オブジェクト基準姿勢調整：ピッチ角
 		glRotatef( 0.0, 0.0, 0.0, 1.0 );  //オブジェクト基準姿勢調整：ロール角
+    glScalef(0.5, 0.5, 0.5);
 		glutSolidCone( 0.7, 5.0, 10.0, 5.0 );   //半径，高さ, 円の分割, 高さの分割
 	}
 	glPopMatrix();
@@ -248,7 +249,7 @@ void drawFish (int i, FishDataT fish[])
 
       glColor3f(1.0, 1.0, 1.0);
 
-      Vector3 bigforward = VectorScalar(&fish[i].forward, 5.0);
+      Vector3 bigforward = VectorScalar(&fish[i].forward, 50.0);
       Vector3 forwardpoint = VectorAdd(&fish[i].pos, &bigforward);
       drawLine(&fish[i].pos, &forwardpoint);
 	  }
