@@ -199,7 +199,7 @@ void GiveFeed (float x, float y, float z)
 }
 
 /*-------------------------------------------------------------- FeedControl
- * FeedControl : 餌の管理　自由落下や餌の残量
+ * FeedControl : 餌の管理　餌の残量を確認
  *--------*/
 void FeedControl (int j)
 {

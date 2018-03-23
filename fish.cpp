@@ -326,13 +326,15 @@ Vector3 Align (int i, FishDataT fish[])
 	return move;
 	
 }
+
+
 /*-------------------------------------------------------------- EatFeed
  * EatFeed : 餌を食べる 餌オブジェクトに向かって移動する
  *--------*/
 Vector3 EatFeed (int i, FishDataT fish[])
 {
 	//----- 一番近い餌を探す -----
-	float nearfeed = -1;
+	float nearfeed = 100000;
 	for (int j = 0; j < FEEDLENGTH; j++)
 	{
 		if(feed[j].alive)
@@ -349,9 +351,7 @@ Vector3 EatFeed (int i, FishDataT fish[])
 		}
 	}
 	
-  //printf("%f\n", nearfeed);
-	
-	if (nearfeed == -1)
+	if (nearfeed == 100000)
 		fish[i].feednum = -1;
 	
 	//----- 一定距離以内なら餌を食べて餌の総量(amount)を減らす -----
@@ -359,15 +359,14 @@ Vector3 EatFeed (int i, FishDataT fish[])
     feed[fish[i].feednum].amount -= 1;
 	
 	//----- 餌の方向へ移動する -----
-	float speed_factor = 10;
+	float speed_factor = 300;
 	
 	Vector3 move;
 	if (feed[fish[i].feednum].alive && fish[i].feednum >= 0)
 	{
-		move.x = (feed[fish[i].feednum].pos.x - fish[i].pos.x)/speed_factor;
-		
-		move.y = (feed[fish[i].feednum].pos.y - fish[i].pos.y)/speed_factor;
-		move.z = (feed[fish[i].feednum].pos.z - fish[i].pos.z)/speed_factor;
+		move.x = (fish[i].pos.x - feed[fish[i].feednum].pos.x)/speed_factor;
+		move.y = (fish[i].pos.y - feed[fish[i].feednum].pos.y)/speed_factor;
+		move.z = (fish[i].pos.z - feed[fish[i].feednum].pos.z)/speed_factor;
 		
 	}
 	
@@ -572,7 +571,7 @@ void Cruising (int i, FishDataT fish[])
 	float factor_sepa = 0.02;
 	float factor_alig = 0.02;
 	
-	float factor_eat_ = 0.5;
+	float factor_eat_ = 0.3;
 	float factor_avoi = 0.01;
 	float factor_encl = 0.03;
 	float factor_chas = 0.05;
