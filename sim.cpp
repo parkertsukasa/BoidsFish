@@ -128,10 +128,7 @@ void InitScene( void )
 void UpdateScene( void )
 {
     //////// データ更新 ////////
-    //printf("%f,%f,%f\n", Rfish[0].pos.x, Rfish[0].pos.y, Rfish[0].pos.z);
-    mouse.x = 0.0;
-    mouse.y = 0.0;
-    mouse.z = 0.0;
+    //printf("%f,%f,%f\n", mouse.x, mouse.y, mouse.z);
     CameraRotate();
     MouseObj ();
     
@@ -180,29 +177,25 @@ void CameraRotate ()
  */
 void MouseObj ()
 {
-    mouse.x *= AQUARIUM_MAX;
-    mouse.z *= AQUARIUM_MAX;
+
 }
 
 /*------------------------------------------------------------- GiveFeed
  * GiveFeed : 餌を増やす　kbdmouse.cppから呼び出す
  */
-void GiveFeed (float x, float y)
+void GiveFeed (float x, float y, float z)
 {
-    feed[nowfeed].pos.x = x * 50;
-    feed[nowfeed].pos.y = 50;
-    feed[nowfeed].pos.z = y * 50;
+  feed[nowfeed].pos.x = x;
+  feed[nowfeed].pos.y = y;
+  feed[nowfeed].pos.z = z;
     
-    feed[nowfeed].alive = true;
+  feed[nowfeed].alive = true;
+  feed[nowfeed].amount = 50.0;
     
-    if (nowfeed == FEEDLENGTH -1)
-    {
-        nowfeed = 0;
-    }
-    else
-    {
-        nowfeed += 1;
-    }
+  if (nowfeed == FEEDLENGTH -1)
+    nowfeed = 0;
+  else
+    nowfeed += 1;
 }
 
 /*-------------------------------------------------------------- FeedControl
@@ -210,14 +203,8 @@ void GiveFeed (float x, float y)
  *--------*/
 void FeedControl (int j)
 {
-    if(feed[j].pos.y >= -30)
-    {
-        feed[j].pos.y -= 0.1;
-    }
-    else
-    {
-        feed[j].alive = false;
-    }
+  if(feed[j].amount <= 0.0)
+    feed[j].alive = false;
 }
 
 

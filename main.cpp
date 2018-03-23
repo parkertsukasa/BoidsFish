@@ -100,7 +100,7 @@ void display( void )
 	MainLight( GL_LIGHT0, 1.0, 1.0, 1.0 );
 
 	//▼サブライトON: R, G, B
-	SubLight( GL_LIGHT1, 0.1, 0.2, 0.9 );
+	//SubLight( GL_LIGHT1, 0.1, 0.2, 0.9 );
 
 	//▽フォグON: R, G, B, 密度, 開始距離, 終了距離	
 	Fog( GL_EXP, 
@@ -179,14 +179,14 @@ int main( int argc, char *argv[] )
 	glutReshapeFunc( reshape ); // reshape callback function
 
 	//-------- keyboard callbacks
-    glutKeyboardFunc( charKeyDown ); // character key down callback
+  glutKeyboardFunc( charKeyDown ); // character key down callback
 	glutKeyboardUpFunc( charKeyUp ); // character key up callback
 	glutSpecialFunc( funcKeyDown ); // function key down callback
 	glutSpecialUpFunc( funcKeyUp ); // function key up callback
 	glutIgnoreKeyRepeat( 1 );   // disable key-repeat
 
 	//-------- mouse callbacks
-    glutMouseFunc( mouseClick );       // mouse click callback
+  glutMouseFunc( mouseClick );       // mouse click callback
 	glutPassiveMotionFunc( mouseMotion ); // passive motion callback
 	glutMotionFunc( mouseDrag ); // mouse drag callback	
 	

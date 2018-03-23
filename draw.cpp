@@ -33,19 +33,21 @@ void setEmissiveColor( float r, float g, float b );
  *--------*/
 void setMaterialColor( float r, float g, float b )
 {
-    float diffuse[4];
-    float specular[] = { 0.8, 0.8, 0.8, 1.0 };
+  float diffuse[4];
+  float specular[] = { 0.8, 0.8, 0.8, 1.0 };
 
 	diffuse[0] = r;
 	diffuse[1] = g;
 	diffuse[2] = b;
 	diffuse[3] = 1.0;
 
-    glMaterialfv( GL_FRONT, GL_DIFFUSE, diffuse );
-    glMaterialfv( GL_FRONT, GL_SPECULAR, specular );
-    glMaterialf( GL_FRONT, GL_SHININESS, 32.0 );
+  glColor3f(r,g,b);  
 
-    return;
+  glMaterialfv( GL_FRONT, GL_DIFFUSE, diffuse );
+  glMaterialfv( GL_FRONT, GL_SPECULAR, specular );
+  glMaterialf( GL_FRONT, GL_SHININESS, 32.0 );
+
+  return;
 }
 /*--------------------------------------------------------- setEmissiveColor
  * setEmissiveColor:
@@ -74,7 +76,6 @@ void drawSolidCube( void )
 {
 	glPushMatrix();
 	{
-    setMaterialColor(0.9, 0.8, 0.1);
 		glTranslatef( 0.0, 0.0, 0.0 );   //オブジェクト基準位置調整
 		glRotatef( 0.0, 0.0, 1.0, 0.0 ); //オブジェクト基準姿勢調整：ヨー角
 		glRotatef( 0.0, 1.0, 0.0, 0.0 ); //オブジェクト基準姿勢調整：ピッチ角
@@ -124,7 +125,6 @@ void drawSolidCone()
 {
 		glPushMatrix();
 	{
-    setMaterialColor(1.0, 1.0, 1.0);
 		glTranslatef( 0.0, 0.0, -0.75 );    //オブジェクト基準位置調整
 		glRotatef( 0.0, 0.0, 1.0, 0.0 );  //オブジェクト基準姿勢調整：ヨー角
 		glRotatef( 0.0, 1.0, 0.0, 0.0 ); //オブジェクト基準姿勢調整：ピッチ角
@@ -134,15 +134,6 @@ void drawSolidCone()
 	}
 	glPopMatrix();
     return;
-}
-
-
-/*--------------------------------------------------------- drawFish
- * drawFish:
- *--------*/
-void drawFIsh()
-{
-  
 }
 
 /* --------------------------------------------------------- drawLine
@@ -181,7 +172,7 @@ void drawFishModel()
 void drawMouseObj()
 {
   glPushMatrix();
-    glColor3f(1.0, 1.0, 1.0);
+    setMaterialColor(1.0, 1.0, 1.0);
     glTranslatef(mouse.x, mouse.y, mouse.z);
     glScalef(POINTRADIUS, POINTRADIUS, POINTRADIUS);
     drawWireSphere();
@@ -197,7 +188,10 @@ void drawFeed (int j)
   if (feed[j].alive)
   {
     glPushMatrix();
+      setMaterialColor(1.0, 1.0, 0.0);
       glTranslatef(feed[j].pos.x, feed[j].pos.y, feed[j].pos.z);
+      float size = feed[j].amount / 15;
+      glScalef(size, size, size);
       drawSolidCube ();
     glPopMatrix();
   }
@@ -210,7 +204,7 @@ void drawFeed (int j)
 void drawAquarium()
 {
   glPushMatrix();
-    glColor3f(interface.color.r, interface.color.g, interface.color.b);
+    setMaterialColor(interface.color.r, interface.color.g, interface.color.b);
     glTranslatef(0.0, 0.0, 0.0);
     //glutWireCube(100.0);
     //glutWireSphere( AQUARIUM_MAX, 18.0, 16.0 );   //半径，経度方向分割数，緯度方向分割数
@@ -225,15 +219,13 @@ void drawFish (int i, FishDataT fish[])
 {
 	glPushMatrix();
 	{
-    glColor3f(fish[i].color.r, fish[i].color.g, fish[i].color.b);
+    setMaterialColor(fish[i].color.r, fish[i].color.g, fish[i].color.b);
 		glTranslatef(fish[i].pos.x, fish[i].pos.y, fish[i].pos.z);   //オブジェクト基準位置調整
 		glRotatef( fish[i].rot.y, 0.0, 1.0, 0.0 );  //オブジェクト基準姿勢調整：ヨー角
 		glRotatef( fish[i].rot.x, 1.0, 0.0, 0.0 ); //オブジェクト基準姿勢調整：ピッチ角
 		glRotatef( fish[i].rot.z, 0.0, 0.0, 1.0 );  //オブジェクト基準姿勢調整：ロール角
     glGetFloatv( GL_MODELVIEW_MATRIX, fish[i].mat);//変換マトリクスの取得
 		drawSolidCone();
-    //drawFishModel();
-    
   }
   glPopMatrix();
 
@@ -243,7 +235,7 @@ void drawFish (int i, FishDataT fish[])
     {
       // ----- デバッグ用の線の描画 -----
       glColor3f(1.0, 1.0, 0.0);
-      Vector3 bigmove = VectorScalar(&fish[i].move , 50.0);
+      Vector3 bigmove = VectorScalar(&fish[i].move , -150.0);
       Vector3 movepoint = VectorAdd(&fish[i].pos, &bigmove);
       drawLine(&fish[i].pos, &movepoint);
 
@@ -269,12 +261,14 @@ void DrawScene( void )
 		drawAquarium ();
     drawMouseObj ();
 
+    //glEnable(GL_LIGHTING);
 		for (int i = 0; i < LENGTH; i++)
 		{
 			drawFish(i, Rfish);
 			drawFish(i, Gfish);
 			drawFish(i, Bfish);
 		}
+    //glDisable(GL_LIGHTING);
 
     for (int j = 0; j < FEEDLENGTH; j++)
     {

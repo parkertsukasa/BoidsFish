@@ -63,7 +63,6 @@ typedef struct {
 } CamDataT;
 
 typedef struct {
-
 	float x;
 	float y;
   float z;
@@ -103,7 +102,7 @@ void CameraRotate();
 void MouseObj();
 
 void FeedControl(int j);
-void GiveFeed (float x, float y);
+void GiveFeed (float x, float y, float z);
 
 
 int DensitySerch();
