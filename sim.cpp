@@ -188,6 +188,10 @@ void GiveFeed (float x, float y, float z)
   feed[nowfeed].pos.x = x;
   feed[nowfeed].pos.y = y;
   feed[nowfeed].pos.z = z;
+
+  feed[nowfeed].rot.x = Random(0.0, 360.0);
+  feed[nowfeed].rot.y = Random(0.0, 360.0);
+  feed[nowfeed].rot.z = Random(0.0, 360.0);
     
   feed[nowfeed].alive = true;
   feed[nowfeed].amount = 50.0;

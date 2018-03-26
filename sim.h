@@ -7,7 +7,7 @@ void DrawScene( void );
 
 #define AQUARIUM_MAX 50
 #define AQUARIUM_MIN -50
-#define HEIGHT 80
+#define HEIGHT 20
 
 #define POINTRADIUS 5
 
@@ -122,7 +122,7 @@ typedef struct {
     float speed;
     bool hungry;
     int feednum;
-    
+
     Color color;
 }FishDataT;
 

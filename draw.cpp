@@ -130,7 +130,7 @@ void drawSolidCone()
 		glRotatef( 0.0, 1.0, 0.0, 0.0 ); //オブジェクト基準姿勢調整：ピッチ角
 		glRotatef( 0.0, 0.0, 0.0, 1.0 );  //オブジェクト基準姿勢調整：ロール角
     glScalef(0.5, 0.5, 0.5);
-		glutSolidCone( 0.7, 5.0, 10.0, 5.0 );   //半径，高さ, 円の分割, 高さの分割
+		glutSolidCone( 0.7, 5.0, 3.0, 5.0 );   //半径，高さ, 円の分割, 高さの分割
 	}
 	glPopMatrix();
     return;
@@ -153,14 +153,19 @@ void drawLine(Vector3 *b, Vector3 *e)
  *--------*/
 void drawFishModel()
 {
-		glPushMatrix();
+	glPushMatrix();
 	{
-    setMaterialColor(1.0, 1.0, 1.0);
-		glTranslatef( 0.0, 0.0, 0.0 );    //オブジェクト基準位置調整
-		glRotatef( 0.0, 0.0, 1.0, 0.0 );  //オブジェクト基準姿勢調整：ヨー角
-		glRotatef( 0.0, 1.0, 0.0, 0.0 ); //オブジェクト基準姿勢調整：ピッチ角
-		glRotatef( 0.0, 0.0, 0.0, 1.0 );  //オブジェクト基準姿勢調整：ロール角
-		//DrawMyFishModel ();   
+    glBegin( GL_POLYGON );  
+      glVertex3f(0.0, 0.0, -1.0);
+      glVertex3f(-0.5, -0.5, 0.0);
+      glVertex3f(0.0, 0.0, 2.0);
+    glEnd(); 
+
+    glBegin( GL_POLYGON );  
+      glVertex3f(0.0, 0.0, -1.0);
+      glVertex3f(0.5, -0.5, 0.0);
+      glVertex3f(0.0, 0.0, 2.0);
+    glEnd(); 
   }
 	glPopMatrix();
     return;
@@ -190,6 +195,9 @@ void drawFeed (int j)
     glPushMatrix();
       setMaterialColor(1.0, 1.0, 0.0);
       glTranslatef(feed[j].pos.x, feed[j].pos.y, feed[j].pos.z);
+		  glRotatef( feed[j].rot.x, 0.0, 1.0, 0.0 ); //オブジェクト基準姿勢調整：ヨー角
+		  glRotatef( feed[j].rot.y, 1.0, 0.0, 0.0 ); //オブジェクト基準姿勢調整：ピッチ角
+		  glRotatef( feed[j].rot.z, 0.0, 0.0, 1.0 ); //オブジェクト基準姿勢調整：ロール角
       float size = feed[j].amount / 15;
       glScalef(size, size, size);
       drawSolidCube ();
@@ -217,6 +225,8 @@ void drawAquarium()
  *--------*/
 void drawFish (int i, FishDataT fish[])
 {
+  //glEnable(GL_LIGHTING);
+
 	glPushMatrix();
 	{
     setMaterialColor(fish[i].color.r, fish[i].color.g, fish[i].color.b);
@@ -225,9 +235,12 @@ void drawFish (int i, FishDataT fish[])
 		glRotatef( fish[i].rot.x, 1.0, 0.0, 0.0 ); //オブジェクト基準姿勢調整：ピッチ角
 		glRotatef( fish[i].rot.z, 0.0, 0.0, 1.0 );  //オブジェクト基準姿勢調整：ロール角
     glGetFloatv( GL_MODELVIEW_MATRIX, fish[i].mat);//変換マトリクスの取得
-		drawSolidCone();
+    drawFishModel();
   }
   glPopMatrix();
+
+  //glDisable(GL_LIGHTING);
+
 
   if(interface.debug)
   {
@@ -261,14 +274,12 @@ void DrawScene( void )
 		drawAquarium ();
     drawMouseObj ();
 
-    //glEnable(GL_LIGHTING);
 		for (int i = 0; i < LENGTH; i++)
 		{
 			drawFish(i, Rfish);
 			drawFish(i, Gfish);
 			drawFish(i, Bfish);
 		}
-    //glDisable(GL_LIGHTING);
 
     for (int j = 0; j < FEEDLENGTH; j++)
     {

@@ -18,22 +18,22 @@ void SpeedUp()
   {
     case RED:
 
-      if(Rfish[0].speed < 2.0)
+      if(Rfish[0].speed < 0.3)
       {
         for(int i = 0; i < LENGTH; i++)
         {
-          Rfish[i].speed += 0.1;
+          Rfish[i].speed += 0.02;
         }
       }
       break;
 
     case GREEN:
 
-      if(Gfish[0].speed < 2.0)
+      if(Gfish[0].speed < 0.3)
       {
         for(int i = 0; i < LENGTH; i++)
         {
-          Gfish[i].speed += 0.1;
+          Gfish[i].speed += 0.02;
         }
       }
 
@@ -41,11 +41,11 @@ void SpeedUp()
 
     case BLUE:
 
-      if(Bfish[0].speed < 2.0)
+      if(Bfish[0].speed < 0.3)
       {
         for(int i = 0; i < LENGTH; i++)
         {
-          Bfish[i].speed += 0.1;
+          Bfish[i].speed += 0.02;
         }
       }
 
@@ -67,22 +67,22 @@ void SpeedDown()
   {
     case RED:
 
-      if(Rfish[0].speed >= 0.2)
+      if(Rfish[0].speed >= 0.06)
       {
         for(int i = 0; i < LENGTH; i++)
         {
-          Rfish[i].speed -= 0.1;
+          Rfish[i].speed -= 0.02;
         }
       }
       break;
 
     case GREEN:
 
-      if(Gfish[0].speed >= 0.2)
+      if(Gfish[0].speed >= 0.06)
       {
         for(int i = 0; i < LENGTH; i++)
         {
-          Gfish[i].speed -= 0.1;
+          Gfish[i].speed -= 0.02;
         }
       }
 
@@ -90,11 +90,11 @@ void SpeedDown()
 
     case BLUE:
 
-      if(Bfish[0].speed >= 0.2)
+      if(Bfish[0].speed >= 0.06)
       {
         for(int i = 0; i < LENGTH; i++)
         {
-          Bfish[i].speed -= 0.1;
+          Bfish[i].speed -= 0.02;
         }
       }
 
