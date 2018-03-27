@@ -235,6 +235,13 @@ void drawFish (int i, FishDataT fish[])
 		glRotatef( fish[i].rot.x, 1.0, 0.0, 0.0 ); //オブジェクト基準姿勢調整：ピッチ角
 		glRotatef( fish[i].rot.z, 0.0, 0.0, 1.0 );  //オブジェクト基準姿勢調整：ロール角
     glGetFloatv( GL_MODELVIEW_MATRIX, fish[i].mat);//変換マトリクスの取得
+
+    if(fish[i].species == GREEN)
+      glScalef(0.75, 0.75, 0.75);
+
+    if(fish[i].species == BLUE)
+      glScalef(0.5, 0.5, 0.5);
+
     drawFishModel();
   }
   glPopMatrix();
@@ -275,13 +282,19 @@ void DrawScene( void )
     drawMouseObj ();
 
 		for (int i = 0; i < R_LENGTH; i++)
+    {
 			drawFish(i, Rfish);
+    }
 
 		for (int i = 0; i < G_LENGTH; i++)
+    {
 			drawFish(i, Gfish);
+    }
 
 		for (int i = 0; i < B_LENGTH; i++)
+    {
 			drawFish(i, Bfish);
+    }
 
     for (int j = 0; j < FEEDLENGTH; j++)
     {

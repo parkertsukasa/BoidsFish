@@ -44,13 +44,19 @@ void FishInit()
 void FishUpdate()
 {
 	for(int i = 0; i < R_LENGTH; i++)
+  {
 		Cruising (i, Rfish);//通常の巡行
+  }
 
 	for(int i = 0; i < G_LENGTH; i++)
+  {
 		Cruising (i, Gfish);//通常の巡行
+  }
 
 	for(int i = 0; i < B_LENGTH; i++)
+  {
 		Cruising (i, Bfish);//通常の巡行
+  }
 }
 
 
@@ -126,7 +132,7 @@ void ParameterSet()
   Rparam.speed_max = 0.3;
   Rparam.sightangle = 60.0;
   Rparam.sightrange = AQUARIUM_MAX * 0.8;
-  Rparam.kc = 0.2;
+  Rparam.kc = 0.1;
   Rparam.ks = 0.07;
   Rparam.ka = 0.02;
   
@@ -134,7 +140,7 @@ void ParameterSet()
   Gparam.speed_max = 0.2;
   Gparam.sightangle = 90.0;
   Gparam.sightrange = AQUARIUM_MAX * 1.0;
-  Gparam.kc = 0.2;
+  Gparam.kc = 0.1;
   Gparam.ks = 0.07;
   Gparam.ka = 0.02;
   
@@ -142,9 +148,9 @@ void ParameterSet()
   Bparam.speed_max = 0.1;
   Bparam.sightangle = 180.0;
   Bparam.sightrange = AQUARIUM_MAX * 1.2;
-  Bparam.kc = 0.2;
+  Bparam.kc = 0.1;
   Bparam.ks = 0.07;
-  Bparam.ka = 0.02;
+  Bparam.ka = 0.01;
   
 }
 
@@ -222,8 +228,6 @@ Vector3 Gather(int i, FishDataT fish[])
 	move.z = (diff_ave.z / length_ave) * speed_factor/ (length_ave);
 	
 	return move;
-	
-	
 }
 
 
@@ -277,6 +281,8 @@ Vector3 Separate(int i, FishDataT fish[])
 	return move;
 	
 }
+
+
 /*-------------------------------------------------------------- Enclose
  * Enclose : 壁から逃げる
  *--------*/
@@ -291,13 +297,14 @@ Vector3 Enclose(int i, FishDataT fish[])
 	//----- 壁からの距離を求める -----
 	float fromwall = AQUARIUM_MAX - length;
 	
-	float k = 1.0;//係数K
+	float k = 0.7 * fish[i].param->speed_max * fromwall;//係数K
 	
 	Vector3 move = VectorZero();
 	
 	if(length > (AQUARIUM_MAX * 0.5))
 	{
 		move.x = (diff.x / AQUARIUM_MAX) * k;
+
 		if( move.x < 0.0 )
       move.x *= -move.x;
 		else
@@ -340,6 +347,8 @@ Vector3 Enclose(int i, FishDataT fish[])
 	return move;
 	
 }
+
+
 /*-------------------------------------------------------------- Alignment
  * Align : 整列 ほかの固体と同じ方向へ移動する
  *--------*/
@@ -383,11 +392,18 @@ Vector3 Align (int i, FishDataT fish[])
 	return move;
 	
 }
+
+
 /*-------------------------------------------------------------- EatFeed
  * EatFeed : 餌を食べる 餌オブジェクトに向かって移動する
  *--------*/
 Vector3 EatFeed (int i, FishDataT fish[])
 {
+	Vector3 move = VectorZero();
+
+  if(fish[i].species == RED || fish[i].species == GREEN)
+    return move;
+
 	//----- 一番近い餌を探す -----
 	float nearfeed = 100000;
 	for (int j = 0; j < FEEDLENGTH; j++)
@@ -416,7 +432,6 @@ Vector3 EatFeed (int i, FishDataT fish[])
 	//----- 餌の方向へ移動する -----
 	float speed_factor = 300;
 	
-	Vector3 move;
 	if (feed[fish[i].feednum].alive && fish[i].feednum >= 0)
 	{
 		move.x = (fish[i].pos.x - feed[fish[i].feednum].pos.x)/speed_factor;
@@ -500,6 +515,8 @@ Vector3 Avoid( int i, FishDataT fish[] )
 Vector3 Chase (int i, FishDataT fish[])
 {
 	FishDataT *target;
+
+	Vector3 move = VectorZero();
 	
 	switch(fish[i].species)
 	{
@@ -512,7 +529,9 @@ Vector3 Chase (int i, FishDataT fish[])
 			break;
 
 		case BLUE:
-			target = Rfish;
+
+      return move;
+
 			break;
 			
 		default:
@@ -522,7 +541,7 @@ Vector3 Chase (int i, FishDataT fish[])
 	int neartarget = -1;
 	float nearlength = 1000000;
 	
-	for (int j = 0; j < fish[i].param->length; j++)
+	for (int j = 0; j < target[0].param->length; j++)
 	{
 		Vector3 diff = VectorDiff(&target[j].pos, &fish[i].pos);
 		float length = GetVector3Length(&diff);
@@ -535,7 +554,6 @@ Vector3 Chase (int i, FishDataT fish[])
 		}
 	}
 	
-	Vector3 move = VectorZero();
 	if(neartarget > -1)
 	{
 		Vector3 difftarget = VectorDiff(&fish[i].pos, &target[neartarget].pos);
@@ -583,7 +601,7 @@ Vector3 Escape (int i, FishDataT fish[])
 	int neartarget = -1;
 	float nearlength = 1000000;
 	
-	for (int j = 0; j < fish[i].param->length; j++)
+	for (int j = 0; j < target[0].param->length; j++)
 	{
 		Vector3 diff = VectorDiff(&target[j].pos, &fish[i].pos);
 		float length = GetVector3Length(&diff);
@@ -622,7 +640,7 @@ void Cruising (int i, FishDataT fish[])
 	float factor_sepa = fish[i].param->ks;
 	float factor_alig = fish[i].param->ka;
 	
-	float factor_eat_ = 0.3;
+	float factor_eat_ = 0.5;
 	float factor_avoi = 0.01;
 	float factor_encl = 0.03;
 	float factor_chas = 0.01;
