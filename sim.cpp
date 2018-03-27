@@ -17,14 +17,16 @@ CamDataT cam;
 CamObj camobj;
 
 MouseDataT mouse;
-FishDataT Rfish[LENGTH];
-FishDataT Gfish[LENGTH];
-FishDataT Bfish[LENGTH];
+FishDataT Rfish[R_LENGTH];
+FishDataT Gfish[G_LENGTH];
+FishDataT Bfish[B_LENGTH];
 FeedDataT feed[FEEDLENGTH];
 
-Selected interface;
+Selected ui;
 
-Parameter parameter;
+Parameter Rparam;
+Parameter Gparam;
+Parameter Bparam;
 
 //----- 密度を調べるためのパラメータ -----
 Vector3 samplepos;//密度調査を行う場所の中心地
@@ -37,32 +39,12 @@ int density;//対象範囲内にいる魚の数
 bool set;
 int nowfeed;
 
-void loadFishParam( const char *file )
-{
-    FILE *fp;
-    char num[16], num2[16], num3[16];
-  
-    fp = fopen( file, "r" );
-    fscanf( fp, "%s", num );
-    parameter.speed = strtod( num , NULL); //数値の文字列から数値に変換
-    fscanf( fp, "%s", num );
-    parameter.sightangle = strtod( num , NULL);
-    fscanf( fp, "%s", num );
-    parameter.sightrange = strtod( num , NULL);
-    fscanf( fp, "%s", num );
-    parameter.kc = strtod( num , NULL);
-    fscanf( fp, "%s", num );
-    parameter.ks = strtod( num , NULL);
-    fscanf( fp, "%s", num );
-    parameter.ka = strtod( num , NULL);
-}
 
 /*---------------------------------------------------------------- InitScene
  * InitScene:
  *--------*/
 void InitScene( void )
 {
-  loadFishParam("parameter.txt");
 
     FishInit();
 //  CreateMyModels ();
@@ -74,9 +56,9 @@ void InitScene( void )
   density = 0;
 
   //------ インターフェース関係 ------
-  interface.select = RED;
-  interface.debug = false;
-  ColorChange(&interface.color, 1.0, 0.0, 0.0, 1.0);
+  ui.select = RED;
+  ui.debug = false;
+  ColorChange(&ui.color, 1.0, 0.0, 0.0, 1.0);
 
 
 	////// シーンデータの初期化
@@ -219,7 +201,7 @@ int DensitySerch ()
 {
   int count = 0;
 
-  for(int i = 0; i < LENGTH; i++)
+  for(int i = 0; i < R_LENGTH; i++)
   {
     Vector3 diff = VectorDiff(&samplepos, &Rfish[i].pos);
     float length = GetVector3Length(&diff);
@@ -228,7 +210,7 @@ int DensitySerch ()
       count += 1;
   }
 
-  for(int i = 0; i < LENGTH; i++)
+  for(int i = 0; i < G_LENGTH; i++)
   {
     Vector3 diff = VectorDiff(&samplepos, &Gfish[i].pos);
     float length = GetVector3Length(&diff);
@@ -237,7 +219,7 @@ int DensitySerch ()
       count += 1;
   }
 
-  for(int i = 0; i < LENGTH; i++)
+  for(int i = 0; i < B_LENGTH; i++)
   {
     Vector3 diff = VectorDiff(&samplepos, &Bfish[i].pos);
     float length = GetVector3Length(&diff);

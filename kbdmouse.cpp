@@ -136,22 +136,22 @@ void funcKeyDown( int key, int x, int y )
 
 		break;
 
-    extern Selected interface;
+    extern Selected ui;
 
     case GLUT_KEY_F1:
-      interface.select = RED;
+      ui.select = RED;
     break;
 
     case GLUT_KEY_F2:
-      interface.select = GREEN;
+      ui.select = GREEN;
     break;
 
     case GLUT_KEY_F3:
-      interface.select = BLUE;
+      ui.select = BLUE;
     break;
 
     case GLUT_KEY_F4:
-      interface.select = WHITE;
+      ui.select = WHITE;
     break;
 	}
 }

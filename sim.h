@@ -11,7 +11,10 @@ void DrawScene( void );
 
 #define POINTRADIUS 5
 
-#define LENGTH 100
+#define R_LENGTH 50
+#define G_LENGTH 100
+#define B_LENGTH 150
+
 #define FEEDLENGTH 10
 
 #include "platform.h"
@@ -91,10 +94,13 @@ typedef struct {
 }Selected;
 
 typedef struct {
-  float speed;
+  int length;
+  float speed_max;
   float sightangle;
   float sightrange;
-  float kc, ks, ka;
+  float kc;
+  float ks;
+  float ka;
 }Parameter;
 
 
@@ -117,11 +123,9 @@ typedef struct {
     Vector3 forward;
     Vector3 wall;
     GLfloat mat[16];
-    float range;
-    float sightangle;
-    float speed;
-    bool hungry;
     int feednum;
+
+    Parameter *param;
 
     Color color;
 }FishDataT;
@@ -131,6 +135,7 @@ void FishUpdate();
 
 void FishStructInit(int i, FishDataT fish[], kind spc);
 void ColorChange(Color *color, float r, float g, float b, float a);
+void ParameterSet();
 
 void Cruising (int i, FishDataT fish[]);
 Vector3 Gather(int i, FishDataT fish[]);

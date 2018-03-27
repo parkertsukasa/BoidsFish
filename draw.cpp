@@ -21,7 +21,7 @@ extern FishDataT Gfish[];
 extern FishDataT Bfish[];
 extern FeedDataT feed[];
 
-extern Selected interface;
+extern Selected ui;
 
 //------- prototypes for user functions
 
@@ -212,7 +212,7 @@ void drawFeed (int j)
 void drawAquarium()
 {
   glPushMatrix();
-    setMaterialColor(interface.color.r, interface.color.g, interface.color.b);
+    setMaterialColor(ui.color.r, ui.color.g, ui.color.b);
     glTranslatef(0.0, 0.0, 0.0);
     //glutWireCube(100.0);
     //glutWireSphere( AQUARIUM_MAX, 18.0, 16.0 );   //半径，経度方向分割数，緯度方向分割数
@@ -242,7 +242,7 @@ void drawFish (int i, FishDataT fish[])
   //glDisable(GL_LIGHTING);
 
 
-  if(interface.debug)
+  if(ui.debug)
   {
     glPushMatrix();
     {
@@ -274,12 +274,14 @@ void DrawScene( void )
 		drawAquarium ();
     drawMouseObj ();
 
-		for (int i = 0; i < LENGTH; i++)
-		{
+		for (int i = 0; i < R_LENGTH; i++)
 			drawFish(i, Rfish);
+
+		for (int i = 0; i < G_LENGTH; i++)
 			drawFish(i, Gfish);
+
+		for (int i = 0; i < B_LENGTH; i++)
 			drawFish(i, Bfish);
-		}
 
     for (int j = 0; j < FEEDLENGTH; j++)
     {
