@@ -129,7 +129,7 @@ void FishStructInit(int i, FishDataT fish[], kind spc)
 void ParameterSet()
 {
   Rparam.length = R_LENGTH;
-  Rparam.speed_max = 0.3;
+  Rparam.speed_max = 0.15;
   Rparam.sightangle = 60.0;
   Rparam.sightrange = AQUARIUM_MAX * 0.8;
   Rparam.kc = 0.1;
@@ -137,7 +137,7 @@ void ParameterSet()
   Rparam.ka = 0.02;
   
   Gparam.length = G_LENGTH;
-  Gparam.speed_max = 0.2;
+  Gparam.speed_max = 0.1;
   Gparam.sightangle = 90.0;
   Gparam.sightrange = AQUARIUM_MAX * 1.0;
   Gparam.kc = 0.1;
@@ -145,7 +145,7 @@ void ParameterSet()
   Gparam.ka = 0.02;
   
   Bparam.length = B_LENGTH;
-  Bparam.speed_max = 0.1;
+  Bparam.speed_max = 0.05;
   Bparam.sightangle = 180.0;
   Bparam.sightrange = AQUARIUM_MAX * 1.2;
   Bparam.kc = 0.1;
@@ -296,29 +296,16 @@ Vector3 Enclose(int i, FishDataT fish[])
 	
 	//----- 壁からの距離を求める -----
 	float fromwall = AQUARIUM_MAX - length;
+  if(fromwall < 0.01)
+    fromwall = 0.01;
 	
-	float k = 0.7 * fish[i].param->speed_max * fromwall;//係数K
+	float k = 3.0;//係数K
 	
 	Vector3 move = VectorZero();
 	
-	if(length > (AQUARIUM_MAX * 0.5))
-	{
-		move.x = (diff.x / AQUARIUM_MAX) * k;
-
-		if( move.x < 0.0 )
-      move.x *= -move.x;
-		else
-      move.x *= move.x;
-
-		move.y = 0.0;
-
-		move.z = (diff.z / AQUARIUM_MAX) * k;
-
-		if(move.z < 0.0 )
-      move.z *= -move.z;
-		else 
-      move.z *= move.z;
-	}
+  move.x = (diff.x / length) * k * (1 / fromwall);
+  move.y = 0.0;
+  move.z = (diff.z / length) * k * (1 / fromwall);
 
 	Vector3 wallfish[2];
 	
