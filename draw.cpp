@@ -191,14 +191,25 @@ void drawMouseObj()
 void drawFeed (int j)
 {
   if (feed[j].alive)
-  {
+  { 
+    float rotspeed = 1.0;
+    feed[j].rot.x += rotspeed;
+    if(feed[j].rot.x > 360.0)
+      feed[j].rot.x = 0.0;
+    feed[j].rot.y += rotspeed;
+    if(feed[j].rot.y > 360.0)
+      feed[j].rot.y = 0.0;
+    feed[j].rot.z += rotspeed;
+    if(feed[j].rot.z > 360.0)
+      feed[j].rot.z = 0.0;
+
     glPushMatrix();
       setMaterialColor(1.0, 1.0, 0.0);
       glTranslatef(feed[j].pos.x, feed[j].pos.y, feed[j].pos.z);
 		  glRotatef( feed[j].rot.x, 0.0, 1.0, 0.0 ); //オブジェクト基準姿勢調整：ヨー角
 		  glRotatef( feed[j].rot.y, 1.0, 0.0, 0.0 ); //オブジェクト基準姿勢調整：ピッチ角
 		  glRotatef( feed[j].rot.z, 0.0, 0.0, 1.0 ); //オブジェクト基準姿勢調整：ロール角
-      float size = feed[j].amount / 15;
+      float size = feed[j].amount / 25;
       glScalef(size, size, size);
       drawSolidCube ();
     glPopMatrix();

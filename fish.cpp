@@ -395,26 +395,36 @@ Vector3 EatFeed (int i, FishDataT fish[])
 	float nearfeed = 100000;
 	for (int j = 0; j < FEEDLENGTH; j++)
 	{
-		if(feed[j].alive)
-		{
-			Vector3 diff = VectorDiff(&feed[j].pos, &fish[i].pos);
-			//餌との距離を求める
-			float dist = GetVector3Length(&diff);
-			
-			if (nearfeed > dist)
-			{
-				nearfeed = dist;
-				fish[i].feednum = j;
-			}
-		}
-	}
+    if(feed[j].alive)
+    {
+	    Vector3 diff = VectorDiff(&fish[i].pos, &feed[j].pos);
+	    float length = GetVector3Length (&diff);
+	
+	    float angle = GetVector3Angle(&fish[i].forward, &diff);
+	
+      float sightangle = fish[i].param->sightangle;
+      float sightrange = fish[i].param->sightrange * 0.5; 
+
+	    bool visible;
+	    if(length < sightrange)
+		    visible = true;
+	    else
+		    visible = false;
+	
+		  if(visible && nearfeed > length)
+      {
+			  nearfeed = length;
+		  	fish[i].feednum = j;
+	  	}
+	  }
+  }
 	
 	if (nearfeed == 100000)
 		fish[i].feednum = -1;
 	
 	//----- 一定距離以内なら餌を食べて餌の総量(amount)を減らす -----
-  if(nearfeed < 1.0)
-    feed[fish[i].feednum].amount -= 1;
+  if(nearfeed < 2.5)
+    feed[fish[i].feednum].amount -= 0.1;
 	
 	//----- 餌の方向へ移動する -----
 	float speed_factor = 300;
@@ -630,8 +640,8 @@ void Cruising (int i, FishDataT fish[])
 	float factor_eat_ = 0.5;
 	float factor_avoi = 0.01;
 	float factor_encl = 0.03;
-	float factor_chas = 0.01;
-	float factor_esca = 0.05;
+	float factor_chas = 0.1;
+	float factor_esca = 0.2;
 	
 	//  printf("%f,%f,%f\n", factor_cohe, factor_sepa, factor_alig);
 	
@@ -702,7 +712,7 @@ void Cruising (int i, FishDataT fish[])
 	//--- 回転させる力を求める ---(move.x)
 	float rotateyaw = move_xz * -sinf(yaw);
 	//変異した後のyawを求める(θi+1) radian
-	const float k_yaw = 5.0; //moveベクトルから回転を制御する係数
+	const float k_yaw = 1.5 * ( 1.0 / fish[i].param->speed_max); //moveベクトルから回転を制御する係数
 	float newyaw = yawf + k_yaw * rotateyaw;
 	
 
