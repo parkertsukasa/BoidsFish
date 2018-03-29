@@ -57,6 +57,16 @@ float GetVector3Length ( Vector3 *v )
   return length;
 }
 
+/*-------------------------------------------------------------- GetVector3LengthSquare
+ * GetVector3LengthSquare : ベクトルの長さの2乗を取得する(3軸)
+ */
+float GetVector3LengthSquare ( Vector3 *v )
+{
+  float length = ( (v->x * v->x) + (v->y * v->y) + (v->z * v->z));
+
+  return length;
+}
+
 /*-------------------------------------------------------------- GetInnerProduct
  * GetInnerProduct : ベクトルの内積を求める
  */

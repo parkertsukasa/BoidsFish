@@ -166,15 +166,15 @@ bool isVisible(int i, int j, FishDataT fish[])
 {
 	//--- 各個体との距離を計算し一定距離より遠い個体は除外する ---
 	Vector3 diff = VectorDiff(&fish[i].pos, &fish[j].pos);
-	float length = GetVector3Length (&diff);
+	float square_length = GetVector3LengthSquare (&diff);
 	
 	float angle = GetVector3Angle(&fish[i].forward, &diff);
 	
   float sightangle = fish[i].param->sightangle;
-  float sightrange = fish[i].param->sightrange;
+  float square_sightrange = fish[i].param->sightrange;
 
 	bool visible;
-	if(fabs(angle) < sightangle && length < sightrange)
+	if(fabs(angle) < sightangle && square_length < square_sightrange)
 		visible = true;
 	else
 		visible = false;
