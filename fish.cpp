@@ -244,7 +244,7 @@ Vector3 Separate(int i, FishDataT fish[])
 	{
 		if(i != j)
 		{
-			Vector3 diff = VectorDiff(&fish[j].pos, &fish[i].pos);
+			Vector3 diff = VectorDiff(&fish[i].pos, &fish[j].pos);
 			float length = GetVector3Length(&diff);
 			float k = 1.0;//係数k
 			
@@ -555,10 +555,10 @@ Vector3 Chase (int i, FishDataT fish[])
 	{
 		Vector3 difftarget = VectorDiff(&fish[i].pos, &target[neartarget].pos);
 		float lengthtarget = GetVector3Length(&difftarget);
-		float k = 1.0;
-		move.x = (difftarget.x / lengthtarget) / (lengthtarget * lengthtarget) * k;
-		move.y = (difftarget.y / lengthtarget) / (lengthtarget * lengthtarget) * k;
-		move.z = (difftarget.z / lengthtarget) / (lengthtarget * lengthtarget) * k;
+		float k = 3.0;
+		move.x = (difftarget.x / lengthtarget) / (lengthtarget) * k;
+		move.y = (difftarget.y / lengthtarget) / (lengthtarget) * k;
+		move.z = (difftarget.z / lengthtarget) / (lengthtarget) * k;
 	}
 	
 	return move;
@@ -646,14 +646,23 @@ void Cruising (int i, FishDataT fish[])
 	//  printf("%f,%f,%f\n", factor_cohe, factor_sepa, factor_alig);
 	
 	//----- それぞれの速度を求める ------
-	Vector3 move_cohe = Gather(i, fish);
-	Vector3 move_sepa = Separate(i, fish);
-	Vector3 move_alig = Align(i, fish);
-	Vector3 move_encl = Enclose(i, fish);
-	Vector3 move_eat_ = EatFeed (i, fish);
-	Vector3 move_avoi = Avoid (i, fish);
-	Vector3 move_chas = Chase (i, fish);
-	Vector3 move_esca = Escape(i, fish);
+	static Vector3 move_cohe;
+	static Vector3 move_sepa;
+	static Vector3 move_alig;
+	static Vector3 move_encl;
+	static Vector3 move_eat_;
+	static Vector3 move_avoi;
+	static Vector3 move_chas;
+	static Vector3 move_esca;
+
+	move_cohe = Gather(i, fish);
+	move_sepa = Separate(i, fish);
+	move_alig = Align(i, fish);
+	move_encl = Enclose(i, fish);
+	move_eat_ = EatFeed (i, fish);
+	move_avoi = Avoid (i, fish);
+	move_chas = Chase (i, fish);
+	move_esca = Escape(i, fish);
 	
 	fish[i].move.x = move_cohe.x * factor_cohe + move_sepa.x * factor_sepa + move_alig.x * factor_alig + move_encl.x * factor_encl + move_eat_.x * factor_eat_ + move_avoi.x * factor_avoi + move_cohe.x * factor_chas + move_esca.x *factor_esca;
 	fish[i].move.y = move_cohe.y * factor_cohe + move_sepa.y * factor_sepa + move_alig.y * factor_alig + move_encl.y * factor_encl + move_eat_.y * factor_eat_ + move_avoi.y * factor_avoi + move_cohe.y * factor_chas + move_esca.y *factor_esca;
