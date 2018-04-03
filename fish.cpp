@@ -625,12 +625,11 @@ Vector3 Escape (int i, FishDataT fish[])
 }
 
 
-/*-------------------------------------------------------------- Cruising
- * Cruising : 巡航 3種類の移動量を合成する
- * forwardベクトルは魚の速度を表すベクトル
- * moveベクトルは計算の結果導き出された方向変位のベクトル
- *--------*/
-void Cruising (int i, FishDataT fish[])
+
+/*-------------------------------------------------------------- MakeMoveVector
+ * 上記の関数を組み合わせてmoveベクトルを作りforwardベクトルに反映する関数
+ */
+void MakeMoveVector(int i, FishDataT fish[])
 {
 	//----- それぞれの速度の重み ------
 	float factor_cohe = fish[i].param->kc;
@@ -642,9 +641,7 @@ void Cruising (int i, FishDataT fish[])
 	float factor_encl = 0.03;
 	float factor_chas = 0.1;
 	float factor_esca = 0.2;
-	
-	//  printf("%f,%f,%f\n", factor_cohe, factor_sepa, factor_alig);
-	
+
 	//----- それぞれの速度を求める ------
 	static Vector3 move_cohe;
 	static Vector3 move_sepa;
@@ -666,8 +663,8 @@ void Cruising (int i, FishDataT fish[])
 	
 	fish[i].move.x = move_cohe.x * factor_cohe + move_sepa.x * factor_sepa + move_alig.x * factor_alig + move_encl.x * factor_encl + move_eat_.x * factor_eat_ + move_avoi.x * factor_avoi + move_cohe.x * factor_chas + move_esca.x *factor_esca;
 	fish[i].move.y = move_cohe.y * factor_cohe + move_sepa.y * factor_sepa + move_alig.y * factor_alig + move_encl.y * factor_encl + move_eat_.y * factor_eat_ + move_avoi.y * factor_avoi + move_cohe.y * factor_chas + move_esca.y *factor_esca;
-	fish[i].move.z = move_cohe.z * factor_cohe + move_sepa.z * factor_sepa + move_alig.z * factor_alig + move_encl.z * factor_encl + move_eat_.z * factor_eat_ + move_avoi.z * factor_avoi + move_cohe.z * factor_chas + move_esca.z *factor_esca;
-	
+  	fish[i].move.z = move_cohe.z * factor_cohe + move_sepa.z * factor_sepa + move_alig.z * factor_alig + move_encl.z * factor_encl + move_eat_.z * factor_eat_ + move_avoi.z * factor_avoi + move_cohe.z * factor_chas + move_esca.z *factor_esca;
+  
 	
 	//----- 基礎情報の計算 -----
 	//XZ平面におけるmoveベクトルの長さを求める(|move|)
@@ -744,7 +741,25 @@ void Cruising (int i, FishDataT fish[])
 	//yawを元にベクトルを再構築(forward i+1)
 	fish[i].forward.x = -sinf(newyaw) * forward_xz;
 	fish[i].forward.z = -cosf(newyaw) * forward_xz;
-	
+
+  //Yawの変化に応じてRollの値を変更する。
+  float k_roll = 500.0;
+  fish[i].rot.z = rotateyaw * k_roll; 
+
+}
+
+/*-------------------------------------------------------------- Cruising
+ * Cruising : 巡航 3種類の移動量を合成する
+ * forwardベクトルは魚の速度を表すベクトル
+ * moveベクトルは計算の結果導き出された方向変位のベクトル
+ *--------*/
+void Cruising (int i, FishDataT fish[])
+{
+  //--- moveベクトルの更新を一定の確率で行う ----
+  float update_factor = Random(0.0, 2.0);
+  if(update_factor > 1.0)
+    MakeMoveVector(i, fish);
+
 	Vector3 nextpos  = VectorAdd(&fish[i].pos, &fish[i].forward);//次のフレームでの位置
 	
 	
@@ -779,9 +794,6 @@ void Cruising (int i, FishDataT fish[])
 	//----- yaw -----
 	fish[i].rot.y = RadtoDeg ( atan2f (-fish[i].forward.x, -fish[i].forward.z));
 
-  //Yawの変化に応じてRollの値を変更する。
-  float k_roll = 500.0;
-  fish[i].rot.z = rotateyaw * k_roll; 
 	
 	//----- 左右へのブレを加える -----
 	fish[i].rot.y += Gaussian(-20.0, 20.0);
