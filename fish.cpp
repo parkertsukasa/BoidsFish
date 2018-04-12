@@ -128,30 +128,36 @@ void FishStructInit(int i, FishDataT fish[], kind spc)
  */
 void ParameterSet()
 {
-  Rparam.length = R_LENGTH;
-  Rparam.speed_max = 0.15;
-  Rparam.sightangle = 60.0;
-  Rparam.sightrange = AQUARIUM_MAX * 0.8;
-  Rparam.kc = 0.1;
-  Rparam.ks = 0.07;
-  Rparam.ka = 0.02;
-  
-  Gparam.length = G_LENGTH;
-  Gparam.speed_max = 0.1;
-  Gparam.sightangle = 90.0;
-  Gparam.sightrange = AQUARIUM_MAX * 1.0;
-  Gparam.kc = 0.1;
-  Gparam.ks = 0.07;
-  Gparam.ka = 0.02;
-  
-  Bparam.length = B_LENGTH;
-  Bparam.speed_max = 0.05;
-  Bparam.sightangle = 180.0;
-  Bparam.sightrange = AQUARIUM_MAX * 1.2;
-  Bparam.kc = 0.1;
-  Bparam.ks = 0.07;
-  Bparam.ka = 0.01;
-  
+	Rparam.length = R_LENGTH;
+	Rparam.speed_max = 0.15;
+	Rparam.sightangle = 60.0;
+	Rparam.sightrange = AQUARIUM_MAX * 0.8;
+	Rparam.kc = 0.5;
+	Rparam.ks = 0.07;
+	Rparam.ka = 0.7;
+	Rparam.kch = 0.05;
+	Rparam.kes = 0.3;
+	
+	
+	Gparam.length = G_LENGTH;
+	Gparam.speed_max = 0.075;
+	Gparam.sightangle = 90.0;
+	Gparam.sightrange = AQUARIUM_MAX * 1.0;
+	Gparam.kc = 0.6;
+	Gparam.ks = 0.07;
+	Gparam.ka = 1.2;
+	Gparam.kch = 0.5;
+	Gparam.kes = 0.01;
+	
+	Bparam.length = B_LENGTH;
+	Bparam.speed_max = 0.05;
+	Bparam.sightangle = 180.0;
+	Bparam.sightrange = AQUARIUM_MAX * 1.2;
+	Bparam.kc = 0.03;
+	Bparam.ks = 0.07;
+	Bparam.ka = 0.1;
+	Bparam.kch = 0.2;
+	Bparam.kes = 0.1;
 }
 
 
@@ -216,16 +222,16 @@ Vector3 Gather(int i, FishDataT fish[])
 	
 	
 	//平均と自分の位置の差を移動量とする
-	float speed_factor = 1.0;
+	float speed_factor = -0.0001;
 	
 	Vector3 diff_ave = VectorDiff(&ave, &fish[i].pos);
 	
 	float length_ave = GetVector3Length( &diff_ave );
 	
 	Vector3 move;
-	move.x = (diff_ave.x / length_ave) * speed_factor/ (length_ave);
-	move.y = (diff_ave.y / length_ave) * speed_factor/ (length_ave);
-	move.z = (diff_ave.z / length_ave) * speed_factor/ (length_ave);
+	move.x = diff_ave.x * speed_factor;
+	move.y = diff_ave.y * speed_factor;
+	move.z = diff_ave.z * speed_factor;
 	
 	return move;
 }
@@ -244,7 +250,7 @@ Vector3 Separate(int i, FishDataT fish[])
 	{
 		if(i != j)
 		{
-			Vector3 diff = VectorDiff(&fish[i].pos, &fish[j].pos);
+			Vector3 diff = VectorDiff(&fish[j].pos, &fish[j].pos);
 			float length = GetVector3Length(&diff);
 			float k = 1.0;//係数k
 			
@@ -466,6 +472,16 @@ Vector3 AvoidCylinder (int i, FishDataT fish[])
 	move.x = (diff.x / length) * k1 * (1 / length);
 	move.y = (diff.y / length) * k1 * (1 / length);
 	move.z = (diff.z / length) * k1 * (1 / length);
+	
+	
+	float move_length = GetVector3Length( &move );
+	float max_length = 1.0;
+	if(move_length > max_length)
+	{
+		move.x = (move.x / move_length) * max_length;
+		move.y = (move.y / move_length) * max_length;
+		move.z = (move.z / move_length) * max_length;
+	}
 
 	return move;
 }
@@ -639,8 +655,8 @@ void MakeMoveVector(int i, FishDataT fish[])
 	float factor_eat_ = 0.5;
 	float factor_avoi = 0.01;
 	float factor_encl = 0.03;
-	float factor_chas = 0.1;
-	float factor_esca = 0.2;
+	float factor_chas = fish[i].param->kch;
+	float factor_esca = fish[i].param->kes;
 
 	//----- それぞれの速度を求める ------
 	static Vector3 move_cohe;

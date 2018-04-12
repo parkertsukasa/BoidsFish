@@ -7,7 +7,7 @@ void DrawScene( void );
 
 #define AQUARIUM_MAX 50
 #define AQUARIUM_MIN -50
-#define HEIGHT 20
+#define HEIGHT 50
 
 #define POINTRADIUS 5
 
@@ -100,7 +100,9 @@ typedef struct {
   float sightrange;
   float kc;
   float ks;
-  float ka;
+	float ka;
+	float kch;
+	float kes;
 }Parameter;
 
 
