@@ -45,14 +45,20 @@ typedef struct {
 } SimDataT;
 
 
-
+//------ sim.cpp -----
 void CameraRotate();
 void MouseObj();
 
 void FeedControl(int j);
 void GiveFeed (float x, float y, float z);
 
-
 int DensitySerch();
 
+//----- draw.cpp -----
+//------- prototypes for user functions
+
+void setMaterialColor( float r, float g, float b );
+void setEmissiveColor( float r, float g, float b );
+
+void drawSolidCube( void );
 

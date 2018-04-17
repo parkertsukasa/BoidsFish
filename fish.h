@@ -109,5 +109,10 @@ Vector3 Avoid(int i, FishDataT fish[]);
 Vector3 Chase(int i, FishDataT fish[]);
 Vector3 Escape(int i, FishDataT fish[]);
 
+//----- fishdraw.cpp -----
+void FishDrawScene();
+
+
+
 //end of file
 
