@@ -2,15 +2,16 @@
 #include <stdlib.h>
 #include <math.h>
 #include "util.h"
-#include "sim.h"
-extern FishDataT Rfish[R_LENGTH];
-extern FishDataT Gfish[G_LENGTH];
-extern FishDataT Bfish[B_LENGTH];
-extern Parameter Rparam;
-extern Parameter Gparam;
-extern Parameter Bparam;
-extern FeedDataT feed[FEEDLENGTH];
-extern MouseDataT mouse;
+#include "fish.h"
+
+FishDataT Rfish[R_LENGTH];
+FishDataT Gfish[G_LENGTH];
+FishDataT Bfish[B_LENGTH];
+Parameter Rparam;
+Parameter Gparam;
+Parameter Bparam;
+FeedDataT feed[FEEDLENGTH];
+MouseDataT mouse;
 
 
 void FishInit()

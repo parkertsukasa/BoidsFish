@@ -5,7 +5,7 @@
 
 #include "common.h"
 
-#include "sim.h"
+#include "fish.h"
 
 extern SimDataT simdata;
 extern CamDataT cam;

@@ -8,7 +8,7 @@
 
 #include "util.h"
 
-#include "sim.h"
+#include "fish.h"
 
 //#include "mymodel.h"
 
@@ -16,17 +16,19 @@ SimDataT simdata;
 CamDataT cam;
 CamObj camobj;
 
-MouseDataT mouse;
-FishDataT Rfish[R_LENGTH];
-FishDataT Gfish[G_LENGTH];
-FishDataT Bfish[B_LENGTH];
-FeedDataT feed[FEEDLENGTH];
+extern MouseDataT mouse;
+
+extern FishDataT Rfish[R_LENGTH];
+extern FishDataT Gfish[G_LENGTH];
+extern FishDataT Bfish[B_LENGTH];
+
+extern Parameter Rparam;
+extern Parameter Gparam;
+extern Parameter Bparam;
+
+extern FeedDataT feed[FEEDLENGTH];
 
 Selected ui;
-
-Parameter Rparam;
-Parameter Gparam;
-Parameter Bparam;
 
 //----- 密度を調べるためのパラメータ -----
 Vector3 samplepos;//密度調査を行う場所の中心地

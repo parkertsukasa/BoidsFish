@@ -8,7 +8,7 @@
 
 #include "common.h"
 
-#include "sim.h"
+#include "fish.h"
 #include "interaction.h"
 
 extern SimDataT simdata;

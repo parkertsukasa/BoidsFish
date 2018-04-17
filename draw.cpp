@@ -5,7 +5,7 @@
 
 #include "common.h"
 
-#include "sim.h"
+#include "fish.h"
 #include "util.h"
 #include "myShape.h"
 //#include "mymodel.h"

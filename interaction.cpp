@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "sim.h"
+#include "fish.h"
 
 extern Parameter Rparam;
 extern Parameter Gparam;
