@@ -33,15 +33,15 @@ void drawFishModel()
 	glPushMatrix();
 	{
 		glBegin( GL_POLYGON );
+		glVertex3f(0.0, 0.0, 2.0);
 		glVertex3f(0.0, 0.0, -1.0);
 		glVertex3f(-0.5, -0.5, 0.0);
-		glVertex3f(0.0, 0.0, 2.0);
 		glEnd();
 		
 		glBegin( GL_POLYGON );
 		glVertex3f(0.0, 0.0, -1.0);
-		glVertex3f(0.5, -0.5, 0.0);
 		glVertex3f(0.0, 0.0, 2.0);
+		glVertex3f(0.5, -0.5, 0.0);
 		glEnd();
 	}
 	glPopMatrix();
@@ -85,7 +85,7 @@ void drawFeed (int j)
  *--------*/
 void drawFish (int i, FishDataT fish[])
 {
-	//glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHTING);
 	
 	glPushMatrix();
 	{
@@ -106,7 +106,7 @@ void drawFish (int i, FishDataT fish[])
 	}
 	glPopMatrix();
 	
-	//glDisable(GL_LIGHTING);
+	glDisable(GL_LIGHTING);
 	
 	
 	if(ui.debug)

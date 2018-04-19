@@ -70,9 +70,9 @@ void InitScene( void )
 	simdata.air_color[1] = 0.0;
 	simdata.air_color[2] = 0.0;
 	simdata.air_color[3] = 0.0; // fog density factor
-	simdata.sky_color[0] = 0.0;
-	simdata.sky_color[1] = 0.0;
-	simdata.sky_color[2] = 0.0;
+	simdata.sky_color[0] = 1.0;
+	simdata.sky_color[1] = 1.0;
+	simdata.sky_color[2] = 1.0;
 	simdata.sky_color[3] = 1.0; // sky color factor
 	//////
 
