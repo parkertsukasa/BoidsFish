@@ -85,7 +85,7 @@ void drawFeed (int j)
  *--------*/
 void drawFish (int i, FishDataT fish[])
 {
-	glEnable(GL_LIGHTING);
+	//glEnable(GL_LIGHTING);
 	
 	glPushMatrix();
 	{
@@ -106,7 +106,7 @@ void drawFish (int i, FishDataT fish[])
 	}
 	glPopMatrix();
 	
-	glDisable(GL_LIGHTING);
+	//glDisable(GL_LIGHTING);
 	
 	
 	if(ui.debug)

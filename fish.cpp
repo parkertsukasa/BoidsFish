@@ -251,7 +251,7 @@ Vector3 Separate(int i, FishDataT fish[])
 	{
 		if(i != j)
 		{
-			Vector3 diff = VectorDiff(&fish[j].pos, &fish[j].pos);
+			Vector3 diff = VectorDiff(&fish[j].pos, &fish[i].pos);
 			float length = GetVector3Length(&diff);
 			float k = 1.0;//係数k
 			
