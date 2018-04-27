@@ -133,9 +133,9 @@ void ParameterSet()
 	Rparam.speed_max = 0.15;
 	Rparam.sightangle = 60.0;
 	Rparam.sightrange = AQUARIUM_MAX * 0.8;
-	Rparam.kc = 0.5;
-	Rparam.ks = 0.07;
-	Rparam.ka = 0.7;
+	Rparam.kc = 2.0;
+	Rparam.ks = 1.0;
+	Rparam.ka = 1.0;
 	Rparam.kch = 0.05;
 	Rparam.kes = 0.3;
 	
@@ -144,9 +144,9 @@ void ParameterSet()
 	Gparam.speed_max = 0.075;
 	Gparam.sightangle = 90.0;
 	Gparam.sightrange = AQUARIUM_MAX * 1.0;
-	Gparam.kc = 0.6;
-	Gparam.ks = 0.07;
-	Gparam.ka = 1.2;
+	Gparam.kc = 1.0;
+	Gparam.ks = 1.0;
+	Gparam.ka = 1.0;
 	Gparam.kch = 0.5;
 	Gparam.kes = 0.01;
 	
@@ -154,9 +154,9 @@ void ParameterSet()
 	Bparam.speed_max = 0.05;
 	Bparam.sightangle = 180.0;
 	Bparam.sightrange = AQUARIUM_MAX * 1.2;
-	Bparam.kc = 0.03;
-	Bparam.ks = 0.07;
-	Bparam.ka = 0.1;
+	Bparam.kc = 1.0;
+	Bparam.ks = 1.0;
+	Bparam.ka = 1.0;
 	Bparam.kch = 0.2;
 	Bparam.kes = 0.1;
 }
@@ -178,7 +178,7 @@ bool isVisible(int i, int j, FishDataT fish[])
 	float angle = GetVector3Angle(&fish[i].forward, &diff);
 	
   float sightangle = fish[i].param->sightangle;
-  float square_sightrange = fish[i].param->sightrange;
+  float square_sightrange = fish[i].param->sightrange * fish[i].param->sightrange;
 
 	bool visible;
 	if(fabs(angle) < sightangle && square_length < square_sightrange)
@@ -223,16 +223,16 @@ Vector3 Gather(int i, FishDataT fish[])
 	
 	
 	//平均と自分の位置の差を移動量とする
-	float speed_factor = -0.0001;
+	float k = 0.0002;
 	
-	Vector3 diff_ave = VectorDiff(&ave, &fish[i].pos);
+	Vector3 diff_ave = VectorDiff(&fish[i].pos, &ave);
 	
 	float length_ave = GetVector3Length( &diff_ave );
 	
 	Vector3 move;
-	move.x = diff_ave.x * speed_factor;
-	move.y = diff_ave.y * speed_factor;
-	move.z = diff_ave.z * speed_factor;
+	move.x = diff_ave.x * k;
+	move.y = diff_ave.y * k;
+	move.z = diff_ave.z * k;
 	
 	return move;
 }
@@ -253,11 +253,14 @@ Vector3 Separate(int i, FishDataT fish[])
 		{
 			Vector3 diff = VectorDiff(&fish[j].pos, &fish[i].pos);
 			float length = GetVector3Length(&diff);
-			float k = 1.0;//係数k
+			float k = 0.01;//係数k
 			
       float sightrange = fish[i].param->sightrange;
+			//if(length < sightrange && length > 0.0)
 
-			if(length < sightrange && length > 0.0)
+			bool visible = isVisible(i, j, fish);
+			
+			if(visible)
 			{
 				move.x += (diff.x / length) * k / (length * length);
 				move.y += (diff.y / length) * k / (length * length);
@@ -277,7 +280,7 @@ Vector3 Separate(int i, FishDataT fish[])
 	}
 	//大きすぎる場合は正規化して丸める
 	float movelength = GetVector3Length(&move);
-	float maxvalue = 3.0;
+	float maxvalue = 1.0;
 	if(movelength > maxvalue)
 	{
 		move.x = move.x / movelength * maxvalue;
@@ -377,11 +380,18 @@ Vector3 Align (int i, FishDataT fish[])
 	
 	
 	//----- 自分の移動量との差を加える -----
-	float speed_factor = 10.0;
+	float k = 0.3;
 	Vector3 move;
+	move.x = ave.x * k;
+	move.y = ave.y * k;
+	move.z = ave.z * k;
+
+
+  /*
 	move.x = (ave.x - fish[i].forward.x)/speed_factor;
 	move.y = (ave.y - fish[i].forward.y)/speed_factor;
 	move.z = (ave.z - fish[i].forward.z)/speed_factor;
+  */
 	
 	return move;
 	
@@ -413,11 +423,11 @@ Vector3 EatFeed (int i, FishDataT fish[])
       float sightrange = fish[i].param->sightrange * 0.5; 
 
 	    bool visible;
-	    if(length < sightrange)
+	    if(length < sightrange && angle < sightangle)
 		    visible = true;
 	    else
 		    visible = false;
-	
+      
 		  if(visible && nearfeed > length)
       {
 			  nearfeed = length;
@@ -655,9 +665,9 @@ void MakeMoveVector(int i, FishDataT fish[])
 	
 	float factor_eat_ = 0.5;
 	float factor_avoi = 0.01;
-	float factor_encl = 0.03;
-	float factor_chas = fish[i].param->kch;
-	float factor_esca = fish[i].param->kes;
+	float factor_encl = 0.01;
+	float factor_chas = 0.0;fish[i].param->kch;
+	float factor_esca = 0.0;fish[i].param->kes;
 
 	//----- それぞれの速度を求める ------
 	static Vector3 move_cohe;
