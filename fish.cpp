@@ -444,13 +444,16 @@ Vector3 EatFeed (int i, FishDataT fish[])
     feed[fish[i].feednum].amount -= 0.1;
 	
 	//----- 餌の方向へ移動する -----
-	float speed_factor = 300;
-	
 	if (feed[fish[i].feednum].alive && fish[i].feednum >= 0)
 	{
-		move.x = (fish[i].pos.x - feed[fish[i].feednum].pos.x)/speed_factor;
-		move.y = (fish[i].pos.y - feed[fish[i].feednum].pos.y)/speed_factor;
-		move.z = (fish[i].pos.z - feed[fish[i].feednum].pos.z)/speed_factor;
+    Vector3 diff_feed = VectorDiff(&fish[i].pos, &feed[fish[i].feednum].pos);
+    float length_feed = GetVector3Length(&diff_feed);
+
+	  float k = 0.1;
+    
+    move.x = diff_feed.x * (1 / length_feed) * k; 
+    move.y = diff_feed.y * (1 / length_feed) * k; 
+    move.z = diff_feed.z * (1 / length_feed) * k; 
 		
 	}
 	
@@ -663,7 +666,7 @@ void MakeMoveVector(int i, FishDataT fish[])
 	float factor_sepa = fish[i].param->ks;
 	float factor_alig = fish[i].param->ka;
 	
-	float factor_eat_ = 0.5;
+	float factor_eat_ = 1.0;
 	float factor_avoi = 0.01;
 	float factor_encl = 0.01;
 	float factor_chas = 0.0;fish[i].param->kch;
