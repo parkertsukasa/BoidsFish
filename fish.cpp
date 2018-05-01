@@ -152,7 +152,7 @@ void ParameterSet()
 	
 	Bparam.length = B_LENGTH;
 	Bparam.speed_max = 0.05;
-	Bparam.sightangle = 180.0;
+	Bparam.sightangle = 150.0;
 	Bparam.sightrange = AQUARIUM_MAX * 1.2;
 	Bparam.kc = 1.0;
 	Bparam.ks = 1.0;
@@ -309,7 +309,7 @@ Vector3 Enclose(int i, FishDataT fish[])
   if(fromwall < 0.01)
     fromwall = 0.01;
 	
-	float k = 3.0;//係数K
+	float k = 0.003;//係数K
 	
 	Vector3 move = VectorZero();
 	
@@ -332,7 +332,7 @@ Vector3 Enclose(int i, FishDataT fish[])
 	//----- 天井を避ける動き -----
 	Vector3 roofdiff = VectorDiff(&wallfish[0], &fish[i].pos);
 	float rooflength = GetVector3Length(&roofdiff);//天井との距離
-	float l = 0.3;//係数
+	float l = 0.0005;//係数
 	if(rooflength > (HEIGHT/2))
 		move.y = l * (1 - (rooflength / (HEIGHT/2)));
 	//----- 底面を避ける動き -----
@@ -449,7 +449,7 @@ Vector3 EatFeed (int i, FishDataT fish[])
     Vector3 diff_feed = VectorDiff(&fish[i].pos, &feed[fish[i].feednum].pos);
     float length_feed = GetVector3Length(&diff_feed);
 
-	  float k = 0.1;
+	  float k = 0.03;
     
     move.x = diff_feed.x * (1 / length_feed) * k; 
     move.y = diff_feed.y * (1 / length_feed) * k; 
@@ -668,7 +668,7 @@ void MakeMoveVector(int i, FishDataT fish[])
 	
 	float factor_eat_ = 1.0;
 	float factor_avoi = 0.01;
-	float factor_encl = 0.01;
+	float factor_encl = 1.0;
 	float factor_chas = 0.0;fish[i].param->kch;
 	float factor_esca = 0.0;fish[i].param->kes;
 
@@ -717,7 +717,7 @@ void MakeMoveVector(int i, FishDataT fish[])
 	float pitch = pitchm - pitchf;
 	
   //--- pitchを元に新しいpitchを求める ---
-  float k_pitch = 0.4;//係数
+  float k_pitch = 0.3;//係数
   float newpitch = pitchf + (k_pitch * pitch);
   
 
@@ -826,7 +826,7 @@ void Cruising (int i, FishDataT fish[])
 
 	
 	//----- 左右へのブレを加える -----
-	fish[i].rot.y += Gaussian(-20.0, 20.0);
+	fish[i].rot.y += Gaussian(-5.0, 5.0);
 	
 	
 }

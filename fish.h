@@ -8,7 +8,7 @@
 
 #define R_LENGTH 50
 #define G_LENGTH 100
-#define B_LENGTH 150
+#define B_LENGTH 200
 
 #define FEEDLENGTH 10
 
