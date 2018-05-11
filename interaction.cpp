@@ -122,22 +122,22 @@ void SightAngleDown()
   {
     case RED:
 
-      if(Rparam.sightangle < 180.0)
+      if(Rparam.sightangle > 10.0)
         Rparam.sightangle -= 10.0;
 
       break;
 
     case GREEN:
 
-      if(Gparam.sightangle < 180.0)
+      if(Gparam.sightangle > 10.0)
         Gparam.sightangle -= 10.0;
 
       break;
 
     case BLUE:
 
-      if(Gparam.sightangle < 180.0)
-        Gparam.sightangle -= 10.0;
+      if(Bparam.sightangle > 10.0)
+        Bparam.sightangle -= 10.0;
 
       break;
 

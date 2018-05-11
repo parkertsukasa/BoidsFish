@@ -114,6 +114,7 @@ float GetVector3Angle (Vector3 *v1, Vector3 *v2)
 
     float cos_theta;
 
+    /*
     if(product > 0.0 && Alength > 0.0 && Blength > 0.0)
     {
       //----- cosθを求める -----
@@ -124,6 +125,8 @@ float GetVector3Angle (Vector3 *v1, Vector3 *v2)
       float angle = 180.0;
       return angle;
     }
+    */
+    cos_theta = product / (Alength * Blength);
     //----- θを求める -----
     float theta = acosf(cos_theta);
 
