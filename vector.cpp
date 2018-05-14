@@ -47,12 +47,12 @@ float GetVector2Length ( float x, float y )
  */
 float GetVector3Length ( Vector3 *v )
 {
-  float length = sqrtf ( (v->x * v->x) + (v->y * v->y) + (v->z * v->z));
+  float length = sqrtf ((v->x * v->x) + (v->y * v->y) + (v->z * v->z));
 
   int nan = isnan(length); 
 
-  if(nan != 0)
-    length = 0.0;
+  //if(nan != 0)
+  //  length = 0.0;
 
   return length;
 }
@@ -112,21 +112,11 @@ float GetVector3Angle (Vector3 *v1, Vector3 *v2)
     //----- 内積を求める -----
     float product = (v1->x * v2->x) + (v1->y * v2->y) + (v1->z * v2->z); 
 
-    float cos_theta;
+    if(product == 0.0)
+      return 90.0;
 
-    /*
-    if(product > 0.0 && Alength > 0.0 && Blength > 0.0)
-    {
-      //----- cosθを求める -----
-      cos_theta = product / (Alength * Blength);
-    }
-    else
-    {
-      float angle = 180.0;
-      return angle;
-    }
-    */
-    cos_theta = product / (Alength * Blength);
+    float cos_theta = product / (Alength * Blength);
+
     //----- θを求める -----
     float theta = acosf(cos_theta);
 

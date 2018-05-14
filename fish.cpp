@@ -174,14 +174,16 @@ bool isVisible(int i, int j, FishDataT fish[])
 	//--- 各個体との距離を計算し一定距離より遠い個体は除外する ---
 	Vector3 diff = VectorDiff(&fish[i].pos, &fish[j].pos);
 	float square_length = GetVector3LengthSquare (&diff);
+	float square_sightrange = fish[i].param->sightrange * fish[i].param->sightrange;
+  if(square_length > square_sightrange)
+    return false;
 	
 	float angle = GetVector3Angle(&fish[i].forward, &diff);
 	
 	float sightangle = fish[i].param->sightangle;
-	float square_sightrange = fish[i].param->sightrange * fish[i].param->sightrange;
 	
 	bool visible;
-	if(fabs(angle) < sightangle && square_length < square_sightrange)
+	if(fabs(angle) < sightangle)
 		visible = true;
 	else
 		visible = false;
@@ -197,6 +199,7 @@ bool isVisible(int i, int j, FishDataT fish[])
 Vector3 Gather(int i, FishDataT fish[])
 {
 	Vector3 ave = VectorZero();
+	Vector3 move = VectorZero();
 	
 	int flock = 0;
 	//----- 周囲の固体の中心を求める -----
@@ -220,7 +223,8 @@ Vector3 Gather(int i, FishDataT fish[])
 		ave.y /= (float)flock;
 		ave.z /= (float)flock;
 	}
-	
+  else
+    return move;
 	
 	//平均と自分の位置の差を移動量とする
 	float k = 0.0002;
@@ -229,7 +233,6 @@ Vector3 Gather(int i, FishDataT fish[])
 	
 	float length_ave = GetVector3Length( &diff_ave );
 	
-	Vector3 move;
 	move.x = diff_ave.x * k;
 	move.y = diff_ave.y * k;
 	move.z = diff_ave.z * k;
@@ -253,23 +256,22 @@ Vector3 Separate(int i, FishDataT fish[])
 		{
 			Vector3 diff = VectorDiff(&fish[j].pos, &fish[i].pos);
 			float length = GetVector3Length(&diff);
-			float k = 0.01;//係数k
 			
 			float sightrange = fish[i].param->sightrange;
 			//if(length < sightrange && length > 0.0)
 			
+			float k = 0.02;//係数k
 			bool visible = isVisible(i, j, fish);
 			
 			if(visible)
 			{
-				move.x += (diff.x / length) * k / (length * length);
-				move.y += (diff.y / length) * k / (length * length);
-				move.z += (diff.z / length) * k / (length * length);
+				move.x += (diff.x / length) * (((k / (length * length)) * 0.5) + (((k / length) * 0.5)));
+				move.y += (diff.y / length) * (((k / (length * length)) * 0.5) + (((k / length) * 0.5)));
+				move.z += (diff.z / length) * (((k / (length * length)) * 0.5) + (((k / length) * 0.5)));
 				flock += 1;
 			}
 		}
 	}
-	
 	
 	if(flock > 0)
 	{
@@ -289,7 +291,6 @@ Vector3 Separate(int i, FishDataT fish[])
 	}
 	
 	return move;
-	
 }
 
 
@@ -306,10 +307,10 @@ Vector3 Enclose(int i, FishDataT fish[])
 	
 	//----- 壁からの距離を求める -----
 	float fromwall = AQUARIUM_MAX - length;
-	if(fromwall < 0.01)
-		fromwall = 0.01;
+	if(fromwall < 0.1)
+		fromwall = 0.1;
 	
-	float k = 0.3;//係数K
+	float k = 0.3 * fish[i].param->speed_max;//係数K
 	
 	Vector3 move = VectorZero();
 	
@@ -334,15 +335,24 @@ Vector3 Enclose(int i, FishDataT fish[])
 	float rooflength = GetVector3Length(&roofdiff);//天井との距離
 	float l = 0.0005;//係数
 	if(rooflength > (HEIGHT/2))
-		move.y = l * (1 - (rooflength / (HEIGHT/2)));
+	  move.y = l * (1 - (rooflength / (HEIGHT/2)));
 	//----- 底面を避ける動き -----
 	Vector3 floordiff = VectorDiff(&wallfish[1], &fish[i].pos);
 	float floorlength = GetVector3Length(&floordiff);
 	if(floorlength > (HEIGHT/2))
 		move.y = l * (1 - (floorlength / (HEIGHT/2))) * -1;
 	
+  //大きくなりすぎないように調整
+  float max_move = 0.1;
+  float length_move = GetVector3Length(&move);
+  if(length_move > max_move)
+  {
+    move.x = (move.x / length_move) * max_move;
+    move.y = (move.y / length_move) * max_move;
+    move.z = (move.z / length_move) * max_move;
+  }
+
 	return move;
-	
 }
 
 
@@ -593,7 +603,7 @@ Vector3 Chase (int i, FishDataT fish[])
   
   if(visiblenumber > 0)
   {
-    float k = 10.0;
+    float k = 20.0;
     move.x = (move.x / (float)visiblenumber) * k; 
     move.y = (move.y / (float)visiblenumber) * k; 
     move.z = (move.z / (float)visiblenumber) * k; 
@@ -642,12 +652,18 @@ Vector3 Escape (int i, FishDataT fish[])
     move.y += -diff.y;
     move.z += -diff.z;
 	}
-	
-  float k = 0.0002;
 
-  move.x = (move.x / (float)target[0].param->length) * k;
-  move.y = (move.y / (float)target[0].param->length) * k;
-  move.z = (move.z / (float)target[0].param->length) * k;
+  move.x = (move.x / (float)target[0].param->length);
+  move.y = (move.y / (float)target[0].param->length);
+  move.z = (move.z / (float)target[0].param->length);
+
+  float length = GetVector3Length(&move);
+
+  float k = 0.1;
+
+  move.x = (move.x / length) * k * ( 1 / length );
+  move.y = (move.y / length) * k * ( 1 / length );
+  move.z = (move.z / length) * k * ( 1 / length );
 	
 	return move;
 	
@@ -760,7 +776,7 @@ void MakeMoveVector(int i, FishDataT fish[])
 	float newyaw = yawf + k_yaw * rotateyaw;
 	
 	
-	float k_thrust = 1.0;//係数
+	float k_thrust = 0.1;//係数
 	//推進力を加える
 	if(thrust != 0.0 && forward_xz != 0.0)
 	{
