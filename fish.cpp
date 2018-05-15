@@ -388,8 +388,7 @@ Vector3 Align (int i, FishDataT fish[])
 		ave.z /= (float)flock;
 	}
 	
-	
-	//----- 自分の移動量との差を加える -----
+	//視野角内のエージェントの進行方向の平均に合わせる
 	float k = 0.3;
 	Vector3 move;
 	move.x = ave.x * k;
