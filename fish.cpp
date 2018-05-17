@@ -278,7 +278,6 @@ Vector3 Separate(int i, FishDataT fish[])
 		move.x /= (float)flock;
 		move.y /= (float)flock;
 		move.z /= (float)flock;
-		
 	}
 	//大きすぎる場合は正規化して丸める
 	float movelength = GetVector3Length(&move);
