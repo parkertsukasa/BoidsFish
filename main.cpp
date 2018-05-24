@@ -11,6 +11,8 @@
 
 #include "sim.h"
 
+#include "hud.h"
+
 //-------- callback functions
 static void display( void );
 static void update( void );
@@ -63,6 +65,20 @@ void update( void )
 	return;
 }
 
+/*------------------------------------------------------------------ setHUD
+ * setHUD : HUD表示用の2Dの設定を行う関数
+ */
+void setHUD ()
+{
+  glMatrixMode ( GL_PROJECTION );  
+  glLoadIdentity ();
+  glOrtho (-0.05, 1.05, -0.05, 1.05, -1.0, 1.0);
+  glMatrixMode ( GL_MODELVIEW );
+  glLoadIdentity ();
+
+  DrawHUDScene();
+}
+
 /*------------------------------------------------------------------- display
  * display - GLUT display callback function
  *--------*/
@@ -81,11 +97,14 @@ void display( void )
 
     //-------- clear buffers --------
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+    
 
+    glPushMatrix();
 	//-------- projection transformation --------
     glMatrixMode( GL_PROJECTION );
     glLoadIdentity();
-	Projection();
+	  Projection();
+    
 
 	//-------- viewing transformation --------
     glMatrixMode( GL_MODELVIEW );
@@ -110,14 +129,20 @@ void display( void )
 		simdata.air_color[3], 
 		simdata.clip_near, simdata.clip_far );
 
-    //-------- draw --------
+  //-------- draw --------
 	glEnable( GL_DEPTH_TEST ); // ---- begin: 
-   // glEnable( GL_LIGHTING );
+  //glEnable( GL_LIGHTING );
 
-    DrawScene();
+  DrawScene();
 
-    //glDisable( GL_LIGHTING );
-    glDisable( GL_DEPTH_TEST );
+  //glDisable( GL_LIGHTING );
+  glDisable( GL_DEPTH_TEST );
+  
+  glPopMatrix();
+
+  //----- draw 2D HUD -----
+  setHUD ();
+
 
 	//-------- swapbuffers --------
     glutSwapBuffers();

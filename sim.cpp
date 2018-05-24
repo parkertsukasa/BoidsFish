@@ -60,6 +60,7 @@ void InitScene( void )
   //------ インターフェース関係 ------
   ui.select = RED;
   ui.debug = false;
+  ui.graph = false;
   ColorChange(&ui.color, 1.0, 0.0, 0.0, 1.0);
 
 

@@ -44,6 +44,9 @@ void FishInit()
 
 void FishUpdate()
 {
+  Bparam.separation += 0.1;
+  Bparam.cohesion = (sinf(Bparam.separation) + 1.0) * 0.5;
+
 	for(int i = 0; i < R_LENGTH; i++)
 	{
 		Cruising (i, Rfish);//通常の巡行
@@ -159,6 +162,8 @@ void ParameterSet()
 	Bparam.ka = 1.0;
 	Bparam.kch = 1.0;
 	Bparam.kes = 1.0;
+  Bparam.cohesion = 0.0;
+  Bparam.separation = 0.0;
 }
 
 
@@ -425,7 +430,7 @@ Vector3 EatFeed (int i, FishDataT fish[])
 			Vector3 diff = VectorDiff(&fish[i].pos, &feed[j].pos);
 			float length = GetVector3Length (&diff);
 			
-			float angle = GetVector3Angle(&fish[i].forward, &diff);
+			float angle = 0.0;//GetVector3Angle(&fish[i].forward, &diff);
 			
 			float sightangle = fish[i].param->sightangle;
 			float sightrange = fish[i].param->sightrange * 0.5;

@@ -47,6 +47,7 @@ void charKeyDown( unsigned char key, int x, int y )
         printf( "[Q]:Quit\n" );
         printf( "[S]:ShowParameter\n" );
         printf( "[D]:ChangeDebugMode\n" );
+        printf( "[G]:ShowGraph\n" );
         printf( "[F1]:SelectRED\n" );
         printf( "[F2]:SelectGREEN\n" );
         printf( "[F3]:SelectBLUE\n" );
@@ -73,6 +74,10 @@ void charKeyDown( unsigned char key, int x, int y )
 
       case 'd':
         ChangeDebugMode();
+        break;
+
+      case 'g':
+        ChangeGraphMode();
         break;
 
       case '1':

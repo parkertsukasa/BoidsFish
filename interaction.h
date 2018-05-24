@@ -2,6 +2,7 @@
 
 
 void ChangeDebugMode();
+void ChangeGraphMode();
 
 void ShowParameter();
 

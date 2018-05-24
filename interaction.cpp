@@ -160,6 +160,15 @@ void ChangeDebugMode()
   ui.debug = !ui.debug;
 }
 
+
+/* ------------------------------------------------------------ ChangeGraphMode 
+ * ChanegeGraphMode
+ */
+void ChangeGraphMode()
+{
+  ui.graph = !ui.graph;
+}
+
 /* ------------------------------------------------------------ ShowParameter 
  * ShowParameter パラメーターを表示する
  */

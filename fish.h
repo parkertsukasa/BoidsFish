@@ -27,6 +27,7 @@ typedef struct {
 	kind select;
 	Color color;
 	bool debug;
+  bool graph;
 }Selected;
 
 
@@ -73,6 +74,10 @@ typedef struct {
 	float ka;
 	float kch;
 	float kes;
+  //--- 群れとしての状態を評価する値 ---
+  float cohesion;
+  float separation;
+  float alignment;
 }Parameter;
 
 
