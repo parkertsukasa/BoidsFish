@@ -1,7 +1,10 @@
+#include <stdio.h>
 #include "hud.h"
 #include "fish.h"
 
 extern Selected ui;
+extern Parameter Rparam;
+extern Parameter Gparam;
 extern Parameter Bparam;
 
 
@@ -66,13 +69,17 @@ void DrawDataBar (int num, float data)
 
 void DrawLine ()
 {
-  float p = Bparam.cohesion;
-
-  setAlphaMaterial(0.0, 0.0, 1.0, 0.5);
-  DrawDataBar (1, p);
+  setAlphaMaterial(1.0, 0.0, 0.0, 0.5);
+  DrawDataBar (1, Rparam.cohesion);
 
   setAlphaMaterial(0.0, 1.0, 0.0, 0.5);
-  DrawDataBar (2, 1.0 - p);
+  DrawDataBar (2, Gparam.cohesion);
+
+  setAlphaMaterial(0.0, 0.0, 1.0, 0.5);
+  DrawDataBar (3, Bparam.cohesion);
+
+
+
 }
 
 void DrawHUDScene ()

@@ -117,7 +117,8 @@ Vector3 Escape(int i, FishDataT fish[]);
 //----- fishdraw.cpp -----
 void FishDrawScene();
 
-
+//----- evaluate.cpp -----
+void Evaluate ();
 
 //end of file
 

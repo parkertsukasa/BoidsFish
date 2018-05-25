@@ -44,8 +44,6 @@ void FishInit()
 
 void FishUpdate()
 {
-  Bparam.separation += 0.1;
-  Bparam.cohesion = (sinf(Bparam.separation) + 1.0) * 0.5;
 
 	for(int i = 0; i < R_LENGTH; i++)
 	{
@@ -61,6 +59,8 @@ void FishUpdate()
 	{
 		Cruising (i, Bfish);//通常の巡行
 	}
+
+  Evaluate ();
 }
 
 
@@ -141,6 +141,9 @@ void ParameterSet()
 	Rparam.ka = 1.0;
 	Rparam.kch = 1.0;
 	Rparam.kes = 1.0;
+  Rparam.cohesion = 0.0;
+  Rparam.separation = 0.0;
+  Rparam.alignment = 0.0;
 	
 	
 	Gparam.length = G_LENGTH;
@@ -152,6 +155,9 @@ void ParameterSet()
 	Gparam.ka = 1.0;
 	Gparam.kch = 1.0;
 	Gparam.kes = 1.0;
+  Gparam.cohesion = 0.0;
+  Gparam.separation = 0.0;
+  Gparam.alignment = 0.0;
 	
 	Bparam.length = B_LENGTH;
 	Bparam.speed_max = 0.05;
@@ -164,6 +170,7 @@ void ParameterSet()
 	Bparam.kes = 1.0;
   Bparam.cohesion = 0.0;
   Bparam.separation = 0.0;
+  Bparam.alignment = 0.0;
 }
 
 
