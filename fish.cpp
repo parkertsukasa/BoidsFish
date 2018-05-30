@@ -3,6 +3,7 @@
 #include <math.h>
 #include "util.h"
 #include "fish.h"
+#include "hud.h"
 
 FishDataT Rfish[R_LENGTH];
 FishDataT Gfish[G_LENGTH];
@@ -17,6 +18,7 @@ MouseDataT mouse;
 void FishInit()
 {
 	ParameterSet();
+  InitHUD ();
 	
 	for (int i = 0; i < R_LENGTH; i++)
 	{
@@ -171,6 +173,7 @@ void ParameterSet()
   Bparam.cohesion = 0.0;
   Bparam.separation = 0.0;
   Bparam.alignment = 0.0;
+
 }
 
 
@@ -622,8 +625,6 @@ Vector3 Chase (int i, FishDataT fish[])
 	return move;
 	
 }
-
-
 
 /*-------------------------------------------------------------- Escape
  * Escape : 逃げる

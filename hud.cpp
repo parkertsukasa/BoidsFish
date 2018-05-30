@@ -7,6 +7,13 @@ extern Parameter Rparam;
 extern Parameter Gparam;
 extern Parameter Bparam;
 
+typedef struct 
+{
+  float data[100];
+  int active_num;
+} LineData;
+
+LineData Rcohesion;
 
 /*------------------------------------------------- setAlphaMaterial
  * setAlphaMaterial : 透過のあるマテリアルを設定する
@@ -30,6 +37,8 @@ void setAlphaMaterial (float r, float g, float b, float a)
     return;
 }
 
+
+
 /*------------------------------------------------- DrawGraphOutLine
  * DrawGraphOutLine : グラフの枠線を表示する
  */
@@ -49,6 +58,22 @@ void DrawGraphOutLine ()
   glPopMatrix();
 }
 
+/*------------------------------------------------- DrawLineGraph
+ * DrawLineGraph : 折れ線グラフの表示
+ * 100フレーム更新ごとにリフレッシュ
+ */
+void DrawLineGraph (LineData line)
+{
+
+  glPushMatrix ();
+  glBegin ( GL_LINE_LOOP );
+    for (int i = 0; i < 100; i ++)
+    {
+      glVertex2f (i * 0.01, line.data[i]);
+    }
+  glEnd ();
+  glPopMatrix ();
+}
 
 /*------------------------------------------------- DrawDataBar
  * DrawDataBar : 棒グラフのバーを表示する
@@ -67,7 +92,7 @@ void DrawDataBar (int num, float data)
   glEnd ();
 }
 
-void DrawLine ()
+void DrawGraph ()
 {
   setAlphaMaterial(1.0, 0.0, 0.0, 0.5);
   DrawDataBar (1, Rparam.cohesion);
@@ -79,9 +104,30 @@ void DrawLine ()
   DrawDataBar (3, Bparam.cohesion);
 
 
-
+  setAlphaMaterial(0.0, 0.0, 1.0, 0.5);
+  DrawLineGraph (Rcohesion);
 }
 
+
+/*------------------------------------------------- InitHUD
+ * InitHUD : HUDに使うデータの初期化を行う．
+ * fish.cppのInitScene ()から呼び出す．
+ */
+void InitHUD ()
+{
+  for (int i = 0; i < 100; i++)
+  {
+    Rcohesion.data[i] = 0.5;
+  }
+
+  Rcohesion.active_num = 0;
+  
+}
+
+/*------------------------------------------------- DrawHUDScene
+ * DrawHUDScene : HUDの描画全体.
+ * fish.cppのUpdate()から呼び出す．
+ */
 void DrawHUDScene ()
 {
   if(ui.graph)
@@ -90,7 +136,7 @@ void DrawHUDScene ()
 
     glEnable (GL_BLEND);
     glBlendFunc ( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
-    DrawLine();
+    DrawGraph();
     glDisable (GL_BLEND);
   }
 }
