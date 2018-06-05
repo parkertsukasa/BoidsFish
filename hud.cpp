@@ -62,9 +62,24 @@ void DrawGraphOutLine ()
  * DrawLineGraph : 折れ線グラフの表示
  * 100フレーム更新ごとにリフレッシュ
  */
-void DrawLineGraph (LineData line)
+void DrawLineGraph (LineData line, float data)
 {
+  //----- データの更新 -----
+  line.data[line.active_num] = data;
+  line.active_num += 1;
 
+  if(line.active_num > 100)
+  {
+    printf("refresh!");
+    //--- グラフのリフレッシュ ---
+    for(int i = 0; i < 100; i++)
+    {
+      line.data[i] = 0.5;
+    }
+    line.active_num = 0;
+  }
+
+  //----- 折れ線の描画 -----
   glPushMatrix ();
   glBegin ( GL_LINE_LOOP );
     for (int i = 0; i < 100; i ++)
@@ -104,8 +119,8 @@ void DrawGraph ()
   DrawDataBar (3, Bparam.cohesion);
 
 
-  setAlphaMaterial(0.0, 0.0, 1.0, 0.5);
-  DrawLineGraph (Rcohesion);
+  setAlphaMaterial(1.0, 0.0, 0.0, 0.5);
+  DrawLineGraph (Rcohesion, Rparam.cohesion);
 }
 
 
