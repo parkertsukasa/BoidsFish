@@ -65,8 +65,9 @@ void DrawGraphOutLine ()
 void DrawLineGraph (LineData line, float data)
 {
   //----- データの更新 -----
+  line.active_num += 1; 
   line.data[line.active_num] = data;
-  line.active_num += 1;
+  //printf("%d\n", line.active_num);
 
   if(line.active_num > 100)
   {
@@ -134,9 +135,7 @@ void InitHUD ()
   {
     Rcohesion.data[i] = 0.5;
   }
-
   Rcohesion.active_num = 0;
-  
 }
 
 /*------------------------------------------------- DrawHUDScene
