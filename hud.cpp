@@ -65,8 +65,8 @@ void DrawGraphOutLine ()
 void DrawLineGraph (LineData line, float data)
 {
   //----- データの更新 -----
-  line.active_num += 1; 
   line.data[line.active_num] = data;
+  line.active_num += 1; 
   //printf("%d\n", line.active_num);
 
   if(line.active_num > 100)
