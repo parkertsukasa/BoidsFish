@@ -12,8 +12,22 @@ typedef struct
   float data[100];
   int active_num;
 } LineData;
+ 
+static LineData Rcohesion;
+static LineData Gcohesion;
+static LineData Bcohesion;
 
-LineData Rcohesion;
+/*----------------------------------------------- LineDataInit
+ * LineDataInit : LineDataの初期化を行う関数
+ */
+void LineDataInit (LineData *line)
+{
+  for (int i = 0; i < 100; i++)
+  {
+    line->data[i] = 0.5;
+  }
+  line->active_num = 50;
+}
 
 /*------------------------------------------------- setAlphaMaterial
  * setAlphaMaterial : 透過のあるマテリアルを設定する
@@ -37,8 +51,6 @@ void setAlphaMaterial (float r, float g, float b, float a)
     return;
 }
 
-
-
 /*------------------------------------------------- DrawGraphOutLine
  * DrawGraphOutLine : グラフの枠線を表示する
  */
@@ -58,38 +70,6 @@ void DrawGraphOutLine ()
   glPopMatrix();
 }
 
-/*------------------------------------------------- DrawLineGraph
- * DrawLineGraph : 折れ線グラフの表示
- * 100フレーム更新ごとにリフレッシュ
- */
-void DrawLineGraph (LineData line, float data)
-{
-  //----- データの更新 -----
-  line.data[line.active_num] = data;
-  line.active_num += 1; 
-  //printf("%d\n", line.active_num);
-
-  if(line.active_num > 100)
-  {
-    printf("refresh!");
-    //--- グラフのリフレッシュ ---
-    for(int i = 0; i < 100; i++)
-    {
-      line.data[i] = 0.5;
-    }
-    line.active_num = 0;
-  }
-
-  //----- 折れ線の描画 -----
-  glPushMatrix ();
-  glBegin ( GL_LINE_LOOP );
-    for (int i = 0; i < 100; i ++)
-    {
-      glVertex2f (i * 0.01, line.data[i]);
-    }
-  glEnd ();
-  glPopMatrix ();
-}
 
 /*------------------------------------------------- DrawDataBar
  * DrawDataBar : 棒グラフのバーを表示する
@@ -108,20 +88,60 @@ void DrawDataBar (int num, float data)
   glEnd ();
 }
 
+
+/*------------------------------------------------- DrawLineGraph
+ * DrawLineGraph : 折れ線グラフの表示
+ */
+void DrawLineGraph (LineData line, float data)
+{
+  //----- 折れ線の描画 -----
+  glPushMatrix ();
+  glBegin ( GL_LINE_STRIP );
+    for (int i = 0; i < 100; i ++)
+    {
+      glVertex2f ((float)i * 0.01, line.data[i]);
+    }
+  glEnd ();
+  glPopMatrix ();
+}
+
+
+/*------------------------------------------------ LineGraphSimulation
+ * LineGraphSimulation : 折れ線グラフを描画するのに必要なデータの更新を行う
+ * 100フレーム毎にリフレッシュする．
+ */
+void LineGraphSimulation (LineData *line, float data)
+{
+  //----- データの更新 -----
+  line->data[line->active_num] = data;
+  line->active_num += 1; 
+  //printf("%f\n", data);
+
+  if(line->active_num > 100)
+  {
+    //--- グラフのリフレッシュ ---
+    for(int i = 0; i < 100; i++)
+    {
+      line->data[i] = 0.5;
+    }
+    line->active_num = 0;
+  }
+}
+
 void DrawGraph ()
 {
   setAlphaMaterial(1.0, 0.0, 0.0, 0.5);
   DrawDataBar (1, Rparam.cohesion);
+  DrawLineGraph (Rcohesion, Rparam.cohesion);
 
   setAlphaMaterial(0.0, 1.0, 0.0, 0.5);
   DrawDataBar (2, Gparam.cohesion);
+  DrawLineGraph (Gcohesion, Gparam.cohesion);
 
   setAlphaMaterial(0.0, 0.0, 1.0, 0.5);
   DrawDataBar (3, Bparam.cohesion);
+  DrawLineGraph (Bcohesion, Bparam.cohesion);
 
-
-  setAlphaMaterial(1.0, 0.0, 0.0, 0.5);
-  DrawLineGraph (Rcohesion, Rparam.cohesion);
 }
 
 
@@ -131,16 +151,27 @@ void DrawGraph ()
  */
 void InitHUD ()
 {
-  for (int i = 0; i < 100; i++)
-  {
-    Rcohesion.data[i] = 0.5;
-  }
-  Rcohesion.active_num = 0;
+  LineDataInit(&Rcohesion);
+  LineDataInit(&Gcohesion);
+  LineDataInit(&Bcohesion);
+}
+
+/*------------------------------------------------- HUDUpdate
+ * HUDUpdate : HUDの描画で扱うデータのシミュレーションを行う
+ * fish.cppのFishUpdate()から呼び出す．
+ * シミュレーション関数なので描画処理は行わない．
+ */
+void HUDUpdate ()
+{
+  LineGraphSimulation(&Rcohesion, Rparam.cohesion); 
+  LineGraphSimulation(&Gcohesion, Gparam.cohesion); 
+  LineGraphSimulation(&Bcohesion, Bparam.cohesion); 
 }
 
 /*------------------------------------------------- DrawHUDScene
  * DrawHUDScene : HUDの描画全体.
- * fish.cppのUpdate()から呼び出す．
+ * main.cppのsetHUD ()から呼び出されている．
+ * 描画関数のためシミュレーションは行わない．．
  */
 void DrawHUDScene ()
 {

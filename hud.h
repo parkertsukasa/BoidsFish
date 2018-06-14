@@ -2,3 +2,4 @@
 
 void InitHUD ();
 void DrawHUDScene ();
+void HUDUpdate ();

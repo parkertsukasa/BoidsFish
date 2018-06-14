@@ -46,6 +46,8 @@ void FishInit()
 
 void FishUpdate()
 {
+  Evaluate ();
+  HUDUpdate ();
 
 	for(int i = 0; i < R_LENGTH; i++)
 	{
@@ -61,10 +63,7 @@ void FishUpdate()
 	{
 		Cruising (i, Bfish);//通常の巡行
 	}
-
-  Evaluate ();
 }
-
 
 
 
