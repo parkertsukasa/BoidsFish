@@ -86,7 +86,7 @@ void FishStructInit(int i, FishDataT fish[], kind spc)
 {
 	fish[i].species = spc;
 	fish[i].pos.x = Random(AQUARIUM_MIN + 30, AQUARIUM_MAX - 30);
-	fish[i].pos.y = Random(-(HEIGHT/2) + 20, (HEIGHT/2) - 20);
+	fish[i].pos.y = Random(-(HEIGHT/2) + 15, (HEIGHT/2) - 15);
 	fish[i].pos.z = Random(AQUARIUM_MIN + 30, AQUARIUM_MAX - 30);
 	
 	fish[i].rot.x = 0.0;
@@ -615,7 +615,7 @@ Vector3 Chase (int i, FishDataT fish[])
   
   if(visiblenumber > 0)
   {
-    float k = 20.0;
+    float k = 25.0;
     move.x = (move.x / (float)visiblenumber) * k; 
     move.y = (move.y / (float)visiblenumber) * k; 
     move.z = (move.z / (float)visiblenumber) * k; 
@@ -669,7 +669,7 @@ Vector3 Escape (int i, FishDataT fish[])
 
   float length = GetVector3Length(&move);
 
-  float k = 0.1;
+  float k = 0.3;
 
   move.x = (move.x / length) * k * ( 1 / length );
   move.y = (move.y / length) * k * ( 1 / length );
@@ -742,9 +742,9 @@ void MakeMoveVector(int i, FishDataT fish[])
 	float pitch = pitchm - pitchf;
 	
 	//--- pitchを元に新しいpitchを求める ---
-	float k_pitch = 0.3;//係数
-  float diff_pitch = k_pitch * pitch;
-  float max_diff_pitch = 0.1 * 3.14;
+	float k_pitch = 0.5;//係数
+  float diff_pitch = k_pitch * sinf(pitch) * forward_yz;
+  float max_diff_pitch = 0.3 * 3.14;
 
   if(diff_pitch > max_diff_pitch)
     diff_pitch = max_diff_pitch;
