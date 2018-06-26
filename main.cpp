@@ -199,8 +199,8 @@ int main( int argc, char *argv[] )
     initWindow( argv[0] );
 
 	//-------- basic callbacks
-    glutDisplayFunc( display );  // display callback function
-    glutIdleFunc( update );    // idle callback function
+  glutDisplayFunc( display );  // display callback function
+  glutIdleFunc( update );    // idle callback function
 	glutReshapeFunc( reshape ); // reshape callback function
 
 	//-------- keyboard callbacks

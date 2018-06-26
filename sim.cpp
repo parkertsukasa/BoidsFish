@@ -5,7 +5,6 @@
 #include <string>
 
 #include "common.h"
-
 #include "util.h"
 
 #include "fish.h"
