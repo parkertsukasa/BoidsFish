@@ -99,6 +99,8 @@ typedef struct {
 	Parameter *param;
 	
 	Color color;
+	Color dead_color;
+  float dead_time;
 }FishDataT;
 
 void FishInit();
@@ -107,6 +109,8 @@ void FishUpdate();
 void FishStructInit(int i, FishDataT fish[], kind spc);
 void ColorChange(Color *color, float r, float g, float b, float a);
 void ParameterSet();
+
+void ManageVitality (int i, FishDataT fish[]);
 
 void Cruising (int i, FishDataT fish[]);
 Vector3 Gather(int i, FishDataT fish[]);

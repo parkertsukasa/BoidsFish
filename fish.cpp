@@ -25,6 +25,7 @@ void FishInit()
 		kind spc = RED;
 		FishStructInit(i, Rfish, spc);
 		ColorChange(&Rfish[i].color, 1.0, 0.0, 0.4, 1.0);
+		ColorChange(&Rfish[i].dead_color, 1.0, 1.0, 1.0, 1.0);
 	}
 	
 	for (int i = 0; i < G_LENGTH; i++)
@@ -32,6 +33,7 @@ void FishInit()
 		kind spc = GREEN;
 		FishStructInit(i, Gfish, spc);
 		ColorChange(&Gfish[i].color, 0.0, 1.0, 0.4, 1.0);
+		ColorChange(&Gfish[i].dead_color, 1.0, 1.0, 1.0, 1.0);
 	}
 	
 	for (int i = 0; i < B_LENGTH; i++)
@@ -39,6 +41,7 @@ void FishInit()
 		kind spc = BLUE;
 		FishStructInit(i, Bfish, spc);
 		ColorChange(&Bfish[i].color, 0.0, 0.4, 1.0, 1.0);
+		ColorChange(&Bfish[i].dead_color, 1.0, 1.0, 1.0, 1.0);
 		
 	}
 }
@@ -51,17 +54,26 @@ void FishUpdate()
 
 	for(int i = 0; i < R_LENGTH; i++)
 	{
-		Cruising (i, Rfish);//通常の巡行
+    if( Rfish[i].alive )
+		  Cruising (i, Rfish);//通常の巡行
+
+    ManageVitality( i, Rfish );
 	}
 	
 	for(int i = 0; i < G_LENGTH; i++)
 	{
-		Cruising (i, Gfish);//通常の巡行
+    if( Gfish[i].alive )
+	  	Cruising (i, Gfish);//通常の巡行
+
+    ManageVitality( i, Gfish );
 	}
 	
 	for(int i = 0; i < B_LENGTH; i++)
 	{
-		Cruising (i, Bfish);//通常の巡行
+    if( Bfish[i].alive )
+		  Cruising (i, Bfish);//通常の巡行
+
+    ManageVitality( i, Bfish );
 	}
 }
 
@@ -111,6 +123,13 @@ void FishStructInit(int i, FishDataT fish[], kind spc)
 	fish[i].color.g = 1.0;
 	fish[i].color.b = 1.0;
 	fish[i].color.a = 1.0;
+	fish[i].dead_color.r = 1.0;
+	fish[i].dead_color.g = 1.0;
+	fish[i].dead_color.b = 1.0;
+	fish[i].dead_color.a = 1.0;
+
+  fish[i].dead_time = 1.0;
+
 	fish[i].wall = VectorZero();
 	
 	switch (spc)
@@ -225,7 +244,7 @@ Vector3 Gather(int i, FishDataT fish[])
 	//----- 周囲の固体の中心を求める -----
 	for(int j = 0; j < fish[i].param->length; j++)
 	{
-		if(i != j)
+		if( i != j && fish[j].alive )
 		{
 			bool visible = isVisible(i, j, fish);
 			
@@ -272,7 +291,7 @@ Vector3 Separate(int i, FishDataT fish[])
 	
 	for(int j = 0; j < fish[i].param->length; j++)
 	{
-		if(i != j)
+		if( i != j && fish[j].alive )
 		{
 			Vector3 diff = VectorDiff(&fish[j].pos, &fish[i].pos);
 			float length = GetVector3Length(&diff);
@@ -386,7 +405,7 @@ Vector3 Align (int i, FishDataT fish[])
 	//----- 自分以外の固体の移動量の平均を求める -----
 	for(int j = 0; j < fish[i].param->length; j++)
 	{
-		if(i != j)
+		if( i != j && fish[j].alive )
 		{
 			bool visible = isVisible(i, j, fish);
 			
@@ -600,34 +619,37 @@ Vector3 Chase (int i, FishDataT fish[])
 
 	for (int j = 0; j < target[0].param->length; j++)
 	{
-		Vector3 diff = VectorDiff(&target[j].pos, &fish[i].pos);
-		float square_length = GetVector3LengthSquare(&diff);
-    float length = sqrt( square_length );
-    
-    //--- 相手との距離が一定より近い場合は捕食行為 ---
-    if( length < 2.0 )
+    if( target[j].alive )  
     {
-      fish[i].vitality += ( target[j].vitality * 0.5 );
-      target[j].vitality = 0.0;
-    }
-
-    float square_sightrange = fish[j].param->sightrange * fish[j].param->sightrange;
-
-    float angle = GetVector3Angle(&diff, &fish[i].forward);
-    float sightangle = fish[i].param->sightangle;
-
-    bool visible;
-    if(square_sightrange > square_length && sightangle > angle)
-      visible = true;
-    else 
-      visible = false;
-
-    if(visible)
-    {
-      move.x += diff.x;
-      move.y += diff.y;
-      move.z += diff.z;
-      visiblenumber += 1;
+  		Vector3 diff = VectorDiff(&target[j].pos, &fish[i].pos);
+  		float square_length = GetVector3LengthSquare(&diff);
+      float length = sqrt( square_length );
+      
+      //--- 相手との距離が一定より近い場合は捕食行為 ---
+      if( length < 2.0 )
+      {
+        fish[i].vitality += ( target[j].vitality * 0.5 );
+        target[j].vitality = 0.0;
+      }
+  
+      float square_sightrange = fish[j].param->sightrange * fish[j].param->sightrange;
+  
+      float angle = GetVector3Angle(&diff, &fish[i].forward);
+      float sightangle = fish[i].param->sightangle;
+  
+      bool visible;
+      if(square_sightrange > square_length && sightangle > angle)
+        visible = true;
+      else 
+        visible = false;
+  
+      if(visible)
+      {
+        move.x += diff.x;
+        move.y += diff.y;
+        move.z += diff.z;
+        visiblenumber += 1;
+      }
     }
   }
   
@@ -674,11 +696,14 @@ Vector3 Escape (int i, FishDataT fish[])
 
 	for (int j = 0; j < target[0].param->length; j++)
 	{
-		Vector3 diff = VectorDiff(&fish[i].pos, &target[j].pos);
-
-    move.x += -diff.x;
-    move.y += -diff.y;
-    move.z += -diff.z;
+    if( target[j].alive )    
+    {
+  		Vector3 diff = VectorDiff(&fish[i].pos, &target[j].pos);
+  
+      move.x += -diff.x;
+      move.y += -diff.y;
+      move.z += -diff.z;
+    }
 	}
 
   move.x = (move.x / (float)target[0].param->length);
@@ -701,12 +726,31 @@ Vector3 Escape (int i, FishDataT fish[])
 /*-------------------------------------------------------------- ManageVitality
  * 生命力の管理を行う関数
  */
-void ManagerVitality( int i, FishDataT fish[] )
+void ManageVitality( int i, FishDataT fish[] )
 {
-  fish[i].vitality -= 1.0;
-
   if( fish[i].vitality <= 0.0 )
+  {
     fish[i].alive = false;
+  }
+
+  if( fish[i].alive )
+  {
+    ColorChange(&fish[i].dead_color, 1.0, 1.0, 1.0, 1.0);
+    fish[i].dead_time = 1.0;
+  }
+  else
+  {
+    if( fish[i].dead_time > 0.0 )
+    {
+      ColorChange( &fish[i].dead_color, fish[i].dead_time, fish[i].dead_time, fish[i].dead_time, fish[i].dead_time );
+      fish[i].dead_time -= 0.01;
+    }
+    else
+    {
+      fish[i].vitality = 1000.0;  
+      fish[i].alive = true;
+    }
+  }
 
   return;
 }
@@ -893,7 +937,7 @@ void Cruising (int i, FishDataT fish[])
 	fish[i].rot.y += Gaussian(-5.0, 5.0);
 
   //----- 生命力を消費する -----
-	ManagerVitality( i, fish);
+  fish[i].vitality -= 0.1;
 	
 }
 //end of file

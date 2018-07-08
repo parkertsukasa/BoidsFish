@@ -41,7 +41,8 @@ void CountFish (FishDataT fish[])
   fish[0].param->surviors = 0;
   for (int i = 0; i < fish[0].param->length; i++)
   {
-    fish[i].param->surviors += 1;
+    if( fish[i].alive )
+      fish[i].param->surviors += 1;
   }
 }
 

@@ -87,11 +87,14 @@ void drawFish (int i, FishDataT fish[])
 {
 	//glEnable(GL_LIGHTING);
 	  
-  if( fish[i].alive )
-  {
+//  if( fish[i].alive )
+//  {
 	  glPushMatrix();
 	  {
-	  	setMaterialColor(fish[i].color.r, fish[i].color.g, fish[i].color.b);
+      if( fish[i].alive )
+	  	  setMaterialColor(fish[i].color.r, fish[i].color.g, fish[i].color.b);
+      else
+        setMaterialColor( fish[i].dead_color.r, fish[i].dead_color.g, fish[i].dead_color.b );
 	  	glTranslatef(fish[i].pos.x, fish[i].pos.y, fish[i].pos.z);   //オブジェクト基準位置調整
 	  	glRotatef( fish[i].rot.y, 0.0, 1.0, 0.0 );  //オブジェクト基準姿勢調整：ヨー角
 	  	glRotatef( fish[i].rot.x, 1.0, 0.0, 0.0 ); //オブジェクト基準姿勢調整：ピッチ角
@@ -107,7 +110,7 @@ void drawFish (int i, FishDataT fish[])
 	  	drawFishModel();
 	  }
 	  glPopMatrix();
-	}
+//	}
 
 	//glDisable(GL_LIGHTING);
 	
