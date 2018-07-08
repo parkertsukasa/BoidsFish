@@ -78,11 +78,15 @@ typedef struct {
   float cohesion;
   float separation;
   float alignment;
+  int surviors;//生存している個体の数
 }Parameter;
 
 
 typedef struct {
 	kind species;
+
+  bool alive;
+  float vitality;
 	
 	Vector3 pos;
 	Vector3 rot;

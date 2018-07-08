@@ -12,6 +12,7 @@ extern Parameter Bparam;
 //----- ▽▽▽ 関数プロトタイプ宣言 ▽▽▽ -----
 void Assign (FishDataT fish[]);
 void EvaluateCohesion (FishDataT fish[]);
+void CountFish (FishDataT fish[]);
 
 /* ---------------------------------------------------------- Evaluate
  * Evaluate : 評価関数 群行動に対する評価指数の計算
@@ -29,8 +30,22 @@ void Evaluate ()
 void Assign (FishDataT fish[])
 {
   EvaluateCohesion(fish);
+  CountFish(fish);
 }
 
+/* ---------------------------------------------------------- CountFish
+ * CountFish : 魚の数を数える関数
+ */
+void CountFish (FishDataT fish[])
+{
+  fish[0].param->surviors = 0;
+  for (int i = 0; i < fish[0].param->length; i++)
+  {
+    fish[i].param->surviors += 1;
+  }
+}
+
+  
 /* ---------------------------------------------------------- EvaluateCohesion
  * EvaluateCohesion : 集合度を評価する
  * 全個体の位置の平均をPa，種族の個体数をnとして，

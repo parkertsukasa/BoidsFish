@@ -84,6 +84,9 @@ void ColorChange(Color *color, float r , float g, float b, float a)
  */
 void FishStructInit(int i, FishDataT fish[], kind spc)
 {
+  fish[i].alive = true;
+  fish[i].vitality = 1000.0;
+
 	fish[i].species = spc;
 	fish[i].pos.x = Random(AQUARIUM_MIN + 30, AQUARIUM_MAX - 30);
 	fish[i].pos.y = Random(-(HEIGHT/2) + 15, (HEIGHT/2) - 15);
@@ -134,6 +137,7 @@ void FishStructInit(int i, FishDataT fish[], kind spc)
 void ParameterSet()
 {
 	Rparam.length = R_LENGTH;
+  Rparam.surviors = Rparam.length;
 	Rparam.speed_max = 0.15;
 	Rparam.sightangle = 60.0;
 	Rparam.sightrange = AQUARIUM_MAX * 0.8;
@@ -148,6 +152,7 @@ void ParameterSet()
 	
 	
 	Gparam.length = G_LENGTH;
+  Gparam.surviors = Gparam.length;
 	Gparam.speed_max = 0.075;
 	Gparam.sightangle = 90.0;
 	Gparam.sightrange = AQUARIUM_MAX * 1.0;
@@ -161,6 +166,7 @@ void ParameterSet()
   Gparam.alignment = 0.0;
 	
 	Bparam.length = B_LENGTH;
+  Gparam.surviors = Gparam.length;
 	Bparam.speed_max = 0.05;
 	Bparam.sightangle = 120.0;
 	Bparam.sightrange = AQUARIUM_MAX * 1.2;
@@ -172,7 +178,7 @@ void ParameterSet()
   Bparam.cohesion = 0.0;
   Bparam.separation = 0.0;
   Bparam.alignment = 0.0;
-
+  
 }
 
 
@@ -463,7 +469,10 @@ Vector3 EatFeed (int i, FishDataT fish[])
 	
 	//----- 一定距離以内なら餌を食べて餌の総量(amount)を減らす -----
 	if(nearfeed < 2.5)
+  {
 		feed[fish[i].feednum].amount -= 0.1;
+    fish[i].vitality += 10.0;
+  }
 	
 	//----- 餌の方向へ移動する -----
 	if (feed[fish[i].feednum].alive && fish[i].feednum >= 0)
@@ -593,6 +602,15 @@ Vector3 Chase (int i, FishDataT fish[])
 	{
 		Vector3 diff = VectorDiff(&target[j].pos, &fish[i].pos);
 		float square_length = GetVector3LengthSquare(&diff);
+    float length = sqrt( square_length );
+    
+    //--- 相手との距離が一定より近い場合は捕食行為 ---
+    if( length < 2.0 )
+    {
+      fish[i].vitality += ( target[j].vitality * 0.5 );
+      target[j].vitality = 0.0;
+    }
+
     float square_sightrange = fish[j].param->sightrange * fish[j].param->sightrange;
 
     float angle = GetVector3Angle(&diff, &fish[i].forward);
@@ -657,7 +675,7 @@ Vector3 Escape (int i, FishDataT fish[])
 	for (int j = 0; j < target[0].param->length; j++)
 	{
 		Vector3 diff = VectorDiff(&fish[i].pos, &target[j].pos);
-		
+
     move.x += -diff.x;
     move.y += -diff.y;
     move.z += -diff.z;
@@ -680,6 +698,18 @@ Vector3 Escape (int i, FishDataT fish[])
 }
 
 
+/*-------------------------------------------------------------- ManageVitality
+ * 生命力の管理を行う関数
+ */
+void ManagerVitality( int i, FishDataT fish[] )
+{
+  fish[i].vitality -= 1.0;
+
+  if( fish[i].vitality <= 0.0 )
+    fish[i].alive = false;
+
+  return;
+}
 
 /*-------------------------------------------------------------- MakeMoveVector
  * 上記の関数を組み合わせてmoveベクトルを作りforwardベクトルに反映する関数
@@ -861,7 +891,9 @@ void Cruising (int i, FishDataT fish[])
 	
 	//----- 左右へのブレを加える -----
 	fish[i].rot.y += Gaussian(-5.0, 5.0);
-	
+
+  //----- 生命力を消費する -----
+	ManagerVitality( i, fish);
 	
 }
 //end of file

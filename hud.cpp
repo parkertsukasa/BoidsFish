@@ -17,6 +17,10 @@ static LineData Rcohesion;
 static LineData Gcohesion;
 static LineData Bcohesion;
 
+static LineData Rsurvivors;
+static LineData Gsurvivors;
+static LineData Bsurvivors;
+
 /*----------------------------------------------- LineDataInit
  * LineDataInit : LineDataの初期化を行う関数
  */

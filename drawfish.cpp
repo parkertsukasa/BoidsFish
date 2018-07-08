@@ -86,26 +86,29 @@ void drawFeed (int j)
 void drawFish (int i, FishDataT fish[])
 {
 	//glEnable(GL_LIGHTING);
-	
-	glPushMatrix();
-	{
-		setMaterialColor(fish[i].color.r, fish[i].color.g, fish[i].color.b);
-		glTranslatef(fish[i].pos.x, fish[i].pos.y, fish[i].pos.z);   //オブジェクト基準位置調整
-		glRotatef( fish[i].rot.y, 0.0, 1.0, 0.0 );  //オブジェクト基準姿勢調整：ヨー角
-		glRotatef( fish[i].rot.x, 1.0, 0.0, 0.0 ); //オブジェクト基準姿勢調整：ピッチ角
-		glRotatef( fish[i].rot.z, 0.0, 0.0, 1.0 );  //オブジェクト基準姿勢調整：ロール角
-		glGetFloatv( GL_MODELVIEW_MATRIX, fish[i].mat);//変換マトリクスの取得
-		
-		if(fish[i].species == GREEN)
-			glScalef(0.75, 0.75, 0.75);
-		
-		if(fish[i].species == BLUE)
-			glScalef(0.5, 0.5, 0.5);
-		
-		drawFishModel();
+	  
+  if( fish[i].alive )
+  {
+	  glPushMatrix();
+	  {
+	  	setMaterialColor(fish[i].color.r, fish[i].color.g, fish[i].color.b);
+	  	glTranslatef(fish[i].pos.x, fish[i].pos.y, fish[i].pos.z);   //オブジェクト基準位置調整
+	  	glRotatef( fish[i].rot.y, 0.0, 1.0, 0.0 );  //オブジェクト基準姿勢調整：ヨー角
+	  	glRotatef( fish[i].rot.x, 1.0, 0.0, 0.0 ); //オブジェクト基準姿勢調整：ピッチ角
+	  	glRotatef( fish[i].rot.z, 0.0, 0.0, 1.0 );  //オブジェクト基準姿勢調整：ロール角
+	  	glGetFloatv( GL_MODELVIEW_MATRIX, fish[i].mat);//変換マトリクスの取得
+	  	
+	  	if(fish[i].species == GREEN)
+	  		glScalef(0.75, 0.75, 0.75);
+	  	
+	  	if(fish[i].species == BLUE)
+	  		glScalef(0.5, 0.5, 0.5);
+	  	
+	  	drawFishModel();
+	  }
+	  glPopMatrix();
 	}
-	glPopMatrix();
-	
+
 	//glDisable(GL_LIGHTING);
 	
 	
