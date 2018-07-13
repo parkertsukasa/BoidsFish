@@ -743,7 +743,7 @@ void ManageVitality( int i, FishDataT fish[] )
     if( fish[i].dead_time > 0.0 )
     {
       ColorChange( &fish[i].dead_color, fish[i].dead_time, fish[i].dead_time, fish[i].dead_time, fish[i].dead_time );
-      fish[i].dead_time -= 0.01;
+      fish[i].dead_time -= 0.005;
     }
     else
     {

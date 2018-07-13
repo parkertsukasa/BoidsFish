@@ -29,8 +29,8 @@ void Evaluate ()
  */
 void Assign (FishDataT fish[])
 {
-  EvaluateCohesion(fish);
   CountFish(fish);
+  EvaluateCohesion(fish);
 }
 
 /* ---------------------------------------------------------- CountFish
@@ -57,17 +57,17 @@ void EvaluateCohesion (FishDataT fish[])
 {
   //--- 全個体の平均位置Paを求める ---
   Vector3 Pa = VectorZero();
-  for (int i = 0; i < fish[0].param->length; i++)
+  for (int i = 0; i < fish[0].param->surviors; i++)
   {
     Pa = VectorAdd(&Pa, &fish[i].pos);
   }
-  Pa.x /= (float)fish[0].param->length;
-  Pa.y /= (float)fish[0].param->length;
-  Pa.z /= (float)fish[0].param->length;
+  Pa.x /= (float)fish[0].param->surviors;
+  Pa.y /= (float)fish[0].param->surviors;
+  Pa.z /= (float)fish[0].param->surviors;
 
   //---- 各個体と平均位置との差の2乗の2乗の総和を求める ---
   float sigma_length = 0.0;
-  for (int j = 0; j < fish[0].param->length; j++)
+  for (int j = 0; j < fish[0].param->surviors; j++)
   {
     Vector3 diff = VectorDiff(&Pa, &fish[j].pos);
     float length = GetVector3Length(&diff);
@@ -75,7 +75,7 @@ void EvaluateCohesion (FishDataT fish[])
   }
 
   //--- 総和を個体数で割る ---
-  sigma_length /= fish[0].param->length;
+  sigma_length /= fish[0].param->surviors;
 
   //--- 標準偏差を求める
   float deviation = sqrtf(sigma_length);
