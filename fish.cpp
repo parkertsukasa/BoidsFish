@@ -169,7 +169,6 @@ void ParameterSet()
   Rparam.separation = 0.0;
   Rparam.alignment = 0.0;
 	
-	
 	Gparam.length = G_LENGTH;
   Gparam.surviors = Gparam.length;
 	Gparam.speed_max = 0.075;
@@ -185,7 +184,7 @@ void ParameterSet()
   Gparam.alignment = 0.0;
 	
 	Bparam.length = B_LENGTH;
-  Gparam.surviors = Gparam.length;
+  Bparam.surviors = Gparam.length;
 	Bparam.speed_max = 0.05;
 	Bparam.sightangle = 120.0;
 	Bparam.sightrange = AQUARIUM_MAX * 1.2;
@@ -197,7 +196,6 @@ void ParameterSet()
   Bparam.cohesion = 0.0;
   Bparam.separation = 0.0;
   Bparam.alignment = 0.0;
-  
 }
 
 
