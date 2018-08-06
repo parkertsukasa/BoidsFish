@@ -323,7 +323,7 @@ Vector3 Enclose(int i, FishDataT fish[])
 	if(fromwall < 0.1)
 		fromwall = 0.1;
 	
-	float k = 0.3 * fish[i].param->speed_max;//係数K
+	float k = 0.5 * fish[i].param->speed_max;//係数K
 	
 	Vector3 move = VectorZero();
 	
@@ -719,8 +719,7 @@ void MakeMoveVector(int i, FishDataT fish[])
 	fish[i].move.x = move_cohe.x * factor_cohe + move_sepa.x * factor_sepa + move_alig.x * factor_alig + move_encl.x * factor_encl + move_eat_.x * factor_eat_ + move_avoi.x * factor_avoi + move_cohe.x * factor_chas + move_esca.x *factor_esca;
 	fish[i].move.y = move_cohe.y * factor_cohe + move_sepa.y * factor_sepa + move_alig.y * factor_alig + move_encl.y * factor_encl + move_eat_.y * factor_eat_ + move_avoi.y * factor_avoi + move_cohe.y * factor_chas + move_esca.y *factor_esca;
 	fish[i].move.z = move_cohe.z * factor_cohe + move_sepa.z * factor_sepa + move_alig.z * factor_alig + move_encl.z * factor_encl + move_eat_.z * factor_eat_ + move_avoi.z * factor_avoi + move_cohe.z * factor_chas + move_esca.z *factor_esca;
-	
-	
+
 	//----- 基礎情報の計算 -----
 	//XZ平面におけるmoveベクトルの長さを求める(|move|)
 	float move_xz = GetVector2Length(fish[i].move.x, fish[i].move.z);
@@ -729,6 +728,8 @@ void MakeMoveVector(int i, FishDataT fish[])
 	
 	//垂直面におけるforwardベクトルの長さ
 	float forward_yz = GetVector2Length(fish[i].forward.y, forward_xz);
+	//垂直面におけるmoveベクトルの長さ
+	float move_yz = GetVector2Length(fish[i].move.y, move_xz);
 	
 	
 	//---▽▽▽  Pitch Control ▽▽▽ ---
@@ -739,64 +740,118 @@ void MakeMoveVector(int i, FishDataT fish[])
 	float pitchm = atan2f(fish[i].move.y, move_xz);
 	
 	//moveベクトルのローカルにおけるpitchを求める radian
-	float pitch = pitchm - pitchf;
+	float local_pitchm = pitchm - pitchf;
 	
-	//--- pitchを元に新しいpitchを求める ---
-	float k_pitch = 0.5;//係数
-  float diff_pitch = k_pitch * sinf(pitch) * forward_yz;
-  float max_diff_pitch = 0.3 * 3.14;
-
-  if(diff_pitch > max_diff_pitch)
-    diff_pitch = max_diff_pitch;
-
-  if(diff_pitch < -max_diff_pitch)
-    diff_pitch = -max_diff_pitch;
-
+	//角度の差分に係数をかける
+	float k_pitch = 0.5;
+	float diff_pitch = k_pitch * local_pitchm;
+	
+	////速度ベクトルのpitchに足し合わせる
 	float newpitch = pitchf + diff_pitch;
 	
+	/*
+	 //--- 工事中 ---
+	 //pitch回転力を求め,係数をかける
+	 float k_pitch = 0.1;
+	 float pitch_rotate = move_yz * sinf(local_pitchm) * k_pitch;
+	 
+	 //変位ベクトルの先端から速度ベクトルに垂線をおろした時の速度ベクトルと垂線の交点から速度ベクトルの根元までの長さを求める
+	 float move_localbase_vertical = move_yz * cosf(local_pitchm);
+	 
+	 //速度ベクトルに加えるべき角度を求める
+	 float diff_pitch = atan2f(pitch_rotate, move_localbase_vertical);
+	 
+	 //速度ベクトルのpitchに足し合わせる
+	 float newpitch = pitchf + diff_pitch;
+	 */
 	
 	//--- △△△ Pitch Control △△△ ---
 	
-	//------ XZ平面 ------
+	//--- ▽▽▽  Yaw Control ▽▽▽ ---
 	//forwardベクトルのyawを求める radian
 	float yawf = atan2f(-fish[i].forward.x, -fish[i].forward.z);
 	//moveベクトルのyawを求める(θm) radian
 	float yawm = atan2f(-fish[i].move.x, -fish[i].move.z);
 	
 	//moveベクトルのローカルにおいてのyawを求める(θ) radian
-	float yaw = yawm - yawf;
+	float local_yawm = yawm - yawf;
 	
-	//--- 推進力を求める ---(move.z)
-	float thrust = move_xz * -cosf(yaw);
+	//角度の差分に係数をかける
+	float k_yaw = 1.0;
+	float diff_yaw = k_yaw * local_yawm;
 	
+	////速度ベクトルのyawに足し合わせる
+	float newyaw = yawf + (diff_yaw - 3.1415);
 	
-	float thrust_max = 0.01;
-	if(thrust < thrust_max && thrust > -thrust_max)
-	{
-		if(thrust > 0.0)
-			thrust = thrust_max;
-		else
-			thrust = -thrust_max;
-	}
+	/*
+	 //--- 工事中 ---
+	 //pitch回転力を求め,係数をかける
+	 float k_yaw = 100.0 * fish[i].param->speed_max;
+	 float yaw_rotate = move_xz * sinf(local_yawm) * k_yaw;
+	 
+	 //変位ベクトルの先端から速度ベクトルに垂線をおろした時の速度ベクトルと垂線の交点から速度ベクトルの根元までの長さを求める
+	 float move_localbase_xz = move_xz * cosf(local_yawm);
+	 
+	 //速度ベクトルに加えるべき角度を求める
+	 float diff_yaw = atan2f(yaw_rotate, move_localbase_xz);
+	 
+	 //速度ベクトルのyawに足し合わせる
+	 float newyaw = yawf + diff_pitch;
+	 */
 	
-	//--- 回転させる力を求める ---(move.x)
-	float rotateyaw = move_xz * -sinf(yaw);
-	//変異した後のyawを求める(θi+1) radian
-	const float k_yaw = 1.5 * ( 1.0 / fish[i].param->speed_max); //moveベクトルから回転を制御する係数
-	float newyaw = yawf + k_yaw * rotateyaw;
+	//--- △△△ Yaw Control △△△ ---
 	
+	//--- ▽▽▽  Thrust Control ▽▽▽ ---
 	
-	float k_thrust = 0.1;//係数
-	//推進力を加える
-	if(thrust != 0.0 && forward_xz != 0.0)
-	{
-		forward_xz *= (1 + (k_thrust * thrust)) / forward_xz;
-		
-		float speed_max = fish[i].param->speed_max;
-		if(forward_xz > speed_max )
-			forward_xz = speed_max;
-	}
+	float move_localbase_xz = move_xz * cosf(local_yawm);
+	//推進力(move.z)を求めて，係数をかける
+	float k_thrust = 1.0;
+	float thrust = move_localbase_xz * k_thrust;
 	
+	forward_xz +=thrust;
+	
+	//速度に制限をかける
+	float speed_max = fish[i].param->speed_max;
+	if(forward_xz > speed_max )
+		forward_xz = speed_max;
+	
+	/*
+	 //速度ベクトルの正規化
+	 Vector3 normalized_forward;
+	 float length_forward = GetVector3Length(&fish[i].forward);
+	 normalized_forward.x = fish[i].forward.x / length_forward;
+	 normalized_forward.y = fish[i].forward.y / length_forward;
+	 normalized_forward.z = fish[i].forward.z / length_forward;
+	 
+	 //速度ベクトルに推進力を適用する
+	 fish[i].forward.x = normalized_forward.x * (length_forward * thrust);
+	 fish[i].forward.y = normalized_forward.y * (length_forward * thrust);
+	 fish[i].forward.z = normalized_forward.z * (length_forward * thrust);
+	 
+	 //--- 推進力を求める ---(move.z)
+	 float thrust = move_xz * -cosf(local_yawm);
+	 
+	 
+	 float thrust_max = 0.01;
+	 if(thrust < thrust_max && thrust > -thrust_max)
+	 {
+	 if(thrust > 0.0)
+	 thrust = thrust_max;
+	 else
+	 thrust = -thrust_max;
+	 }
+	 
+	 float k_thrust = 0.1;//係数
+	 //推進力を加える
+	 if(thrust != 0.0 && forward_xz != 0.0)
+	 {
+	 forward_xz *= (1 + (k_thrust * thrust)) / forward_xz;
+	 
+	 float speed_max = fish[i].param->speed_max;
+	 if(forward_xz > speed_max )
+	 forward_xz = speed_max;
+	 }
+	 */
 	
 	//新たなpitchを元にベクトルを再構築
 	fish[i].forward.y = -sinf(newpitch) * forward_yz;
@@ -807,8 +862,8 @@ void MakeMoveVector(int i, FishDataT fish[])
 	fish[i].forward.z = -cosf(newyaw) * forward_xz;
 	
 	//Yawの変化に応じてRollの値を変更する。
-	float k_roll = 500.0;
-	fish[i].rot.z = rotateyaw * k_roll;
+	//float k_roll = 500.0;
+	//fish[i].rot.z = yaw_rotate * k_roll;
 	
 }
 
