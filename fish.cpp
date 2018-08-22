@@ -14,11 +14,12 @@ Parameter Bparam;
 FeedDataT feed[FEEDLENGTH];
 MouseDataT mouse;
 
+extern Selected ui;
 
 void FishInit()
 {
 	ParameterSet();
-  InitHUD ();
+	InitHUD ();
 	
 	for (int i = 0; i < R_LENGTH; i++)
 	{
@@ -46,29 +47,34 @@ void FishInit()
 
 void FishUpdate()
 {
-  Evaluate ();
-  HUDUpdate ();
-
+	Evaluate ();
+	HUDUpdate ();
+	
 	for(int i = 0; i < R_LENGTH; i++)
 	{
-		Cruising (i, Rfish);//通常の巡行
+		Cruising (i, Rfish);//í èÌÇÃèÑçs
 	}
 	
 	for(int i = 0; i < G_LENGTH; i++)
 	{
-		Cruising (i, Gfish);//通常の巡行
+		Cruising (i, Gfish);//í èÌÇÃèÑçs
 	}
 	
 	for(int i = 0; i < B_LENGTH; i++)
 	{
-		Cruising (i, Bfish);//通常の巡行
+		Cruising (i, Bfish);//í èÌÇÃèÑçs
 	}
+	
+	//ê¬ÇÃmoveÉxÉNÉgÉãÇÃí∑Ç≥
+	//"float blue_move = GetVector3Length(&Bfish[0].move);
+	//printf("%f\n", blue_move);
+	
 }
 
 
 
 /* ------------------------------------------------------------ FishColorChang
- * ColorChange 色を変更する関数
+ * ColorChange êFÇïœçXÇ∑ÇÈä÷êî
  */
 void ColorChange(Color *color, float r , float g, float b, float a)
 {
@@ -80,7 +86,7 @@ void ColorChange(Color *color, float r , float g, float b, float a)
 
 
 /* ------------------------------------------------------------- FishInit
- * FishInit 各種類の魚の値を初期化する関数
+ * FishInit äeéÌóﬁÇÃãõÇÃílÇèâä˙âªÇ∑ÇÈä÷êî
  */
 void FishStructInit(int i, FishDataT fish[], kind spc)
 {
@@ -100,7 +106,7 @@ void FishStructInit(int i, FishDataT fish[], kind spc)
 	fish[i].forward.x = -sinf(DegtoRad(fish[i].rot.y));
 	fish[i].forward.y = sinf(DegtoRad(fish[i].rot.x));
 	fish[i].forward.z = -cosf(DegtoRad(fish[i].rot.y));
-	fish[i].forward = VectorScalar(&fish[i].forward, 0.01);
+	fish[i].forward = VectorScalar(&fish[i].forward, 0.1);
 	
 	fish[i].feednum = 0;
 	
@@ -129,68 +135,68 @@ void FishStructInit(int i, FishDataT fish[], kind spc)
 }
 
 /*-------------------------------------------------------------- ParameterSet
- * 種族間で共通のパラメータを設定する
+ * éÌë∞ä‘Ç≈ã§í ÇÃÉpÉâÉÅÅ[É^Çê›íËÇ∑ÇÈ
  */
 void ParameterSet()
 {
 	Rparam.length = R_LENGTH;
 	Rparam.speed_max = 0.15;
-	Rparam.sightangle = 60.0;
+	Rparam.sightangle = 170.0;
 	Rparam.sightrange = AQUARIUM_MAX * 0.8;
 	Rparam.kc = 1.0;
 	Rparam.ks = 1.0;
 	Rparam.ka = 1.0;
 	Rparam.kch = 1.0;
 	Rparam.kes = 1.0;
-  Rparam.cohesion = 0.0;
-  Rparam.separation = 0.0;
-  Rparam.alignment = 0.0;
+	Rparam.cohesion = 0.0;
+	Rparam.separation = 0.0;
+	Rparam.alignment = 0.0;
 	
 	
 	Gparam.length = G_LENGTH;
 	Gparam.speed_max = 0.075;
-	Gparam.sightangle = 90.0;
+	Gparam.sightangle = 170.0;
 	Gparam.sightrange = AQUARIUM_MAX * 1.0;
 	Gparam.kc = 1.0;
 	Gparam.ks = 1.0;
 	Gparam.ka = 1.0;
 	Gparam.kch = 1.0;
 	Gparam.kes = 1.0;
-  Gparam.cohesion = 0.0;
-  Gparam.separation = 0.0;
-  Gparam.alignment = 0.0;
+	Gparam.cohesion = 0.0;
+	Gparam.separation = 0.0;
+	Gparam.alignment = 0.0;
 	
 	Bparam.length = B_LENGTH;
 	Bparam.speed_max = 0.05;
-	Bparam.sightangle = 120.0;
+	Bparam.sightangle = 170.0;
 	Bparam.sightrange = AQUARIUM_MAX * 1.2;
 	Bparam.kc = 1.0;
 	Bparam.ks = 1.0;
 	Bparam.ka = 1.0;
 	Bparam.kch = 1.0;
 	Bparam.kes = 1.0;
-  Bparam.cohesion = 0.0;
-  Bparam.separation = 0.0;
-  Bparam.alignment = 0.0;
-
+	Bparam.cohesion = 0.0;
+	Bparam.separation = 0.0;
+	Bparam.alignment = 0.0;
+	
 }
 
 
 /*--------------------------------------------------------------------------------------------
- * 魚の挙動をコントロールする関数群
+ * ãõÇÃãììÆÇÉRÉìÉgÉçÅ[ÉãÇ∑ÇÈä÷êîåQ
  */
 
 /* ------------------------------------------------------------- isVisible
- * isVisible 対象としている魚が視界内にいるのかどうかを判定する関数
+ * isVisible ëŒè€Ç∆ÇµÇƒÇ¢ÇÈãõÇ™éãäEì‡Ç…Ç¢ÇÈÇÃÇ©Ç«Ç§Ç©ÇîªíËÇ∑ÇÈä÷êî
  */
 bool isVisible(int i, int j, FishDataT fish[])
 {
-	//--- 各個体との距離を計算し一定距離より遠い個体は除外する ---
+	//--- äeå¬ëÃÇ∆ÇÃãóó£ÇåvéZÇµàÍíËãóó£ÇÊÇËâìÇ¢å¬ëÃÇÕèúäOÇ∑ÇÈ ---
 	Vector3 diff = VectorDiff(&fish[i].pos, &fish[j].pos);
 	float square_length = GetVector3LengthSquare (&diff);
 	float square_sightrange = fish[i].param->sightrange * fish[i].param->sightrange;
-  if(square_length > square_sightrange)
-    return false;
+	if(square_length > square_sightrange)
+		return false;
 	
 	float angle = GetVector3Angle(&fish[i].forward, &diff);
 	
@@ -208,7 +214,7 @@ bool isVisible(int i, int j, FishDataT fish[])
 
 
 /*-------------------------------------------------------------- Cohesion
- * Gather : 結合　群れの中心に向かって進行する
+ * Gather : åãçáÅ@åQÇÍÇÃíÜêSÇ…å¸Ç©Ç¡ÇƒêiçsÇ∑ÇÈ
  *--------*/
 Vector3 Gather(int i, FishDataT fish[])
 {
@@ -216,7 +222,7 @@ Vector3 Gather(int i, FishDataT fish[])
 	Vector3 move = VectorZero();
 	
 	int flock = 0;
-	//----- 周囲の固体の中心を求める -----
+	//----- é¸àÕÇÃå≈ëÃÇÃíÜêSÇãÅÇﬂÇÈ -----
 	for(int j = 0; j < fish[i].param->length; j++)
 	{
 		if(i != j)
@@ -237,13 +243,13 @@ Vector3 Gather(int i, FishDataT fish[])
 		ave.y /= (float)flock;
 		ave.z /= (float)flock;
 	}
-  else
-    return move;
+	else
+		return move;
 	
-	//平均と自分の位置の差を移動量とする
-	float k = 0.0002;
+	//ïΩãœÇ∆é©ï™ÇÃà íuÇÃç∑Çà⁄ìÆó Ç∆Ç∑ÇÈ
+	float k = 0.001;
 	
-	Vector3 diff_ave = VectorDiff(&fish[i].pos, &ave);
+	Vector3 diff_ave = VectorDiff(&ave, &fish[i].pos);
 	
 	float length_ave = GetVector3Length( &diff_ave );
 	
@@ -256,7 +262,7 @@ Vector3 Gather(int i, FishDataT fish[])
 
 
 /*-------------------------------------------------------------- Separation
- * Separate : 分離 ほかの固体と距離が近過ぎたらはなれる
+ * Separate : ï™ó£ ÇŸÇ©ÇÃå≈ëÃÇ∆ãóó£Ç™ãﬂâﬂÇ¨ÇΩÇÁÇÕÇ»ÇÍÇÈ
  *--------*/
 Vector3 Separate(int i, FishDataT fish[])
 {
@@ -268,13 +274,13 @@ Vector3 Separate(int i, FishDataT fish[])
 	{
 		if(i != j)
 		{
-			Vector3 diff = VectorDiff(&fish[j].pos, &fish[i].pos);
+			Vector3 diff = VectorDiff(&fish[i].pos, &fish[j].pos);
 			float length = GetVector3Length(&diff);
 			
 			float sightrange = fish[i].param->sightrange;
 			//if(length < sightrange && length > 0.0)
 			
-			float k = 0.02;//係数k
+			float k = 0.1;//åWêîk
 			bool visible = isVisible(i, j, fish);
 			
 			if(visible)
@@ -293,7 +299,7 @@ Vector3 Separate(int i, FishDataT fish[])
 		move.y /= (float)flock;
 		move.z /= (float)flock;
 	}
-	//大きすぎる場合は正規化して丸める
+	//ëÂÇ´Ç∑Ç¨ÇÈèÍçáÇÕê≥ãKâªÇµÇƒä€ÇﬂÇÈ
 	float movelength = GetVector3Length(&move);
 	float maxvalue = 1.0;
 	if(movelength > maxvalue)
@@ -308,22 +314,22 @@ Vector3 Separate(int i, FishDataT fish[])
 
 
 /*-------------------------------------------------------------- Enclose
- * Enclose : 壁から逃げる
+ * Enclose : ï«Ç©ÇÁì¶Ç∞ÇÈ
  *--------*/
 Vector3 Enclose(int i, FishDataT fish[])
 {
-	Vector3 center = VectorZero();//水槽の中心
+	Vector3 center = VectorZero();//êÖëÖÇÃíÜêS
 	
-	//----- 中心からの距離を求める -----
-	Vector3 diff = VectorDiff(&fish[i].pos, &center);
+	//----- íÜêSÇ©ÇÁÇÃãóó£ÇãÅÇﬂÇÈ -----
+	Vector3 diff = VectorDiff(&center, &fish[i].pos);
 	float length = GetVector3Length(&diff);
 	
-	//----- 壁からの距離を求める -----
+	//----- ï«Ç©ÇÁÇÃãóó£ÇãÅÇﬂÇÈ -----
 	float fromwall = AQUARIUM_MAX - length;
 	if(fromwall < 0.1)
 		fromwall = 0.1;
 	
-	float k = 0.3 * fish[i].param->speed_max;//係数K
+	float k = 0.4;// * fish[i].param->speed_max;//åWêîK
 	
 	Vector3 move = VectorZero();
 	
@@ -333,51 +339,54 @@ Vector3 Enclose(int i, FishDataT fish[])
 	
 	Vector3 wallfish[2];
 	
-	//wallfish[0]:各個体の天井面への射影
+	//wallfish[0]:äeå¬ëÃÇÃìVà‰ñ Ç÷ÇÃéÀâe
 	wallfish[0].x = fish[i].pos.x;
 	wallfish[0].y = (HEIGHT /2);
 	wallfish[0].z = fish[i].pos.z;
 	
-	//wallfish[1]:各個体の底面への射影
+	//wallfish[1]:äeå¬ëÃÇÃíÍñ Ç÷ÇÃéÀâe
 	wallfish[1].x = fish[i].pos.x;
 	wallfish[1].y = -(HEIGHT / 2);
 	wallfish[1].z = fish[i].pos.z;
 	
-	//----- 天井を避ける動き -----
+	//----- ìVà‰ÇîÇØÇÈìÆÇ´ -----
 	Vector3 roofdiff = VectorDiff(&wallfish[0], &fish[i].pos);
-	float rooflength = GetVector3Length(&roofdiff);//天井との距離
-	float l = 0.0005;//係数
-	if(rooflength > (HEIGHT/2))
-	  move.y = l * (1 - (rooflength / (HEIGHT/2)));
-	//----- 底面を避ける動き -----
+	float rooflength = GetVector3Length(&roofdiff);//ìVà‰Ç∆ÇÃãóó£
+	float l = -0.02;//åWêî
+	if(rooflength < (HEIGHT/2))
+		move.y = l * (1 - (rooflength / (HEIGHT/2)));
+	
+	
+	//----- íÍñ ÇîÇØÇÈìÆÇ´ -----
 	Vector3 floordiff = VectorDiff(&wallfish[1], &fish[i].pos);
 	float floorlength = GetVector3Length(&floordiff);
-	if(floorlength > (HEIGHT/2))
+	if(floorlength < (HEIGHT/2))
 		move.y = l * (1 - (floorlength / (HEIGHT/2))) * -1;
 	
-  //大きくなりすぎないように調整
-  float max_move = 0.1;
-  float length_move = GetVector3Length(&move);
-  if(length_move > max_move)
-  {
-    move.x = (move.x / length_move) * max_move;
-    move.y = (move.y / length_move) * max_move;
-    move.z = (move.z / length_move) * max_move;
-  }
-
+	
+	//ëÂÇ´Ç≠Ç»ÇËÇ∑Ç¨Ç»Ç¢ÇÊÇ§Ç…í≤êÆ
+	float max_move = 0.2;
+	float length_move = GetVector3Length(&move);
+	if(length_move > max_move)
+	{
+		move.x = (move.x / length_move) * max_move;
+		move.y = (move.y / length_move) * max_move;
+		move.z = (move.z / length_move) * max_move;
+	}
+	
 	return move;
 }
 
 
 /*-------------------------------------------------------------- Alignment
- * Align : 整列 ほかの固体と同じ方向へ移動する
+ * Align : êÆóÒ ÇŸÇ©ÇÃå≈ëÃÇ∆ìØÇ∂ï˚å¸Ç÷à⁄ìÆÇ∑ÇÈ
  *--------*/
 Vector3 Align (int i, FishDataT fish[])
 {
 	Vector3 ave = VectorZero();
 	
-	int flock = 0;//自分の周囲の個体の数
-	//----- 自分以外の固体の移動量の平均を求める -----
+	int flock = 0;//é©ï™ÇÃé¸àÕÇÃå¬ëÃÇÃêî
+	//----- é©ï™à»äOÇÃå≈ëÃÇÃà⁄ìÆó ÇÃïΩãœÇãÅÇﬂÇÈ -----
 	for(int j = 0; j < fish[i].param->length; j++)
 	{
 		if(i != j)
@@ -401,7 +410,7 @@ Vector3 Align (int i, FishDataT fish[])
 		ave.z /= (float)flock;
 	}
 	
-	//視野角内のエージェントの進行方向の平均に合わせる
+	//éãñÏäpì‡ÇÃÉGÅ[ÉWÉFÉìÉgÇÃêiçsï˚å¸ÇÃïΩãœÇ…çáÇÌÇπÇÈ
 	float k = 0.3;
 	Vector3 move;
 	move.x = ave.x * k;
@@ -421,7 +430,7 @@ Vector3 Align (int i, FishDataT fish[])
 
 
 /*-------------------------------------------------------------- EatFeed
- * EatFeed : 餌を食べる 餌オブジェクトに向かって移動する
+ * EatFeed : âaÇêHÇ◊ÇÈ âaÉIÉuÉWÉFÉNÉgÇ…å¸Ç©Ç¡Çƒà⁄ìÆÇ∑ÇÈ
  *--------*/
 Vector3 EatFeed (int i, FishDataT fish[])
 {
@@ -430,7 +439,7 @@ Vector3 EatFeed (int i, FishDataT fish[])
 	if(fish[i].species == RED || fish[i].species == GREEN)
 		return move;
 	
-	//----- 一番近い餌を探す -----
+	//----- àÍî‘ãﬂÇ¢âaÇíTÇ∑ -----
 	float nearfeed = 100000;
 	for (int j = 0; j < FEEDLENGTH; j++)
 	{
@@ -461,17 +470,17 @@ Vector3 EatFeed (int i, FishDataT fish[])
 	if (nearfeed == 100000)
 		fish[i].feednum = -1;
 	
-	//----- 一定距離以内なら餌を食べて餌の総量(amount)を減らす -----
+	//----- àÍíËãóó£à»ì‡Ç»ÇÁâaÇêHÇ◊ÇƒâaÇÃëçó (amount)Çå∏ÇÁÇ∑ -----
 	if(nearfeed < 2.5)
 		feed[fish[i].feednum].amount -= 0.1;
 	
-	//----- 餌の方向へ移動する -----
+	//----- âaÇÃï˚å¸Ç÷à⁄ìÆÇ∑ÇÈ -----
 	if (feed[fish[i].feednum].alive && fish[i].feednum >= 0)
 	{
 		Vector3 diff_feed = VectorDiff(&fish[i].pos, &feed[fish[i].feednum].pos);
 		float length_feed = GetVector3Length(&diff_feed);
 		
-		float k = 0.03;
+		float k = -0.03;
 		
 		move.x = diff_feed.x * (1 / length_feed) * k;
 		move.y = diff_feed.y * (1 / length_feed) * k;
@@ -489,8 +498,8 @@ Vector3 EatFeed (int i, FishDataT fish[])
 }
 
 /*-------------------------------------------------------------- Avoid
- * Avoid : 回避 特定のオブジェクトから逃げるように振る舞う
- * -> ポイントの真上/真下も回避対象として計算する
+ * Avoid : âÒî ì¡íËÇÃÉIÉuÉWÉFÉNÉgÇ©ÇÁì¶Ç∞ÇÈÇÊÇ§Ç…êUÇÈïëÇ§
+ * -> É|ÉCÉìÉgÇÃê^è„/ê^â∫Ç‡âÒîëŒè€Ç∆ÇµÇƒåvéZÇ∑ÇÈ
  *--------*/
 Vector3 AvoidCylinder (int i, FishDataT fish[])
 {
@@ -502,9 +511,9 @@ Vector3 AvoidCylinder (int i, FishDataT fish[])
 	diff.z = mouse.z - fish[i].pos.z;
 	
 	float length = GetVector3Length(&diff);
-	length -= POINTRADIUS;//ポイントの半径分減算
+	length -= POINTRADIUS;//É|ÉCÉìÉgÇÃîºåaï™å∏éZ
 	
-	float k1 = 5.0;//係数:避ける力の大きさ
+	float k1 = -5.0;//åWêî:îÇØÇÈóÕÇÃëÂÇ´Ç≥
 	move.x = (diff.x / length) * k1 * (1 / length);
 	move.y = (diff.y / length) * k1 * (1 / length);
 	move.z = (diff.z / length) * k1 * (1 / length);
@@ -524,8 +533,8 @@ Vector3 AvoidCylinder (int i, FishDataT fish[])
 
 
 /*-------------------------------------------------------------- Avoid
- * AvoidSphere : 回避 特定のオブジェクトから逃げるように振る舞う
- * -> ポイントの真上/真下に移動できる。
+ * AvoidSphere : âÒî ì¡íËÇÃÉIÉuÉWÉFÉNÉgÇ©ÇÁì¶Ç∞ÇÈÇÊÇ§Ç…êUÇÈïëÇ§
+ * -> É|ÉCÉìÉgÇÃê^è„/ê^â∫Ç…à⁄ìÆÇ≈Ç´ÇÈÅB
  *--------*/
 Vector3 AvoidSphere (int i, FishDataT fish[])
 {
@@ -537,9 +546,9 @@ Vector3 AvoidSphere (int i, FishDataT fish[])
 	diff.z = mouse.z - fish[i].pos.z;
 	
 	float length = GetVector3Length(&diff);
-	length -= POINTRADIUS;//ポイントの半径分減算
+	length -= POINTRADIUS;//É|ÉCÉìÉgÇÃîºåaï™å∏éZ
 	
-	float k1 = 0.1;//係数:避ける力の大きさ
+	float k1 = 0.1;//åWêî:îÇØÇÈóÕÇÃëÂÇ´Ç≥
 	move.x = (diff.x / length) * k1 * (1 / length) * -1;
 	move.y = (diff.y / length) * k1 * (1 / length) * -1;
 	move.z = (diff.z / length) * k1 * (1 / length) * -1;
@@ -549,7 +558,7 @@ Vector3 AvoidSphere (int i, FishDataT fish[])
 
 
 /* ------------------------------------------------------------ Avoid
- * Avoid : Avoid関数の種類を切り替える
+ * Avoid : Avoidä÷êîÇÃéÌóﬁÇêÿÇËë÷Ç¶ÇÈ
  */
 Vector3 Avoid( int i, FishDataT fish[] )
 {
@@ -559,7 +568,7 @@ Vector3 Avoid( int i, FishDataT fish[] )
 
 
 /*-------------------------------------------------------------- Chase
- * Chase : 追いかける
+ * Chase : í«Ç¢Ç©ÇØÇÈ
  *--------*/
 Vector3 Chase (int i, FishDataT fish[])
 {
@@ -588,45 +597,46 @@ Vector3 Chase (int i, FishDataT fish[])
 	}
 	
 	int visiblenumber = 0;
-
+	
 	for (int j = 0; j < target[0].param->length; j++)
 	{
 		Vector3 diff = VectorDiff(&target[j].pos, &fish[i].pos);
 		float square_length = GetVector3LengthSquare(&diff);
-    float square_sightrange = fish[j].param->sightrange * fish[j].param->sightrange;
-
-    float angle = GetVector3Angle(&diff, &fish[i].forward);
-    float sightangle = fish[i].param->sightangle;
-
-    bool visible;
-    if(square_sightrange > square_length && sightangle > angle)
-      visible = true;
-    else 
-      visible = false;
-
-    if(visible)
-    {
-      move.x += diff.x;
-      move.y += diff.y;
-      move.z += diff.z;
-      visiblenumber += 1;
-    }
-  }
-  
-  if(visiblenumber > 0)
-  {
-    float k = 25.0;
-    move.x = (move.x / (float)visiblenumber) * k; 
-    move.y = (move.y / (float)visiblenumber) * k; 
-    move.z = (move.z / (float)visiblenumber) * k; 
-  }
+		float square_sightrange = 50.0;//fish[j].param->sightrange * fish[j].param->sightrange;
+		
+		float angle = GetVector3Angle(&diff, &fish[i].forward);
+		float sightangle = fish[i].param->sightangle;
+		
+		bool visible;
+		if(square_sightrange > square_length && sightangle > angle)
+			visible = true;
+		else
+			visible = false;
+		
+		
+		if(visible)
+		{
+			move.x += diff.x;
+			move.y += diff.y;
+			move.z += diff.z;
+			visiblenumber += 1;
+		}
+	}
+	
+	if(visiblenumber > 0)
+	{
+		float k = 0.01;
+		move.x = (move.x / (float)visiblenumber) * k;
+		move.y = (move.y / (float)visiblenumber) * k;
+		move.z = (move.z / (float)visiblenumber) * k;
+	}
 	
 	return move;
 	
 }
 
 /*-------------------------------------------------------------- Escape
- * Escape : 逃げる
+ * Escape : ì¶Ç∞ÇÈ
  *--------*/
 Vector3 Escape (int i, FishDataT fish[])
 {
@@ -653,27 +663,27 @@ Vector3 Escape (int i, FishDataT fish[])
 			break;
 	}
 	
-
+	
 	for (int j = 0; j < target[0].param->length; j++)
 	{
-		Vector3 diff = VectorDiff(&fish[i].pos, &target[j].pos);
+		Vector3 diff = VectorDiff(&target[j].pos, &fish[i].pos);
 		
-    move.x += -diff.x;
-    move.y += -diff.y;
-    move.z += -diff.z;
+		move.x += -diff.x;
+		move.y += -diff.y;
+		move.z += -diff.z;
 	}
-
-  move.x = (move.x / (float)target[0].param->length);
-  move.y = (move.y / (float)target[0].param->length);
-  move.z = (move.z / (float)target[0].param->length);
-
-  float length = GetVector3Length(&move);
-
-  float k = 0.3;
-
-  move.x = (move.x / length) * k * ( 1 / length );
-  move.y = (move.y / length) * k * ( 1 / length );
-  move.z = (move.z / length) * k * ( 1 / length );
+	
+	move.x = (move.x / (float)target[0].param->length);
+	move.y = (move.y / (float)target[0].param->length);
+	move.z = (move.z / (float)target[0].param->length);
+	
+	float length = GetVector3Length(&move);
+	
+	float k = 0.3;
+	
+	move.x = (move.x / length) * k * ( 1 / length );
+	move.y = (move.y / length) * k * ( 1 / length );
+	move.z = (move.z / length) * k * ( 1 / length );
 	
 	return move;
 	
@@ -682,22 +692,22 @@ Vector3 Escape (int i, FishDataT fish[])
 
 
 /*-------------------------------------------------------------- MakeMoveVector
- * 上記の関数を組み合わせてmoveベクトルを作りforwardベクトルに反映する関数
+ * è„ãLÇÃä÷êîÇëgÇ›çáÇÌÇπÇƒmoveÉxÉNÉgÉãÇçÏÇËforwardÉxÉNÉgÉãÇ…îΩâfÇ∑ÇÈä÷êî
  */
 void MakeMoveVector(int i, FishDataT fish[])
 {
-	//----- それぞれの速度の重み ------
+	//----- ÇªÇÍÇºÇÍÇÃë¨ìxÇÃèdÇ› ------
 	float factor_cohe = fish[i].param->kc;
 	float factor_sepa = fish[i].param->ks;
 	float factor_alig = fish[i].param->ka;
 	
 	float factor_eat_ = 1.0;
-	float factor_avoi = 0.01;
+	float factor_avoi = 0.05;
 	float factor_encl = 1.0;
 	float factor_chas = fish[i].param->kch;
 	float factor_esca = fish[i].param->kes;
 	
-	//----- それぞれの速度を求める ------
+	//----- ÇªÇÍÇºÇÍÇÃë¨ìxÇãÅÇﬂÇÈ ------
 	static Vector3 move_cohe;
 	static Vector3 move_sepa;
 	static Vector3 move_alig;
@@ -716,151 +726,221 @@ void MakeMoveVector(int i, FishDataT fish[])
 	move_chas = Chase (i, fish);
 	move_esca = Escape(i, fish);
 	
-	fish[i].move.x = move_cohe.x * factor_cohe + move_sepa.x * factor_sepa + move_alig.x * factor_alig + move_encl.x * factor_encl + move_eat_.x * factor_eat_ + move_avoi.x * factor_avoi + move_cohe.x * factor_chas + move_esca.x *factor_esca;
-	fish[i].move.y = move_cohe.y * factor_cohe + move_sepa.y * factor_sepa + move_alig.y * factor_alig + move_encl.y * factor_encl + move_eat_.y * factor_eat_ + move_avoi.y * factor_avoi + move_cohe.y * factor_chas + move_esca.y *factor_esca;
-	fish[i].move.z = move_cohe.z * factor_cohe + move_sepa.z * factor_sepa + move_alig.z * factor_alig + move_encl.z * factor_encl + move_eat_.z * factor_eat_ + move_avoi.z * factor_avoi + move_cohe.z * factor_chas + move_esca.z *factor_esca;
+	fish[i].move.x = move_cohe.x * factor_cohe + move_sepa.x * factor_sepa + move_alig.x * factor_alig + move_encl.x * factor_encl + move_eat_.x * factor_eat_ + move_avoi.x * factor_avoi + move_chas.x * factor_chas + move_esca.x * factor_esca;
+	fish[i].move.y = move_cohe.y * factor_cohe + move_sepa.y * factor_sepa + move_alig.y * factor_alig + move_encl.y * factor_encl + move_eat_.y * factor_eat_ + move_avoi.y * factor_avoi + move_chas.y * factor_chas + move_esca.y * factor_esca;
+	fish[i].move.z = move_cohe.z * factor_cohe + move_sepa.z * factor_sepa + move_alig.z * factor_alig + move_encl.z * factor_encl + move_eat_.z * factor_eat_ + move_avoi.z * factor_avoi + move_chas.z * factor_chas + move_esca.z * factor_esca;
+	
+	//----- moveÉxÉNÉgÉãÇ™è¨Ç≥Ç¢ = é¸àÕÇ…ãõÇ™Ç®ÇÁÇ∏çsìÆÇåàÇﬂÇ©ÇÀÇƒÇ¢ÇÈèÛë‘ÇÃÇ∆Ç´ÇÕì‡î≠ìIÇ»à⁄ìÆçsìÆÇ…êÿÇËë÷Ç¶ÇÈ -----
+	float move_length = GetVector3Length(&fish[i].move);
+	float min_length = 0.015;
+	if(move_length < min_length)
+	{
+		fish[i].move = VectorScalar(&fish[i].forward, 0.5);
+		//return;
+	}
 	
 	
-	//----- 基礎情報の計算 -----
-	//XZ平面におけるmoveベクトルの長さを求める(|move|)
+	
+	//----- äÓëbèÓïÒÇÃåvéZ -----
+	//XZïΩñ Ç…Ç®ÇØÇÈmoveÉxÉNÉgÉãÇÃí∑Ç≥ÇãÅÇﬂÇÈ(|move|)
 	float move_xz = GetVector2Length(fish[i].move.x, fish[i].move.z);
-	//XZ平面におけるforwardベクトルの長さ（速度）を求める(v1)
+	//XZïΩñ Ç…Ç®ÇØÇÈforwardÉxÉNÉgÉãÇÃí∑Ç≥Åië¨ìxÅjÇãÅÇﬂÇÈ(v1)
 	float forward_xz = GetVector2Length(fish[i].forward.x, fish[i].forward.z);
 	
-	//垂直面におけるforwardベクトルの長さ
+	//êÇíºñ Ç…Ç®ÇØÇÈforwardÉxÉNÉgÉãÇÃí∑Ç≥
 	float forward_yz = GetVector2Length(fish[i].forward.y, forward_xz);
+	//êÇíºñ Ç…Ç®ÇØÇÈmoveÉxÉNÉgÉãÇÃí∑Ç≥
+	float move_yz = GetVector2Length(fish[i].move.y, move_xz);
 	
 	
-	//---▽▽▽  Pitch Control ▽▽▽ ---
-	//forwardベクトルのpitchを求める radian
-	float pitchf = atan2f(fish[i].forward.y, forward_xz);
-	
-	//moveベクトルのpitchを求める radian
-	float pitchm = atan2f(fish[i].move.y, move_xz);
-	
-	//moveベクトルのローカルにおけるpitchを求める radian
-	float pitch = pitchm - pitchf;
-	
-	//--- pitchを元に新しいpitchを求める ---
-	float k_pitch = 0.5;//係数
-  float diff_pitch = k_pitch * sinf(pitch) * forward_yz;
-  float max_diff_pitch = 0.3 * 3.14;
-
-  if(diff_pitch > max_diff_pitch)
-    diff_pitch = max_diff_pitch;
-
-  if(diff_pitch < -max_diff_pitch)
-    diff_pitch = -max_diff_pitch;
-
-	float newpitch = pitchf + diff_pitch;
 	
 	
-	//--- △△△ Pitch Control △△△ ---
-	
-	//------ XZ平面 ------
-	//forwardベクトルのyawを求める radian
+	//--- Å§Å§Å§  Yaw Control Å§Å§Å§ ---
+	//forwardÉxÉNÉgÉãÇÃyawÇãÅÇﬂÇÈ radian
 	float yawf = atan2f(-fish[i].forward.x, -fish[i].forward.z);
-	//moveベクトルのyawを求める(θm) radian
+	//moveÉxÉNÉgÉãÇÃyawÇãÅÇﬂÇÈ(É∆m) radian
 	float yawm = atan2f(-fish[i].move.x, -fish[i].move.z);
 	
-	//moveベクトルのローカルにおいてのyawを求める(θ) radian
-	float yaw = yawm - yawf;
+	//moveÉxÉNÉgÉãÇÃÉçÅ[ÉJÉãÇ…Ç®Ç¢ÇƒÇÃyawÇãÅÇﬂÇÈ(É∆) radian
+	float local_yawm = yawm - yawf;
 	
-	//--- 推進力を求める ---(move.z)
-	float thrust = move_xz * -cosf(yaw);
+	//äpìxÇÃç∑ï™Ç…åWêîÇÇ©ÇØÇÈ(0~1ÇÃílÇéÊÇÈ)
+	float k_yaw = 0.2;
+	float diff_yaw = k_yaw * local_yawm;
 	
-	
-	float thrust_max = 0.01;
-	if(thrust < thrust_max && thrust > -thrust_max)
-	{
-		if(thrust > 0.0)
-			thrust = thrust_max;
-		else
-			thrust = -thrust_max;
-	}
-	
-	//--- 回転させる力を求める ---(move.x)
-	float rotateyaw = move_xz * -sinf(yaw);
-	//変異した後のyawを求める(θi+1) radian
-	const float k_yaw = 1.5 * ( 1.0 / fish[i].param->speed_max); //moveベクトルから回転を制御する係数
-	float newyaw = yawf + k_yaw * rotateyaw;
+	//ë¨ìxÉxÉNÉgÉãÇÃyawÇ…ë´ÇµçáÇÌÇπÇÈ
+	float newyaw = yawf + diff_yaw;
 	
 	
-	float k_thrust = 0.1;//係数
-	//推進力を加える
-	if(thrust != 0.0 && forward_xz != 0.0)
-	{
-		forward_xz *= (1 + (k_thrust * thrust)) / forward_xz;
-		
-		float speed_max = fish[i].param->speed_max;
-		if(forward_xz > speed_max )
-			forward_xz = speed_max;
-	}
+	/*
+	 //--- çHéñíÜ ---
+	 //pitchâÒì]óÕÇãÅÇﬂ,åWêîÇÇ©ÇØÇÈ
+	 float k_yaw = 100.0 * fish[i].param->speed_max;
+	 float yaw_rotate = move_xz * sinf(local_yawm) * k_yaw;
+	 
+	 //ïœà ÉxÉNÉgÉãÇÃêÊí[Ç©ÇÁë¨ìxÉxÉNÉgÉãÇ…êÇê¸ÇÇ®ÇÎÇµÇΩéûÇÃë¨ìxÉxÉNÉgÉãÇ∆êÇê¸ÇÃåì_Ç©ÇÁë¨ìxÉxÉNÉgÉãÇÃç™å≥Ç‹Ç≈ÇÃí∑Ç≥ÇãÅÇﬂÇÈ
+	 float move_localbase_xz = move_xz * cosf(local_yawm);
+	 
+	 //ë¨ìxÉxÉNÉgÉãÇ…â¡Ç¶ÇÈÇ◊Ç´äpìxÇãÅÇﬂÇÈ
+	 float diff_yaw = atan2f(yaw_rotate, move_localbase_xz);
+	 
+	 //ë¨ìxÉxÉNÉgÉãÇÃyawÇ…ë´ÇµçáÇÌÇπÇÈ
+	 float newyaw = yawf + diff_pitch;
+	 */
 	
+	//--- Å¢Å¢Å¢ Yaw Control Å¢Å¢Å¢ ---
+	//---Å§Å§Å§  Pitch Control Å§Å§Å§ ---
+	//forwardÉxÉNÉgÉãÇÃpitchÇãÅÇﬂÇÈ radian
+	float pitchf = atan2f(-fish[i].forward.y, forward_xz);
 	
-	//新たなpitchを元にベクトルを再構築
-	fish[i].forward.y = -sinf(newpitch) * forward_yz;
-	fish[i].forward.z = -cosf(newpitch) * forward_yz;
+	//moveÉxÉNÉgÉãÇÃpitchÇãÅÇﬂÇÈ radian
+	float pitchm = atan2f(-fish[i].move.y, move_xz);
 	
-	//yawを元にベクトルを再構築(forward i+1)
+	//moveÉxÉNÉgÉãÇÃÉçÅ[ÉJÉãÇ…Ç®ÇØÇÈpitchÇãÅÇﬂÇÈ radian
+	float local_pitchm = pitchm - pitchf;
+	
+	//äpìxÇÃç∑ï™Ç…åWêîÇÇ©ÇØÇÈ(0~1ÇÃílÇéÊÇÈ)
+	float k_pitch = 0.2;
+	float diff_pitch = k_pitch * local_pitchm;
+	
+	//ë¨ìxÉxÉNÉgÉãÇÃpitchÇ…ë´ÇµçáÇÌÇπÇÈ
+	float newpitch = pitchf + diff_pitch;
+	
+	/*
+	 //--- çHéñíÜ ---
+	 //pitchâÒì]óÕÇãÅÇﬂ,åWêîÇÇ©ÇØÇÈ
+	 float k_pitch = 0.1;
+	 float pitch_rotate = move_yz * sinf(local_pitchm) * k_pitch;
+	 
+	 //ïœà ÉxÉNÉgÉãÇÃêÊí[Ç©ÇÁë¨ìxÉxÉNÉgÉãÇ…êÇê¸ÇÇ®ÇÎÇµÇΩéûÇÃë¨ìxÉxÉNÉgÉãÇ∆êÇê¸ÇÃåì_Ç©ÇÁë¨ìxÉxÉNÉgÉãÇÃç™å≥Ç‹Ç≈ÇÃí∑Ç≥ÇãÅÇﬂÇÈ
+	 float move_localbase_vertical = move_yz * cosf(local_pitchm);
+	 
+	 //ë¨ìxÉxÉNÉgÉãÇ…â¡Ç¶ÇÈÇ◊Ç´äpìxÇãÅÇﬂÇÈ
+	 float diff_pitch = atan2f(pitch_rotate, move_localbase_vertical);
+	 
+	 //ë¨ìxÉxÉNÉgÉãÇÃpitchÇ…ë´ÇµçáÇÌÇπÇÈ
+	 float newpitch = pitchf + diff_pitch;
+	 */
+	
+	//--- Å¢Å¢Å¢ Pitch Control Å¢Å¢Å¢ ---
+	//--- Å§Å§Å§  Thrust Control Å§Å§Å§ ---
+	
+	float move_localbase_xz = move_xz * cosf(local_yawm);
+	//êÑêióÕ(move.z)ÇãÅÇﬂÇƒÅCåWêîÇÇ©ÇØÇÈ
+	float k_thrust = 2.0;
+	float thrust = move_localbase_xz * k_thrust;
+	
+	forward_xz +=thrust;
+	
+	//ë¨ìxÇ…êßå¿ÇÇ©ÇØÇÈ
+	float speed_max = fish[i].param->speed_max;
+	if(forward_xz > speed_max )
+		forward_xz = speed_max;
+	
+	/*
+	 //ë¨ìxÉxÉNÉgÉãÇÃê≥ãKâª
+	 Vector3 normalized_forward;
+	 float length_forward = GetVector3Length(&fish[i].forward);
+	 normalized_forward.x = fish[i].forward.x / length_forward;
+	 normalized_forward.y = fish[i].forward.y / length_forward;
+	 normalized_forward.z = fish[i].forward.z / length_forward;
+	 
+	 //ë¨ìxÉxÉNÉgÉãÇ…êÑêióÕÇìKópÇ∑ÇÈ
+	 fish[i].forward.x = normalized_forward.x * (length_forward * thrust);
+	 fish[i].forward.y = normalized_forward.y * (length_forward * thrust);
+	 fish[i].forward.z = normalized_forward.z * (length_forward * thrust);
+	 
+	 /*
+	 //--- êÑêióÕÇãÅÇﬂÇÈ ---(move.z)
+	 float thrust = move_xz * -cosf(local_yawm);
+	 
+	 
+	 float thrust_max = 0.01;
+	 if(thrust < thrust_max && thrust > -thrust_max)
+	 {
+	 if(thrust > 0.0)
+	 thrust = thrust_max;
+	 else
+	 thrust = -thrust_max;
+	 }
+	 
+	 float k_thrust = 0.1;//åWêî
+	 //êÑêióÕÇâ¡Ç¶ÇÈ
+	 if(thrust != 0.0 && forward_xz != 0.0)
+	 {
+	 forward_xz *= (1 + (k_thrust * thrust)) / forward_xz;
+	 
+	 float speed_max = fish[i].param->speed_max;
+	 if(forward_xz > speed_max )
+	 forward_xz = speed_max;
+	 }
+	 */
+	
+	//yawÇå≥Ç…ÉxÉNÉgÉãÇçƒç\íz(forward i+1)
 	fish[i].forward.x = -sinf(newyaw) * forward_xz;
 	fish[i].forward.z = -cosf(newyaw) * forward_xz;
 	
-	//Yawの変化に応じてRollの値を変更する。
-	float k_roll = 500.0;
-	fish[i].rot.z = rotateyaw * k_roll;
+	//êVÇΩÇ»pitchÇå≥Ç…ÉxÉNÉgÉãÇçƒç\íz
+	fish[i].forward.y = -sinf(newpitch) * forward_yz;
+	//fish[i].forward.z = -cosf(newpitch) * forward_yz;
+	
+	//YawÇÃïœâªÇ…âûÇ∂ÇƒRollÇÃílÇïœçXÇ∑ÇÈÅB
+	//float k_roll = 500.0;
+	//fish[i].rot.z = yaw_rotate * k_roll;
 	
 }
 
 /*-------------------------------------------------------------- Cruising
- * Cruising : 巡航 3種類の移動量を合成する
- * forwardベクトルは魚の速度を表すベクトル
- * moveベクトルは計算の結果導き出された方向変位のベクトル
+ * Cruising : èÑçq 3éÌóﬁÇÃà⁄ìÆó Ççáê¨Ç∑ÇÈ
+ * forwardÉxÉNÉgÉãÇÕãõÇÃë¨ìxÇï\Ç∑ÉxÉNÉgÉã
+ * moveÉxÉNÉgÉãÇÕåvéZÇÃåãâ ì±Ç´èoÇ≥ÇÍÇΩï˚å¸ïœà ÇÃÉxÉNÉgÉã
  *--------*/
 void Cruising (int i, FishDataT fish[])
 {
-	//--- moveベクトルの更新を一定の確率で行う ----
+	//--- moveÉxÉNÉgÉãÇÃçXêVÇàÍíËÇÃämó¶Ç≈çsÇ§ ----
 	float update_factor = Random(0.0, 2.0);
 	if(update_factor > 1.0)
 		MakeMoveVector(i, fish);
 	
-	Vector3 nextpos  = VectorAdd(&fish[i].pos, &fish[i].forward);//次のフレームでの位置
+	Vector3 nextpos  = VectorAdd(&fish[i].pos, &fish[i].forward);//éüÇÃÉtÉåÅ[ÉÄÇ≈ÇÃà íu
+	
+	//--- êÖÇÃíÔçRÇ…ÇÊÇ¡Çƒë¨ìxÇå∏êäÇ≥ÇπÇÈ ---
+	fish[i].forward = VectorScalar(&fish[i].forward, 0.99);
 	
 	
-	//----- 水槽外にはみ出てしまいそうな場合水槽に沿う位置に移動を制限する -----
-	float length = GetVector3Length(&nextpos);//水槽の中心からの距離
+	//----- êÖëÖäOÇ…ÇÕÇ›èoÇƒÇµÇ‹Ç¢ÇªÇ§Ç»èÍçáêÖëÖÇ…âàÇ§à íuÇ…à⁄ìÆÇêßå¿Ç∑ÇÈ -----
+	float length = GetVector3Length(&nextpos);//êÖëÖÇÃíÜêSÇ©ÇÁÇÃãóó£
 	
-	//--- XZ平面においての制限 ---
+	//--- XZïΩñ Ç…Ç®Ç¢ÇƒÇÃêßå¿ ---
 	if(length > AQUARIUM_MAX)
 	{
 		nextpos.x = (nextpos.x * AQUARIUM_MAX / length);
 		nextpos.z = (nextpos.z * AQUARIUM_MAX / length);
 	}
-	//--- 高さ領域における制限(上部) ---
+	//--- çÇÇ≥óÃàÊÇ…Ç®ÇØÇÈêßå¿(è„ïî) ---
 	if(nextpos.y > (HEIGHT/2) )
 	{
 		nextpos.y = HEIGHT/2;
 	}
-	//--- 高さ領域における制限(底部) ---
+	//--- çÇÇ≥óÃàÊÇ…Ç®ÇØÇÈêßå¿(íÍïî) ---
 	if(nextpos.y < -(HEIGHT/2) )
 	{
 		nextpos.y = -(HEIGHT/2);
-		
 	}
 	
 	
-	//----- 移動量を位置に与える -----
+	//----- à⁄ìÆó Çà íuÇ…ó^Ç¶ÇÈ -----
 	fish[i].pos = nextpos;
 	
-	//----- 移動方向を向く ------
+	//----- à⁄ìÆï˚å¸Çå¸Ç≠ ------
 	//----- pitch -----
 	fish[i].rot.x = RadtoDeg( atan2f (fish[i].forward.y, GetVector2Length (fish[i].forward.x, fish[i].forward.z)));
 	//----- yaw -----
 	fish[i].rot.y = RadtoDeg ( atan2f (-fish[i].forward.x, -fish[i].forward.z));
 	
 	
-	//----- 左右へのブレを加える -----
-	fish[i].rot.y += Gaussian(-5.0, 5.0);
+	//----- ç∂âEÇ÷ÇÃÉuÉåÇâ¡Ç¶ÇÈ -----
+	fish[i].rot.y += Gaussian(-15.0, 15.0);
 	
 	
 }
