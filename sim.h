@@ -11,9 +11,6 @@ void DrawScene( void );
 
 #define POINTRADIUS 5
 
-#define R_LENGTH 50
-#define G_LENGTH 100
-#define B_LENGTH 150
 
 #define FEEDLENGTH 10
 

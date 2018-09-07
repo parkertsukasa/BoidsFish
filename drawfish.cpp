@@ -115,7 +115,7 @@ void drawFish (int i, FishDataT fish[])
 		{
 			// ----- デバッグ用の線の描画 -----
 			glColor3f(1.0, 1.0, 0.0);
-			Vector3 bigmove = VectorScalar(&fish[i].move , -150.0);
+			Vector3 bigmove = VectorScalar(&fish[i].move , 150.0);
 			Vector3 movepoint = VectorAdd(&fish[i].pos, &bigmove);
 			drawLine(&fish[i].pos, &movepoint);
 			
