@@ -184,16 +184,21 @@ void ParameterSet()
 
 /* ------------------------------------------------------------- isVisible
  * isVisible 対象としている魚が視界内にいるのかどうかを判定する関数
+ * 同じ種族同士の判定に使う
  * 返り値は0~1のfloat値
  */
 float isVisible(int i, int j, FishDataT fish[])
 {
+
   float visible = 0.0;
   float depth = 0.0;
   float range = 0.0;
   
-  float depth_max = fish[0].param->sightrange;
-  float range_max = fish[0].param->sightangle;
+  const float depth_max = fish[0].param->sightrange;
+  const float half_depth = depth_max * 0.5; 
+
+  const float range_max = fish[0].param->sightangle;
+  const float half_angle = range_max * 0.5;
 
   //----- depth -----
 	//--- 距離を求める ---
@@ -206,24 +211,19 @@ float isVisible(int i, int j, FishDataT fish[])
   }
   else
   {
-    float half_depth = depth_max * 0.5; 
-    //--- 視界の半分より内側の時は1.0 ---
-    if( length < half_depth )
-      depth = 1.0;
-    else
-    {
-      float temp_length = length - half_depth;
-
-      if( temp_length < 0.01 )
-        temp_length = 0.01;
-      
-      depth = temp_length / half_depth;
-    }
+    depth = 1.0;
   }
 
   //----- range -----
   //--- なす角を求める ---
-  float angle = GetVector3Angle( &fish[i].forward, &diff );
+  float angle = GetVector3Angle( &fish[i].forward, &diff );//angleは度数
+  if( isnan( angle ) )
+  {
+    printf( "%s\n", "angleでNANを検出" );
+    printf( "%d\n", i );
+  }
+  angle = fabs( angle );
+
   //--- 視野外は除外 ---
   if( angle > range_max )
   {
@@ -231,16 +231,31 @@ float isVisible(int i, int j, FishDataT fish[])
   }
   else
   {
-    float half_angle = range_max * 0.5;
     //--- 視野の半分より内側の時は1.0 ---
     if( angle < half_angle )
       range = 1.0;
     else
     {
       float temp_angle = angle - half_angle;
+      if( isnan( temp_angle ) )
+      {
+        printf( "%s\n", "temp_angleでNANを検出" );
+        printf( "%d\n", i );
+      }
+
       if( temp_angle < 0.01 )
         temp_angle = 0.01;
-      range = temp_angle / half_angle;
+
+      if( temp_angle != 0.0 )
+        range = temp_angle / half_angle;
+      
+      if( isnan( range ) )
+      {
+        printf( "%s\n", "rangeでNANを検出" );
+        printf( "%d\n", i );
+        //exit( 0 );
+        range = 0.0;
+      }
     }
 
     /*
@@ -255,6 +270,72 @@ float isVisible(int i, int j, FishDataT fish[])
   visible = depth * range;
   
   return visible;
+}
+
+/* ------------------------------------------------------------- TargetVisible
+ * TargetVisible 対象としているものが視界内にいるのかどうかを判定する関数
+ * 別種族との判定に使う．
+ * 返り値は0~1のfloat値
+ */
+float TargetVisible(int i, int j, FishDataT fish[], FishDataT target[])
+{
+	
+	float visible = 0.0;
+	float depth = 0.0;
+	float range = 0.0;
+	
+	const float depth_max = fish[0].param->sightrange;
+	const float half_depth = depth_max * 0.5;
+	
+	const float range_max = fish[0].param->sightangle;
+	const float half_angle = range_max * 0.5;
+	
+	//----- depth -----
+	//--- 距離を求める ---
+	Vector3 diff = VectorDiff( &fish[i].pos, &target[j].pos );
+	float length = GetVector3Length( &diff );
+	//--- 視界外は除外 ---
+	if( length > depth_max )
+	{
+		return 0.0;
+	}
+	else
+	{
+    depth = 1.0;
+	}
+	
+	//----- range -----
+	//--- なす角を求める ---
+	float angle = GetVector3Angle( &fish[i].forward, &diff );//angleは度数
+	angle = fabs( angle );
+	
+	//--- 視野外は除外 ---
+	if( angle > range_max )
+	{
+		return 0.0;
+	}
+	else
+	{
+		//--- 視野の半分より内側の時は1.0 ---
+		if( angle < half_angle )
+			range = 1.0;
+		else
+		{
+			float temp_angle = angle - half_angle;
+			
+			if( temp_angle < 0.01 )
+				temp_angle = 0.01;
+			
+			if( temp_angle != 0.0 )
+				range = temp_angle / half_angle;
+			
+		}
+		
+	}
+	
+	visible = depth * range;
+	
+	return visible;
 }
 
 
@@ -296,7 +377,7 @@ Vector3 Gather(int i, FishDataT fish[])
     return move;
   }
 	
-  float k = 0.0001;
+  float k = 0.001;
   
   move = VectorScalar(&move, k);
 
@@ -321,7 +402,7 @@ Vector3 Separate(int i, FishDataT fish[])
 			float sightrange = fish[i].param->sightrange;
 			//if(length < sightrange && length > 0.0)
 			
-			float k = 0.01;//係数k
+			float k = 0.1;//係数k
 		  float visible = isVisible(i, j, fish);
 			
 			move.x += ((diff.x / length) * (((k / (length * length)) * 0.5) + (((k / length) * 0.5))) * visible );
@@ -459,7 +540,7 @@ Vector3 Align (int i, FishDataT fish[])
 	
 	
 	//視野角内のエージェントの進行方向の平均に合わせる
-	float k = 0.3;
+	float k = 0.2;
 	Vector3 move;
 	move.x = ave.x * k;
 	move.y = ave.y * k;
@@ -642,31 +723,21 @@ Vector3 Chase (int i, FishDataT fish[])
 	for (int j = 0; j < target[0].param->length; j++)
 	{
 		Vector3 diff = VectorDiff(&target[j].pos, &fish[i].pos);
-		float square_length = GetVector3LengthSquare(&diff);
-		float square_sightrange = 50.0;//fish[j].param->sightrange * fish[j].param->sightrange;
 		
-		float angle = GetVector3Angle(&diff, &fish[i].forward);
-		float sightangle = fish[i].param->sightangle;
+		float visible = TargetVisible(i, j, fish, target);
 		
-		bool visible;
-		if(square_sightrange > square_length && sightangle > angle)
-			visible = true;
-		else
-			visible = false;
-		
-		
-		if(visible)
+		if(visible > 0.0)
 		{
-			move.x += diff.x;
-			move.y += diff.y;
-			move.z += diff.z;
+			move.x += ( diff.x * visible );
+			move.y += ( diff.y * visible );
+			move.z += ( diff.z * visible );
 			visiblenumber += 1;
 		}
 	}
 	
 	if(visiblenumber > 0)
 	{
-		float k = 0.01;
+		float k = 0.001;
 		move.x = (move.x / (float)visiblenumber) * k;
 		move.y = (move.y / (float)visiblenumber) * k;
 		move.z = (move.z / (float)visiblenumber) * k;
@@ -720,7 +791,7 @@ Vector3 Escape (int i, FishDataT fish[])
 	
 	float length = GetVector3Length(&move);
 	
-	float k = 0.5;
+	float k = 0.35;
 	
 	move.x = (move.x / length) * k * ( 1 / length );
 	move.y = (move.y / length) * k * ( 1 / length );
@@ -743,7 +814,7 @@ void MakeMoveVector(int i, FishDataT fish[])
 	float factor_alig = fish[i].param->ka;
 	
 	float factor_eat_ = 1.0;
-	float factor_avoi = 0.05;
+	float factor_avoi = 0.0;//0.05;
 	float factor_encl = 1.0;
 	float factor_chas = fish[i].param->kch;
 	float factor_esca = fish[i].param->kes;
@@ -841,7 +912,7 @@ void MakeMoveVector(int i, FishDataT fish[])
 	float local_pitchm = pitchm - pitchf;
 	
 	//角度の差分に係数をかける(0~1の値を取る)
-	float k_pitch = 0.2;
+	float k_pitch = 0.05;
 	float diff_pitch = k_pitch * local_pitchm;
 	
 	//速度ベクトルのpitchに足し合わせる

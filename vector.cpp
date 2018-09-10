@@ -14,7 +14,7 @@
  */
 float RadtoDeg (float f)
 {
-  float deg = f * 180.0 / 3.1415;
+  float deg = f * 180.0 / M_PI;
   return deg;
 }
 
@@ -23,7 +23,7 @@ float RadtoDeg (float f)
  */
 float DegtoRad (float f)
 {
-  float rad = f * 3.1415 / 180.0;
+  float rad = f * M_PI / 180.0;
   return rad;
 }
 
@@ -95,7 +95,7 @@ float GetVector2Angle (float x1, float y1, float x2, float y2)
     float theta = acosf(cos_theta);
 
     //----- ラジアンを度数に変換 -----
-    float angle = theta * 180.0 / 3.1415;
+    float angle = theta * 180.0 / M_PI;
 
     return angle;
 }
@@ -107,18 +107,47 @@ float GetVector3Angle (Vector3 *v1, Vector3 *v2)
 {
     //----- それぞれのベクトルの長さを求める -----
     float Alength = GetVector3Length (v1);
+    if( isnan( Alength ))
+    {
+      printf( "%s\n", "AlengthでNaNを検出");
+      exit( 0 );
+    }
+
     float Blength = GetVector3Length (v2);
+    if( isnan( Blength ))
+    {
+      printf( "%s\n", "BlengthでNaNを検出");
+      exit( 0 );
+    }
 
     //----- 内積を求める -----
     float product = (v1->x * v2->x) + (v1->y * v2->y) + (v1->z * v2->z); 
-
-    if(product == 0.0)
-      return 90.0;
+    if( isnan( product ))
+    {
+      printf( "%s\n", "productでNaNを検出");
+      exit( 0 );
+    }
 
     float cos_theta = product / (Alength * Blength);
+    if( isnan( cos_theta ))
+    {
+      printf( "%s\n", "cos_theteでNaNを検出");
+      exit( 0 );
+    }
+
+    if( cos_theta < -1.0 )
+      cos_theta = -1.0;
+
+    if( cos_theta > 1.0 )
+      cos_theta = 1.0;
 
     //----- θを求める -----
     float theta = acosf(cos_theta);
+    if( isnan( theta ))
+    {
+      printf( "%s\n", "theteでNaNを検出");
+      exit( 0 );
+    }
 
     //----- ラジアンを度数に変換 -----
     float angle = RadtoDeg(theta);
