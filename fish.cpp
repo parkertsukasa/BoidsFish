@@ -742,6 +742,10 @@ Vector3 Chase (int i, FishDataT fish[])
 		move.y = (move.y / (float)visiblenumber) * k;
 		move.z = (move.z / (float)visiblenumber) * k;
 	}
+  else
+  {
+    return VectorZero();
+  }
 	
 	return move;
 	
@@ -814,7 +818,7 @@ void MakeMoveVector(int i, FishDataT fish[])
 	float factor_alig = fish[i].param->ka;
 	
 	float factor_eat_ = 1.0;
-	float factor_avoi = 0.0;//0.05;
+	float factor_avoi = 0.05;
 	float factor_encl = 1.0;
 	float factor_chas = fish[i].param->kch;
 	float factor_esca = fish[i].param->kes;
@@ -844,10 +848,10 @@ void MakeMoveVector(int i, FishDataT fish[])
 	
 	//----- moveベクトルが小さい = 周囲に魚がおらず行動を決めかねている状態のときは内発的な移動行動に切り替える -----
 	float move_length = GetVector3Length(&fish[i].move);
-	float min_length = 0.01;
+	float min_length = 00;
 	if(move_length < min_length)
 	{
-		fish[i].move = VectorScalar(&fish[i].forward, 0.5);
+		fish[i].move = VectorScalar(&fish[i].forward, 1.0);
 		//return;
 	}
 	
@@ -877,7 +881,7 @@ void MakeMoveVector(int i, FishDataT fish[])
 	float local_yawm = yawm - yawf;
 	
 	//角度の差分に係数をかける(0~1の値を取る)
-	float k_yaw = 0.2;
+	float k_yaw = 0.1;
 	float diff_yaw = k_yaw * local_yawm;
 	
 	//速度ベクトルのyawに足し合わせる
@@ -949,44 +953,6 @@ void MakeMoveVector(int i, FishDataT fish[])
 	if(forward_xz > speed_max )
 		forward_xz = speed_max;
 	
-	/*
-	 //速度ベクトルの正規化
-	 Vector3 normalized_forward;
-	 float length_forward = GetVector3Length(&fish[i].forward);
-	 normalized_forward.x = fish[i].forward.x / length_forward;
-	 normalized_forward.y = fish[i].forward.y / length_forward;
-	 normalized_forward.z = fish[i].forward.z / length_forward;
-	 
-	 //速度ベクトルに推進力を適用する
-	 fish[i].forward.x = normalized_forward.x * (length_forward * thrust);
-	 fish[i].forward.y = normalized_forward.y * (length_forward * thrust);
-	 fish[i].forward.z = normalized_forward.z * (length_forward * thrust);
-	 
-	 
-	 //--- 推進力を求める ---(move.z)
-	 float thrust = move_xz * -cosf(local_yawm);
-	 
-	 
-	 float thrust_max = 0.01;
-	 if(thrust < thrust_max && thrust > -thrust_max)
-	 {
-	 if(thrust > 0.0)
-	 thrust = thrust_max;
-	 else
-	 thrust = -thrust_max;
-	 }
-	 
-	 float k_thrust = 0.1;//係数
-	 //推進力を加える
-	 if(thrust != 0.0 && forward_xz != 0.0)
-	 {
-	 forward_xz *= (1 + (k_thrust * thrust)) / forward_xz;
-	 
-	 float speed_max = fish[i].param->speed_max;
-	 if(forward_xz > speed_max )
-	 forward_xz = speed_max;
-	 }
-	 */
 	
 	//yawを元にベクトルを再構築(forward i+1)
 	fish[i].forward.x = -sinf(newyaw) * forward_xz;
@@ -1017,7 +983,7 @@ void Cruising (int i, FishDataT fish[])
 	Vector3 nextpos  = VectorAdd(&fish[i].pos, &fish[i].forward);//次のフレームでの位置
 	
 	//--- 水の抵抗によって速度を減衰させる ---
-	fish[i].forward = VectorScalar(&fish[i].forward, 0.99);
+	fish[i].forward = VectorScalar( &fish[i].forward, 0.95);
 	
 	
 	//----- 水槽外にはみ出てしまいそうな場合水槽に沿う位置に移動を制限する -----
