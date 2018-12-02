@@ -870,7 +870,6 @@ void MakeMoveVector(int i, FishDataT fish[])
 	
 	
 	
-	
 	//--- ▽▽▽  Yaw Control ▽▽▽ ---
 	//forwardベクトルのyawを求める radian
 	float yawf = atan2f(-fish[i].forward.x, -fish[i].forward.z);
